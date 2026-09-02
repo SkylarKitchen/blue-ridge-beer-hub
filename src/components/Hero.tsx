@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import type { SiteSettings } from "@/lib/types";
 
+import { ArrowUpRight } from "./ArrowUpRight";
 import { MixedHeading } from "./MixedText";
 
 export function Hero({ settings }: { settings: SiteSettings }) {
@@ -28,9 +29,10 @@ export function Hero({ settings }: { settings: SiteSettings }) {
                 href={settings.untappdUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-full bg-navy px-6 py-3 font-display text-base tracking-wide text-cream transition-colors hover:bg-navy-deep"
+                className="inline-flex items-center gap-2 rounded-full bg-navy px-6 py-3 font-display text-base tracking-wide text-cream transition-colors hover:bg-navy-deep"
               >
-                See what&apos;s on tap&nbsp;↗
+                See what&apos;s on tap
+                <ArrowUpRight />
               </a>
             ) : null}
             <a
@@ -49,8 +51,8 @@ export function Hero({ settings }: { settings: SiteSettings }) {
             <Image
               src="/logo.jpg"
               alt="Blue Ridge Beer Hub badge"
-              width={300}
-              height={300}
+              width={400}
+              height={400}
               priority
               className="rounded-full"
             />

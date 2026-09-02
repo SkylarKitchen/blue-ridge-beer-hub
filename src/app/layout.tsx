@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Anton, Archivo, Geist } from "next/font/google";
+import { Anton, Archivo, Geist, Roboto_Condensed } from "next/font/google";
 import "./globals.css";
 
 const geist = Geist({
@@ -18,6 +18,11 @@ const anton = Anton({
   weight: "400",
 });
 
+const robotoCondensed = Roboto_Condensed({
+  variable: "--font-roboto-condensed",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
   title: "Blue Ridge Beer Hub — Waynesville, NC",
   description:
@@ -32,7 +37,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geist.variable} ${archivo.variable} ${anton.variable} h-full antialiased`}
+      className={`${geist.variable} ${archivo.variable} ${anton.variable} ${robotoCondensed.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>

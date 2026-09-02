@@ -4,5 +4,14 @@
 {"_id":"event-music-bingo-2026-09-08","_type":"event","title":"Music Bingo","start":"2026-09-08T18:30:00-04:00","endTime":"2026-09-08T20:30:00-04:00","category":"games","description":"Name that tune, mark your card, win stuff."}
 {"_id":"event-music-bingo-2026-09-29","_type":"event","title":"Music Bingo","start":"2026-09-29T18:30:00-04:00","endTime":"2026-09-29T20:30:00-04:00","category":"games","description":"Name that tune, mark your card, win stuff."}
 {"_id":"weekly-bluegrass-thursday","_type":"weeklyEvent","title":"Bluegrass with The Blue Mountaineers","dayOfWeek":"Thursday","time":"5–7 PM","category":"music","active":true,"description":"Waynesville's finest pickin', every Thursday evening."}
-{"_id":"weekly-live-music-friday","_type":"weeklyEvent","title":"Live music","dayOfWeek":"Friday","time":"5–7 PM","category":"music","active":true,"description":"Rotating local acts — check Instagram for who's up this week."}
-{"_id":"weekly-live-music-saturday","_type":"weeklyEvent","title":"Live music","dayOfWeek":"Saturday","time":"5–7 PM","category":"music","active":true,"description":"Rotating local acts — check Instagram for who's up this week."}
+{"_id":"event-eat-local-2026-09-03","_type":"event","title":"Eat Local. End Hunger.","start":"2026-09-03T12:00:00-04:00","category":"community","description":"10% of the day's sales donated to Haywood Christian Ministries."}
+{"_id":"event-chris-campbell-2026-09-04","_type":"event","title":"Chris Campbell","start":"2026-09-04T17:00:00-04:00","endTime":"2026-09-04T19:00:00-04:00","category":"music"}
+{"_id":"event-first-friday-2026-09-04","_type":"event","title":"Waynesville First Friday","start":"2026-09-04T17:00:00-04:00","endTime":"2026-09-04T20:00:00-04:00","category":"community","description":"Shop, sip, stroll through downtown Waynesville."}
+{"_id":"event-rick-yates-2026-09-05","_type":"event","title":"Rick Yates","start":"2026-09-05T17:00:00-04:00","endTime":"2026-09-05T19:00:00-04:00","category":"music"}
+{"_id":"event-chris-minick-2026-09-11","_type":"event","title":"Chris Minick","start":"2026-09-11T17:00:00-04:00","endTime":"2026-09-11T19:00:00-04:00","category":"music"}
+{"_id":"event-paul-koptak-2026-09-12","_type":"event","title":"Paul Koptak","start":"2026-09-12T17:00:00-04:00","endTime":"2026-09-12T19:00:00-04:00","category":"music"}
+{"_id":"event-chris-campbell-2026-09-18","_type":"event","title":"Chris Campbell","start":"2026-09-18T17:00:00-04:00","endTime":"2026-09-18T19:00:00-04:00","category":"music"}
+{"_id":"event-sneaky-pete-2026-09-19","_type":"event","title":"Sneaky Pete Band","start":"2026-09-19T17:00:00-04:00","endTime":"2026-09-19T19:00:00-04:00","category":"music"}
+{"_id":"event-jerry-gaff-2026-09-25","_type":"event","title":"Jerry Gaff","start":"2026-09-25T17:00:00-04:00","endTime":"2026-09-25T19:00:00-04:00","category":"music"}
+{"_id":"event-doug-lisa-roberto-2026-09-26","_type":"event","title":"Doug, Lisa & Roberto","start":"2026-09-26T17:00:00-04:00","endTime":"2026-09-26T19:00:00-04:00","category":"music"}
+{"_id":"event-knots-2026-09-30","_type":"event","title":"Knots with Steve Kuni","start":"2026-09-30T18:00:00-04:00","endTime":"2026-09-30T19:00:00-04:00","category":"community"}

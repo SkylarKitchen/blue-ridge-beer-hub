@@ -1,5 +1,6 @@
 import type { SiteSettings } from "@/lib/types";
 
+import { ArrowUpRight } from "./ArrowUpRight";
 import { MixedText } from "./MixedText";
 
 export function OnTapSection({ settings }: { settings: SiteSettings }) {
@@ -19,9 +20,10 @@ export function OnTapSection({ settings }: { settings: SiteSettings }) {
               href={settings.untappdUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-7 inline-block rounded-full bg-amber px-6 py-3 font-display text-base tracking-wide text-navy-deep transition-colors hover:bg-amber-bright"
+              className="mt-7 inline-flex items-center gap-2 rounded-full bg-amber px-6 py-3 font-display text-base tracking-wide text-cream transition-colors hover:bg-amber-bright hover:text-navy-deep"
             >
-              Open the live tap list&nbsp;↗
+              Open the live tap list
+              <ArrowUpRight />
             </a>
           ) : null}
         </div>

@@ -98,12 +98,91 @@ export const FALLBACK_SETTINGS: SiteSettings = {
 
 export const FALLBACK_EVENTS: HubEvent[] = [
   {
+    _id: "fallback-eat-local",
+    title: "Eat Local. End Hunger.",
+    start: "2026-09-03T12:00:00-04:00",
+    category: "community",
+    description:
+      "10% of the day's sales donated to Haywood Christian Ministries.",
+  },
+  {
     _id: "fallback-anniversary",
     title: "One-Year Anniversary Party",
     start: "2026-09-04T12:00:00-04:00",
     category: "party",
     description:
       "One year of the Beer Hub under Jason & Charlotte! $1 off full pours all day, and Chris Campbell plays live 5–7 PM. Come celebrate with us.",
+  },
+  {
+    _id: "fallback-chris-campbell-4",
+    title: "Chris Campbell",
+    start: "2026-09-04T17:00:00-04:00",
+    endTime: "2026-09-04T19:00:00-04:00",
+    category: "music",
+  },
+  {
+    _id: "fallback-first-friday",
+    title: "Waynesville First Friday",
+    start: "2026-09-04T17:00:00-04:00",
+    endTime: "2026-09-04T20:00:00-04:00",
+    category: "community",
+    description: "Shop, sip, stroll through downtown Waynesville.",
+  },
+  {
+    _id: "fallback-rick-yates",
+    title: "Rick Yates",
+    start: "2026-09-05T17:00:00-04:00",
+    endTime: "2026-09-05T19:00:00-04:00",
+    category: "music",
+  },
+  {
+    _id: "fallback-chris-minick",
+    title: "Chris Minick",
+    start: "2026-09-11T17:00:00-04:00",
+    endTime: "2026-09-11T19:00:00-04:00",
+    category: "music",
+  },
+  {
+    _id: "fallback-paul-koptak",
+    title: "Paul Koptak",
+    start: "2026-09-12T17:00:00-04:00",
+    endTime: "2026-09-12T19:00:00-04:00",
+    category: "music",
+  },
+  {
+    _id: "fallback-chris-campbell-18",
+    title: "Chris Campbell",
+    start: "2026-09-18T17:00:00-04:00",
+    endTime: "2026-09-18T19:00:00-04:00",
+    category: "music",
+  },
+  {
+    _id: "fallback-sneaky-pete",
+    title: "Sneaky Pete Band",
+    start: "2026-09-19T17:00:00-04:00",
+    endTime: "2026-09-19T19:00:00-04:00",
+    category: "music",
+  },
+  {
+    _id: "fallback-jerry-gaff",
+    title: "Jerry Gaff",
+    start: "2026-09-25T17:00:00-04:00",
+    endTime: "2026-09-25T19:00:00-04:00",
+    category: "music",
+  },
+  {
+    _id: "fallback-doug-lisa-roberto",
+    title: "Doug, Lisa & Roberto",
+    start: "2026-09-26T17:00:00-04:00",
+    endTime: "2026-09-26T19:00:00-04:00",
+    category: "music",
+  },
+  {
+    _id: "fallback-knots",
+    title: "Knots with Steve Kuni",
+    start: "2026-09-30T18:00:00-04:00",
+    endTime: "2026-09-30T19:00:00-04:00",
+    category: "community",
   },
   {
     _id: "fallback-bingo-1",
@@ -131,23 +210,5 @@ export const FALLBACK_WEEKLY: WeeklyEvent[] = [
     time: "5–7 PM",
     category: "music",
     description: "Waynesville's finest pickin', every Thursday evening.",
-  },
-  {
-    _id: "fallback-weekly-fri",
-    title: "Live music",
-    dayOfWeek: "Friday",
-    time: "5–7 PM",
-    category: "music",
-    description:
-      "Rotating local acts — check Instagram for who's up this week.",
-  },
-  {
-    _id: "fallback-weekly-sat",
-    title: "Live music",
-    dayOfWeek: "Saturday",
-    time: "5–7 PM",
-    category: "music",
-    description:
-      "Rotating local acts — check Instagram for who's up this week.",
   },
 ];

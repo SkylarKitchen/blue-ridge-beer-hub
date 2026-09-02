@@ -1,9 +1,8 @@
 import { categoryMeta } from "@/lib/categories";
-import { formatEventDate, formatTimeRange } from "@/lib/format";
+import { formatTimeRange } from "@/lib/format";
 import type { HubEvent, WeeklyEvent } from "@/lib/types";
 
-import { MixedText } from "./MixedText";
-
+const TZ = "America/New_York";
 const DAY_ORDER = [
   "Monday",
   "Tuesday",
@@ -13,6 +12,57 @@ const DAY_ORDER = [
   "Saturday",
   "Sunday",
 ];
+
+/** "SEPT 4 (FRI)" — the flyer's date format. */
+function flyerDate(iso: string): string {
+  const d = new Date(iso);
+  const month = d
+    .toLocaleDateString("en-US", { month: "short", timeZone: TZ })
+    .toUpperCase()
+    .replace("SEP", "SEPT");
+  const day = d.toLocaleDateString("en-US", { day: "numeric", timeZone: TZ });
+  const weekday = d
+    .toLocaleDateString("en-US", { weekday: "short", timeZone: TZ })
+    .toUpperCase();
+  return `${month} ${day} (${weekday})`;
+}
+
+function EventRow({ event }: { event: HubEvent }) {
+  const meta = categoryMeta(event.category);
+  const detail = [meta.label, formatTimeRange(event.start, event.endTime)]
+    .filter(Boolean)
+    .join("  |  ");
+  return (
+    <li className="border-b border-navy/10 py-4">
+      <div className="font-condensed text-lg font-bold">
+        <span className="uppercase tracking-wide text-amber">
+          {flyerDate(event.start)}
+        </span>
+        <span className="mx-2 text-navy/40">•</span>
+        <span className="text-navy">
+          {event.link ? (
+            <a
+              href={event.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline decoration-amber/50 underline-offset-4 hover:decoration-amber"
+            >
+              {event.title}
+            </a>
+          ) : (
+            event.title
+          )}
+        </span>
+      </div>
+      <div className="font-condensed mt-0.5 text-ink/75">{detail}</div>
+      {event.description ? (
+        <p className="font-condensed mt-1 max-w-xl text-sm leading-snug text-ink/60">
+          {event.description}
+        </p>
+      ) : null}
+    </li>
+  );
+}
 
 export function EventsSection({
   events,
@@ -26,23 +76,27 @@ export function EventsSection({
   const sortedWeekly = [...weeklyEvents].sort(
     (a, b) => DAY_ORDER.indexOf(a.dayOfWeek) - DAY_ORDER.indexOf(b.dayOfWeek),
   );
+  const monthName = new Date()
+    .toLocaleDateString("en-US", { month: "long", timeZone: TZ })
+    .toUpperCase();
+  const half = Math.ceil(events.length / 2);
 
   return (
-    <section id="events" className="dot-grid bg-navy text-cream">
+    <section id="events" className="bg-paper">
       <div className="mx-auto max-w-6xl px-5 py-20">
-        <h2 className="font-display text-5xl uppercase text-amber-bright sm:text-6xl">
-          <MixedText text="Coming up *at the Hub*" />
+        <h2 className="font-display text-5xl uppercase text-navy sm:text-6xl">
+          {monthName} events
         </h2>
 
         {events.length === 0 ? (
-          <p className="mt-8 max-w-xl text-lg text-cream/80">
+          <p className="font-condensed mt-8 max-w-xl text-lg text-ink/80">
             The next calendar drops soon — follow along on{" "}
             {instagramUrl ? (
               <a
                 href={instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-semibold text-amber-bright underline underline-offset-4"
+                className="font-bold text-amber underline underline-offset-4"
               >
                 Instagram
               </a>
@@ -52,85 +106,43 @@ export function EventsSection({
             for the latest.
           </p>
         ) : (
-          <ul className="mt-10 divide-y divide-cream/10">
-            {events.map((event) => {
-              const { weekday, monthDay } = formatEventDate(event.start);
-              const meta = categoryMeta(event.category);
-              return (
-                <li
-                  key={event._id}
-                  className="flex flex-col gap-3 py-6 sm:flex-row sm:items-baseline sm:gap-8"
-                >
-                  <div className="w-28 shrink-0">
-                    <div className="text-sm font-semibold uppercase tracking-widest text-cream/60">
-                      {weekday}
-                    </div>
-                    <div className="font-display text-3xl text-cream">
-                      {monthDay}
-                    </div>
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex flex-wrap items-center gap-3">
-                      <h3 className="font-display text-xl text-cream">
-                        {event.link ? (
-                          <a
-                            href={event.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="underline decoration-amber/60 underline-offset-4 hover:decoration-amber-bright"
-                          >
-                            {event.title}
-                          </a>
-                        ) : (
-                          event.title
-                        )}
-                      </h3>
-                      <span
-                        className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${meta.chipClass}`}
-                      >
-                        {meta.label}
-                      </span>
-                    </div>
-                    <div className="mt-1 text-sm font-semibold text-amber-bright">
-                      {formatTimeRange(event.start, event.endTime)}
-                    </div>
-                    {event.description ? (
-                      <p className="mt-2 max-w-2xl text-sm leading-relaxed text-cream/75">
-                        {event.description}
-                      </p>
-                    ) : null}
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
+          <div className="mt-8 grid gap-x-14 md:grid-cols-2">
+            <ul>
+              {events.slice(0, half).map((event) => (
+                <EventRow key={event._id} event={event} />
+              ))}
+            </ul>
+            <ul>
+              {events.slice(half).map((event) => (
+                <EventRow key={event._id} event={event} />
+              ))}
+            </ul>
+          </div>
         )}
 
         {sortedWeekly.length > 0 ? (
-          <div className="mt-14">
-            <h3 className="font-display text-2xl uppercase text-cream">
+          <div className="mt-12">
+            <h3 className="font-display text-2xl uppercase text-navy">
               Every week
             </h3>
-            <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <ul className="mt-2 md:max-w-xl">
               {sortedWeekly.map((weekly) => (
-                <div
-                  key={weekly._id}
-                  className="rounded-xl border border-cream/15 bg-navy-deep/60 p-5"
-                >
-                  <div className="text-xs font-bold uppercase tracking-widest text-amber-bright">
-                    {weekly.dayOfWeek}s · {weekly.time}
+                <li key={weekly._id} className="border-b border-navy/10 py-4">
+                  <div className="font-condensed text-lg font-bold">
+                    <span className="uppercase tracking-wide text-amber">
+                      Every {weekly.dayOfWeek}
+                    </span>
+                    <span className="mx-2 text-navy/40">•</span>
+                    <span className="text-navy">{weekly.title}</span>
                   </div>
-                  <div className="mt-1.5 font-display text-lg text-cream">
-                    {weekly.title}
+                  <div className="font-condensed mt-0.5 text-ink/75">
+                    {[categoryMeta(weekly.category).label, weekly.time]
+                      .filter(Boolean)
+                      .join("  |  ")}
                   </div>
-                  {weekly.description ? (
-                    <p className="mt-1.5 text-sm leading-relaxed text-cream/70">
-                      {weekly.description}
-                    </p>
-                  ) : null}
-                </div>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         ) : null}
       </div>

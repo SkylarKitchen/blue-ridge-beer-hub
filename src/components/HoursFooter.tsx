@@ -1,5 +1,6 @@
 import type { SiteSettings } from "@/lib/types";
 
+import { ArrowUpRight } from "./ArrowUpRight";
 import { MixedText } from "./MixedText";
 
 export function HoursFooter({ settings }: { settings: SiteSettings }) {
@@ -60,9 +61,10 @@ export function HoursFooter({ settings }: { settings: SiteSettings }) {
               href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 inline-block rounded-full border border-cream/40 px-4 py-1.5 text-sm font-semibold transition-colors hover:bg-cream hover:text-navy"
+              className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-cream/40 px-4 py-1.5 text-sm font-semibold transition-colors hover:bg-cream hover:text-navy"
             >
-              Get directions&nbsp;↗
+              Get directions
+              <ArrowUpRight className="h-3.5 w-3.5" />
             </a>
           </div>
           <div>

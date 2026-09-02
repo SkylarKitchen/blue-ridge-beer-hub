@@ -5,11 +5,12 @@
      pine support, plus soft color-field washes for cards. */
   --color-cream: #faf9f5;
   --color-cream-deep: #f0ede5;
-  --color-navy: #182640;
-  --color-navy-deep: #101a2e;
-  --color-ink: #232a3b;
-  --color-amber: #e79a2e;
-  --color-amber-bright: #f2ae45;
+  --color-paper: #ffffff;
+  --color-navy: #1b3560;
+  --color-navy-deep: #122344;
+  --color-ink: #26314a;
+  --color-amber: #c08427;
+  --color-amber-bright: #eba93d;
   --color-pine: #35603f;
   --color-butter: #f8e9c4;
   --color-mist: #dce7f2;
@@ -17,10 +18,21 @@
 
   --font-sans: var(--font-geist-sans);
   --font-display: var(--font-anton);
+  --font-condensed: var(--font-roboto-condensed);
 }
 
 html {
   scroll-behavior: smooth;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
 }
 
 body {
