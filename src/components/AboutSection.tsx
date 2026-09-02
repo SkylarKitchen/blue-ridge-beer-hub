@@ -1,8 +1,8 @@
+import Image from "next/image";
 import { PortableText } from "next-sanity";
 
 import type { SiteSettings } from "@/lib/types";
 
-import { LogoBadge } from "./LogoBadge";
 import { MixedText } from "./MixedText";
 
 export function AboutSection({ settings }: { settings: SiteSettings }) {
@@ -20,8 +20,14 @@ export function AboutSection({ settings }: { settings: SiteSettings }) {
           ) : null}
         </div>
         <div className="hidden justify-center pt-6 md:flex">
-          <div className="-rotate-2">
-            <LogoBadge size={230} />
+          <div className="-rotate-2 drop-shadow-lg">
+            <Image
+              src="/logo.jpg"
+              alt="Blue Ridge Beer Hub badge"
+              width={230}
+              height={230}
+              className="rounded-full"
+            />
           </div>
         </div>
       </div>

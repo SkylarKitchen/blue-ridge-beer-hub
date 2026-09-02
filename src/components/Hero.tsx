@@ -1,6 +1,7 @@
+import Image from "next/image";
+
 import type { SiteSettings } from "@/lib/types";
 
-import { LogoBadge } from "./LogoBadge";
 import { MixedHeading } from "./MixedText";
 
 export function Hero({ settings }: { settings: SiteSettings }) {
@@ -45,7 +46,14 @@ export function Hero({ settings }: { settings: SiteSettings }) {
         </div>
         <div className="hidden justify-center md:flex">
           <div className="rotate-3 drop-shadow-xl transition-transform hover:rotate-0">
-            <LogoBadge size={300} />
+            <Image
+              src="/logo.jpg"
+              alt="Blue Ridge Beer Hub badge"
+              width={300}
+              height={300}
+              priority
+              className="rounded-full"
+            />
           </div>
         </div>
       </div>
