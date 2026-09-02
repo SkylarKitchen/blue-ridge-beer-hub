@@ -7,7 +7,6 @@ import { Hero } from "@/components/Hero";
 import { HoursFooter } from "@/components/HoursFooter";
 import { OfferingsSection } from "@/components/OfferingsSection";
 import { OnTapSection } from "@/components/OnTapSection";
-import { Ridgeline } from "@/components/Ridgeline";
 import {
   FALLBACK_EVENTS,
   FALLBACK_SETTINGS,
@@ -63,24 +62,15 @@ export default async function HomePage() {
       <Header name={settings.name ?? "Blue Ridge Beer Hub"} />
       <main>
         <Hero settings={settings} />
-        <div className="text-navy">
-          <Ridgeline />
-        </div>
         <EventsSection
           events={events}
           weeklyEvents={weeklyEvents}
           instagramUrl={settings.instagramUrl}
         />
-        <div className="bg-navy text-cream">
-          <Ridgeline flip />
-        </div>
         <OnTapSection settings={settings} />
         <OfferingsSection offerings={settings.offerings ?? []} />
         <GallerySection images={gallery} />
         <AboutSection settings={settings} />
-        <div className="text-navy">
-          <Ridgeline />
-        </div>
         <HoursFooter settings={settings} />
       </main>
     </>

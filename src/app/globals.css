@@ -3,8 +3,8 @@
 @theme inline {
   /* Badge-derived palette: cream paper, navy structure, amber accent,
      pine support, plus soft color-field washes for cards. */
-  --color-cream: #f7f1e5;
-  --color-cream-deep: #efe5d1;
+  --color-cream: #faf9f5;
+  --color-cream-deep: #f0ede5;
   --color-navy: #182640;
   --color-navy-deep: #101a2e;
   --color-ink: #232a3b;

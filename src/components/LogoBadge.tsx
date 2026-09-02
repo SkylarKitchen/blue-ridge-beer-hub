@@ -24,7 +24,7 @@ export function LogoBadge({ size = 200 }: { size?: number }) {
         cx="100"
         cy="100"
         r="73"
-        fill="#f3eee1"
+        fill="#f8f6f0"
         stroke="#14181f"
         strokeWidth="2"
       />
@@ -35,24 +35,23 @@ export function LogoBadge({ size = 200 }: { size?: number }) {
         </clipPath>
       </defs>
       <g clipPath="url(#badge-scene)">
-        <circle cx="128" cy="72" r="15" fill="var(--color-amber-bright)" />
+        <circle cx="132" cy="80" r="16" fill="#e9a23b" />
         <path
-          d="M28 116 L58 82 84 106 118 74 150 102 174 88 V150 H28 Z"
-          fill="#8fb0d1"
+          d="M28 114 L64 72 L94 106 L126 64 L156 98 L174 88 V150 H28 Z"
+          fill="#9db8d6"
         />
         <path
-          d="M28 128 L66 100 100 124 138 98 174 120 V150 H28 Z"
-          fill="#33527e"
+          d="M28 124 L70 92 L104 118 L142 90 L174 112 V150 H28 Z"
+          fill="#5f7ea8"
         />
-        <g fill="#2f5d3a">
-          <path d="M44 124 l9 -18 9 18 z" />
-          <path d="M58 128 l10 -22 10 22 z" />
-          <path d="M74 126 l8 -16 8 16 z" />
-        </g>
-        <rect x="0" y="126" width="200" height="32" fill="#14181f" />
+        <path d="M28 134 L80 108 L126 128 L174 116 V152 H28 Z" fill="#33527e" />
+        <path d="M40 132 L52 102 L64 132 Z" fill="#2e5238" />
+        <path d="M58 132 L72 94 L86 132 Z" fill="#24422c" />
+        <path d="M80 132 L91 108 L102 132 Z" fill="#2e5238" />
+        <rect x="0" y="128" width="200" height="30" fill="#14181f" />
         <text
           x="100"
-          y="148"
+          y="149"
           textAnchor="middle"
           fill="#ffffff"
           fontSize="18"
@@ -62,7 +61,7 @@ export function LogoBadge({ size = 200 }: { size?: number }) {
         >
           BEER HUB
         </text>
-        <rect x="0" y="158" width="200" height="20" fill="#2f5d3a" />
+        <rect x="0" y="158" width="200" height="20" fill="#35603f" />
       </g>
       <text
         fill="#14181f"
