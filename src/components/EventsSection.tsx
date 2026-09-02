@@ -4,6 +4,8 @@ import { categoryMeta } from "@/lib/categories";
 import { formatTimeRange } from "@/lib/format";
 import type { HubEvent, WeeklyEvent } from "@/lib/types";
 
+import { AddToCalendar } from "./AddToCalendar";
+
 const TZ = "America/New_York";
 const DAY_ORDER = [
   "Monday",
@@ -15,21 +17,39 @@ const DAY_ORDER = [
   "Sunday",
 ];
 
-/** "SEPT 4 (FRI)" — the flyer's date format. */
-function flyerDate(iso: string): string {
+/** "4 (FRI)" — day + weekday; the month lives in the group subhead. */
+function flyerDay(iso: string): string {
   const d = new Date(iso);
-  const month = d
-    .toLocaleDateString("en-US", { month: "short", timeZone: TZ })
-    .toUpperCase()
-    .replace("SEP", "SEPT");
   const day = d.toLocaleDateString("en-US", { day: "numeric", timeZone: TZ });
   const weekday = d
     .toLocaleDateString("en-US", { weekday: "short", timeZone: TZ })
     .toUpperCase();
-  return `${month} ${day} (${weekday})`;
+  return `${day} (${weekday})`;
 }
 
-function EventRow({ event, index }: { event: HubEvent; index: number }) {
+function monthLabel(iso: string): string {
+  return new Date(iso)
+    .toLocaleDateString("en-US", { month: "long", timeZone: TZ })
+    .toUpperCase();
+}
+
+function monthKey(iso: string): string {
+  return new Date(iso).toLocaleDateString("en-CA", {
+    year: "numeric",
+    month: "2-digit",
+    timeZone: TZ,
+  });
+}
+
+function EventRow({
+  event,
+  index,
+  location,
+}: {
+  event: HubEvent;
+  index: number;
+  location: string;
+}) {
   const meta = categoryMeta(event.category);
   return (
     <li
@@ -38,7 +58,7 @@ function EventRow({ event, index }: { event: HubEvent; index: number }) {
     >
       <div className="font-condensed text-lg font-bold">
         <span className="uppercase tracking-wide text-amber-bright">
-          {flyerDate(event.start)}
+          {flyerDay(event.start)}
         </span>
         <span className="mx-2 text-cream/40">•</span>
         <span className="text-cream">
@@ -65,6 +85,7 @@ function EventRow({ event, index }: { event: HubEvent; index: number }) {
         <span className="font-condensed text-sm text-cream/75">
           {formatTimeRange(event.start, event.endTime)}
         </span>
+        <AddToCalendar event={event} location={location} />
       </div>
       {event.description ? (
         <p className="font-condensed mt-1 max-w-xl text-sm leading-snug text-cream/60">
@@ -75,22 +96,42 @@ function EventRow({ event, index }: { event: HubEvent; index: number }) {
   );
 }
 
+interface MonthGroup {
+  key: string;
+  label: string;
+  events: HubEvent[];
+}
+
 export function EventsSection({
   events,
   weeklyEvents,
   instagramUrl,
+  location,
 }: {
   events: HubEvent[];
   weeklyEvents: WeeklyEvent[];
   instagramUrl?: string;
+  location: string;
 }) {
   const sortedWeekly = [...weeklyEvents].sort(
     (a, b) => DAY_ORDER.indexOf(a.dayOfWeek) - DAY_ORDER.indexOf(b.dayOfWeek),
   );
-  const monthName = new Date()
-    .toLocaleDateString("en-US", { month: "long", timeZone: TZ })
-    .toUpperCase();
-  const half = Math.ceil(events.length / 2);
+
+  // Sanity delivers events sorted, but the fallback array isn't — sort here
+  // so month grouping never splits a month into two runs.
+  const sorted = [...events].sort(
+    (a, b) => new Date(a.start).getTime() - new Date(b.start).getTime(),
+  );
+  const groups: MonthGroup[] = [];
+  for (const event of sorted) {
+    const key = monthKey(event.start);
+    const last = groups[groups.length - 1];
+    if (last && last.key === key) {
+      last.events.push(event);
+    } else {
+      groups.push({ key, label: monthLabel(event.start), events: [event] });
+    }
+  }
 
   return (
     <section id="events" className="bg-navy">
@@ -99,12 +140,12 @@ export function EventsSection({
           data-reveal
           className="font-display text-5xl uppercase text-cream sm:text-6xl"
         >
-          {monthName} events
+          Coming up at the Hub
         </h2>
 
-        {events.length === 0 ? (
+        {groups.length === 0 ? (
           <p className="font-condensed mt-8 max-w-xl text-lg text-cream/80">
-            The next calendar drops soon — follow along on{" "}
+            The next calendar drops soon. Follow along on{" "}
             {instagramUrl ? (
               <a
                 href={instagramUrl}
@@ -120,21 +161,44 @@ export function EventsSection({
             for the latest.
           </p>
         ) : (
-          <div className="mt-8 grid md:grid-cols-2">
-            <ul data-reveal-group className="md:pr-14">
-              {events.slice(0, half).map((event, i) => (
-                <EventRow key={event._id} event={event} index={i} />
-              ))}
-            </ul>
-            <ul
-              data-reveal-group
-              className="md:border-l md:border-cream/15 md:pl-14"
-            >
-              {events.slice(half).map((event, i) => (
-                <EventRow key={event._id} event={event} index={i} />
-              ))}
-            </ul>
-          </div>
+          groups.map((group) => {
+            const half = Math.ceil(group.events.length / 2);
+            return (
+              <div key={group.key} className="mt-10">
+                <h3
+                  data-reveal
+                  className="font-display text-2xl uppercase tracking-wide text-amber-bright"
+                >
+                  {group.label}
+                </h3>
+                <div className="mt-2 grid md:grid-cols-2">
+                  <ul data-reveal-group className="md:pr-14">
+                    {group.events.slice(0, half).map((event, i) => (
+                      <EventRow
+                        key={event._id}
+                        event={event}
+                        index={i}
+                        location={location}
+                      />
+                    ))}
+                  </ul>
+                  <ul
+                    data-reveal-group
+                    className="md:border-l md:border-cream/15 md:pl-14"
+                  >
+                    {group.events.slice(half).map((event, i) => (
+                      <EventRow
+                        key={event._id}
+                        event={event}
+                        index={i}
+                        location={location}
+                      />
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            );
+          })
         )}
 
         {sortedWeekly.length > 0 ? (

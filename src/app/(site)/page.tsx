@@ -79,6 +79,13 @@ export default async function HomePage() {
           events={events}
           weeklyEvents={weeklyEvents}
           instagramUrl={settings.instagramUrl}
+          location={[
+            settings.name ?? "Blue Ridge Beer Hub",
+            settings.addressLine1,
+            settings.addressLine2,
+          ]
+            .filter(Boolean)
+            .join(", ")}
         />
         <OnTapSection settings={settings} />
         <OfferingsSection offerings={settings.offerings ?? []} />
