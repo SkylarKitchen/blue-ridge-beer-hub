@@ -34,7 +34,6 @@ export interface SiteSettings {
   hours?: DayHours[];
   heroHeading?: string;
   heroSubheading?: string;
-  heroImage?: SanityImageRef;
   aboutHeading?: string;
   aboutBody?: PortableTextBlock[];
   offerings?: Offering[];

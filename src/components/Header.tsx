@@ -20,7 +20,7 @@ export function Header({ name }: { name: string }) {
             className="rounded-full"
           />
 
-          <span className="font-display text-base tracking-wide text-navy sm:text-lg">
+          <span className="hidden font-display tracking-wide text-navy sm:inline sm:text-lg">
             {name}
           </span>
         </a>

@@ -6,7 +6,6 @@ export const SITE_SETTINGS_QUERY = defineQuery(
     untappdUrl, instagramUrl, facebookUrl, announcement, onTapBlurb, tapCount,
     hours[]{day, opens, closes, closed},
     heroHeading, heroSubheading,
-    heroImage{..., "alt": alt},
     aboutHeading, aboutBody,
     offerings[]{title, description}
   }`,

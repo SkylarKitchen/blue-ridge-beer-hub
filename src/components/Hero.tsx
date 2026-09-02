@@ -17,21 +17,20 @@ export function Hero({ settings }: { settings: SiteSettings }) {
       <div className="grid items-center gap-10 md:grid-cols-[3fr_2fr]">
         <div>
           {/* min-height reserves the chip's spot — it mounts client-side. */}
-          <div className="mb-5 min-h-9">
+          <div className="mb-5 min-h-5">
             <OpenStatus hours={settings.hours} />
           </div>
-          <h1 className="font-display text-6xl uppercase leading-[0.95] text-navy sm:text-7xl lg:text-8xl">
+          <h1 className="font-display text-5xl uppercase leading-[0.95] text-navy sm:text-7xl lg:text-8xl">
             <MixedHeading
               stagger
               text={
-                settings.heroHeading ??
-                "Your friendly\n*neighborhood*\nbeer hub"
+                settings.heroHeading ?? "Your friendly\nneighborhood\nbeer hub"
               }
             />
           </h1>
           {settings.heroSubheading ? (
             <p
-              className="animate-rise mt-6 max-w-xl text-lg leading-relaxed text-ink/80"
+              className="animate-rise mt-6 max-w-xl text-base leading-relaxed text-ink/80 sm:text-lg"
               style={{ "--ad": "240ms" } as CSSProperties}
             >
               {settings.heroSubheading}
@@ -54,17 +53,11 @@ export function Hero({ settings }: { settings: SiteSettings }) {
             ) : null}
             <a
               href="#events"
-              className="rounded-full border-2 border-navy px-6 py-3 font-display text-base tracking-wide text-navy transition-colors hover:bg-navy hover:text-cream"
+              className="hidden rounded-full border-2 border-navy px-6 py-3 font-display text-base tracking-wide text-navy transition-colors hover:bg-navy hover:text-cream sm:inline-block"
             >
-              This month&apos;s events
+              Upcoming events
             </a>
           </div>
-          <p
-            className="animate-rise mt-5 text-sm text-ink/60"
-            style={{ "--ad": "380ms" } as CSSProperties}
-          >
-            *plus wine, mead, cider, and coolers full of carryout
-          </p>
         </div>
         <div
           className="animate-badge-settle flex justify-center"

@@ -17,14 +17,14 @@ export const FALLBACK_SETTINGS: SiteSettings = {
   instagramUrl: "https://www.instagram.com/brbeerhub/",
   facebookUrl: "https://www.facebook.com/brbeerhub",
   announcement:
-    "🎉 One-year anniversary party this Friday, Sept 4 — $1 off full pours, Chris Campbell live 5–7 PM",
+    "🎉 One-year anniversary party this Friday, Sept 4: $1 off full pours, Chris Campbell live 5 to 7 PM",
   onTapBlurb:
-    "Sixteen rotating taps of serious craft — stouts, sours, IPAs, and the occasional white whale — plus cider, mead, and wine. The list lives on Untappd and changes almost daily.",
+    "Sixteen taps that change almost daily: stouts, sours, IPAs, and the occasional white whale. The full list lives on Untappd.",
   tapCount: 16,
-  heroHeading: "Your friendly\n*neighborhood*\nbeer hub",
+  heroHeading: "Your friendly\nneighborhood\nbeer hub",
   heroSubheading:
-    "Sixteen rotating taps, coolers full of carryout, and something happening almost every night — right on East Street in downtown Waynesville.",
-  aboutHeading: "About *the Hub*",
+    "Sixteen rotating taps and coolers full of carryout on East Street in downtown Waynesville. Most nights there's something going on, live music more often than not.",
+  aboutHeading: "About the Hub",
   aboutBody: [
     {
       _type: "block",
@@ -36,7 +36,7 @@ export const FALLBACK_SETTINGS: SiteSettings = {
           _type: "span",
           _key: "about1a",
           marks: [],
-          text: "The Beer Hub is Waynesville's community taproom and bottle shop — sixteen taps of rotating craft beer, coolers stocked for carryout, and shelves of homebrew supplies, right in the heart of downtown.",
+          text: "The Beer Hub is Waynesville's community taproom and bottle shop, right downtown. Inside you'll find sixteen taps of rotating craft beer, coolers stocked for carryout, and homebrew supplies on the shelves.",
         },
       ],
     },
@@ -50,7 +50,7 @@ export const FALLBACK_SETTINGS: SiteSettings = {
           _type: "span",
           _key: "about2a",
           marks: [],
-          text: "Serving Haywood County since 2017 — and since September 2025 under the care of owners Jason & Charlotte Johnson — the Hub is where neighbors catch live bluegrass on a Thursday, visitors find their new favorite pour, and everybody leaves knowing somebody new.",
+          text: "The Hub has been serving Haywood County since 2017, and Jason & Charlotte Johnson took it over in September 2025. It's where neighbors catch bluegrass on a Thursday and visitors find a new favorite pour, and most people leave knowing somebody they didn't walk in with.",
         },
       ],
     },
@@ -64,7 +64,7 @@ export const FALLBACK_SETTINGS: SiteSettings = {
           _type: "span",
           _key: "about3a",
           marks: [],
-          text: "Swing by for a taster flight, fill a growler, or just come hang out — there's a stool with your name on it.",
+          text: "Swing by for a taster flight, fill a growler, or just come hang out. There's a stool with your name on it.",
         },
       ],
     },
@@ -82,17 +82,17 @@ export const FALLBACK_SETTINGS: SiteSettings = {
     {
       title: "On tap",
       description:
-        "Sixteen rotating lines of craft beer, cider, and mead — from Asheville-area locals to hard-to-find stouts and sours. Pours from a 4 oz taster to a full pint, plus growler fills to go.",
+        "Sixteen rotating lines of beer, cider, and mead, heavy on Asheville-area breweries. Pours run from a 4 oz taster to a full pint, and we fill growlers to go.",
     },
     {
       title: "Coolers & carryout",
       description:
-        "Bottles and cans to go, build-your-own six-packs, and shelves of wine, mead, cider, and THC drinks. Browse the coolers — that's half the fun.",
+        "Bottles and cans to go, build-your-own six-packs, and shelves of wine, mead, cider, and THC drinks. Half the fun is browsing the coolers.",
     },
     {
       title: "Homebrew supplies",
       description:
-        "Gear and ingredients for Haywood County's homebrewers, carrying on the shop's homebrew roots — with friendly advice from folks who've brewed a batch or two.",
+        "The shop's roots are in homebrew, and we still stock the gear and ingredients Haywood County's brewers need. Advice is free, from folks who've brewed a batch or two.",
     },
   ],
 };
@@ -105,7 +105,7 @@ export const FALLBACK_EVENTS: HubEvent[] = [
     endTime: "2026-09-02T19:30:00-04:00",
     category: "art",
     description:
-      "Bring a sketchbook or borrow supplies — a casual evening of drawing and drinking with Blue Ridge Art Way.",
+      "A casual evening of drawing and drinking with Blue Ridge Art Way. Bring a sketchbook or borrow supplies.",
   },
   {
     _id: "fallback-eat-local",
@@ -121,7 +121,7 @@ export const FALLBACK_EVENTS: HubEvent[] = [
     start: "2026-09-04T12:00:00-04:00",
     category: "party",
     description:
-      "One year of the Beer Hub under Jason & Charlotte! $1 off full pours all day, and Chris Campbell plays live 5–7 PM. Come celebrate with us.",
+      "One year of the Beer Hub under Jason & Charlotte! $1 off full pours all day, and Chris Campbell plays live from 5 to 7. Come celebrate with us.",
   },
   {
     _id: "fallback-chris-campbell-4",

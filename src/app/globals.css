@@ -3,8 +3,8 @@
 @theme inline {
   /* Badge-derived palette: cream paper, navy structure, amber accent,
      pine support, plus soft color-field washes for cards. */
-  --color-cream: #faf5e6;
-  --color-cream-deep: #f1e8d2;
+  --color-cream: #faf7ef;
+  --color-cream-deep: #f1ece0;
   --color-paper: #ffffff;
   --color-navy: #1b3560;
   --color-navy-deep: #122344;
@@ -39,16 +39,6 @@ body {
   background-color: var(--color-cream);
   color: var(--color-ink);
   font-family: var(--font-sans);
-}
-
-/* Dotted notebook-grid texture for full-bleed navy bands. */
-.dot-grid {
-  background-image: radial-gradient(
-    circle,
-    rgba(242, 174, 69, 0.28) 1.2px,
-    transparent 1.3px
-  );
-  background-size: 26px 26px;
 }
 
 /* ---------- Motion ---------- */
