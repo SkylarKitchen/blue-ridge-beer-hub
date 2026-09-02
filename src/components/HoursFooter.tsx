@@ -17,7 +17,7 @@ export function HoursFooter({ settings }: { settings: SiteSettings }) {
   return (
     <footer id="hours" className="bg-navy text-cream">
       <div className="mx-auto max-w-6xl px-5 py-16">
-        <h2 className="font-display text-4xl font-black tracking-tight text-amber-bright sm:text-5xl">
+        <h2 className="font-display text-4xl uppercase text-amber-bright sm:text-5xl">
           <MixedText text="Come *say hi*" />
         </h2>
         <div className="mt-10 grid gap-10 md:grid-cols-3">

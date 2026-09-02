@@ -7,7 +7,7 @@ export function OnTapSection({ settings }: { settings: SiteSettings }) {
     <section id="tap" className="mx-auto max-w-6xl px-5 py-20">
       <div className="grid items-center gap-10 md:grid-cols-2">
         <div>
-          <h2 className="font-display text-5xl font-black tracking-tight text-navy sm:text-6xl">
+          <h2 className="font-display text-5xl uppercase text-navy sm:text-6xl">
             <MixedText text="On tap *right now*" />
           </h2>
           <p className="mt-5 max-w-lg text-lg leading-relaxed text-ink/80">
@@ -19,17 +19,17 @@ export function OnTapSection({ settings }: { settings: SiteSettings }) {
               href={settings.untappdUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-7 inline-block rounded-full bg-amber px-6 py-3 font-display text-base font-bold text-navy-deep transition-colors hover:bg-amber-bright"
+              className="mt-7 inline-block rounded-full bg-amber px-6 py-3 font-display text-base tracking-wide text-navy-deep transition-colors hover:bg-amber-bright"
             >
               Open the live tap list&nbsp;↗
             </a>
           ) : null}
         </div>
         <div className="rounded-2xl bg-navy p-8 text-cream shadow-xl sm:p-10">
-          <div className="font-display text-[7rem] font-black leading-none text-amber-bright">
+          <div className="font-display text-[7rem] leading-none text-amber-bright">
             16
           </div>
-          <div className="mt-1 font-display text-xl font-bold">
+          <div className="mt-1 font-display text-xl">
             taps pouring right now*
           </div>
           <p className="mt-3 text-sm text-cream/70">

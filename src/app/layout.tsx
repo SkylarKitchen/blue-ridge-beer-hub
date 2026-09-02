@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Archivo, Geist } from "next/font/google";
+import { Anton, Archivo, Geist } from "next/font/google";
 import "./globals.css";
 
 const geist = Geist({
@@ -10,6 +10,12 @@ const geist = Geist({
 const archivo = Archivo({
   variable: "--font-archivo",
   subsets: ["latin"],
+});
+
+const anton = Anton({
+  variable: "--font-anton",
+  subsets: ["latin"],
+  weight: "400",
 });
 
 export const metadata: Metadata = {
@@ -26,7 +32,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geist.variable} ${archivo.variable} h-full antialiased`}
+      className={`${geist.variable} ${archivo.variable} ${anton.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>

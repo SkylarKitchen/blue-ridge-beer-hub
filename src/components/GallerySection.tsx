@@ -9,7 +9,7 @@ export function GallerySection({ images }: { images: GalleryImage[] }) {
   if (images.length === 0) return null;
   return (
     <section className="mx-auto max-w-6xl px-5 pb-20">
-      <h2 className="font-display text-5xl font-black tracking-tight text-navy sm:text-6xl">
+      <h2 className="font-display text-5xl uppercase text-navy sm:text-6xl">
         <MixedText text="Inside *the Hub*" />
       </h2>
       <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-3">

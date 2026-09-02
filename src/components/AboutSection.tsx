@@ -10,7 +10,7 @@ export function AboutSection({ settings }: { settings: SiteSettings }) {
     <section id="about" className="mx-auto max-w-6xl px-5 pb-24">
       <div className="grid items-start gap-12 md:grid-cols-[3fr_2fr]">
         <div>
-          <h2 className="font-display text-5xl font-black tracking-tight text-navy sm:text-6xl">
+          <h2 className="font-display text-5xl uppercase text-navy sm:text-6xl">
             <MixedText text={settings.aboutHeading ?? "About *the Hub*"} />
           </h2>
           {settings.aboutBody ? (

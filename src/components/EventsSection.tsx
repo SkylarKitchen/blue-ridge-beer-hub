@@ -30,7 +30,7 @@ export function EventsSection({
   return (
     <section id="events" className="dot-grid bg-navy text-cream">
       <div className="mx-auto max-w-6xl px-5 py-20">
-        <h2 className="font-display text-5xl font-black tracking-tight text-amber-bright sm:text-6xl">
+        <h2 className="font-display text-5xl uppercase text-amber-bright sm:text-6xl">
           <MixedText text="Coming up *at the Hub*" />
         </h2>
 
@@ -65,13 +65,13 @@ export function EventsSection({
                     <div className="text-sm font-semibold uppercase tracking-widest text-cream/60">
                       {weekday}
                     </div>
-                    <div className="font-display text-3xl font-extrabold text-cream">
+                    <div className="font-display text-3xl text-cream">
                       {monthDay}
                     </div>
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-3">
-                      <h3 className="font-display text-xl font-bold text-cream">
+                      <h3 className="font-display text-xl text-cream">
                         {event.link ? (
                           <a
                             href={event.link}
@@ -108,7 +108,7 @@ export function EventsSection({
 
         {sortedWeekly.length > 0 ? (
           <div className="mt-14">
-            <h3 className="font-display text-2xl font-extrabold text-cream">
+            <h3 className="font-display text-2xl uppercase text-cream">
               Every week
             </h3>
             <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -120,7 +120,7 @@ export function EventsSection({
                   <div className="text-xs font-bold uppercase tracking-widest text-amber-bright">
                     {weekly.dayOfWeek}s · {weekly.time}
                   </div>
-                  <div className="mt-1.5 font-display text-lg font-bold text-cream">
+                  <div className="mt-1.5 font-display text-lg text-cream">
                     {weekly.title}
                   </div>
                   {weekly.description ? (
