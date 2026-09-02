@@ -1,3 +1,5 @@
+import type { CSSProperties } from "react";
+
 import type { SiteSettings } from "@/lib/types";
 
 import { ArrowUpRight } from "./ArrowUpRight";
@@ -6,7 +8,10 @@ import { MixedText } from "./MixedText";
 export function OnTapSection({ settings }: { settings: SiteSettings }) {
   return (
     <section id="tap" className="mx-auto max-w-6xl px-5 py-20">
-      <div className="grid items-center gap-10 md:grid-cols-2">
+      <div
+        data-reveal-group
+        className="grid items-center gap-10 md:grid-cols-2"
+      >
         <div>
           <h2 className="font-display text-5xl uppercase text-navy sm:text-6xl">
             <MixedText text="On tap *right now*" />
@@ -27,9 +32,12 @@ export function OnTapSection({ settings }: { settings: SiteSettings }) {
             </a>
           ) : null}
         </div>
-        <div className="rounded-2xl bg-navy p-8 text-cream shadow-xl sm:p-10">
+        <div
+          className="rounded-2xl bg-navy p-8 text-cream shadow-xl sm:p-10"
+          style={{ "--rd": "120ms" } as CSSProperties}
+        >
           <div className="font-display text-[7rem] leading-none text-amber-bright">
-            16
+            {settings.tapCount ?? 16}
           </div>
           <div className="mt-1 font-display text-xl">
             taps pouring right now*

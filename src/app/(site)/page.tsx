@@ -7,6 +7,7 @@ import { Hero } from "@/components/Hero";
 import { HoursFooter } from "@/components/HoursFooter";
 import { OfferingsSection } from "@/components/OfferingsSection";
 import { OnTapSection } from "@/components/OnTapSection";
+import { RevealObserver } from "@/components/RevealObserver";
 import { Ridgeline } from "@/components/Ridgeline";
 import {
   FALLBACK_EVENTS,
@@ -14,6 +15,8 @@ import {
   FALLBACK_WEEKLY,
 } from "@/lib/fallback";
 import { startOfTodayIso } from "@/lib/format";
+import { localBusinessJsonLd } from "@/lib/jsonld";
+import { SITE_URL } from "@/lib/site";
 import type {
   GalleryImage,
   HubEvent,
@@ -57,8 +60,16 @@ export default async function HomePage() {
     weeklyEvents = FALLBACK_WEEKLY;
   }
 
+  const jsonLd = JSON.stringify(
+    localBusinessJsonLd(settings, SITE_URL),
+  ).replace(/</g, "\\u003c");
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLd }}
+      />
       <AnnouncementBanner text={settings.announcement} />
       <Header name={settings.name ?? "Blue Ridge Beer Hub"} />
       <main>
@@ -76,6 +87,7 @@ export default async function HomePage() {
         <Ridgeline />
         <HoursFooter settings={settings} />
       </main>
+      <RevealObserver />
     </>
   );
 }

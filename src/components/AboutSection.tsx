@@ -19,14 +19,14 @@ export function AboutSection({ settings }: { settings: SiteSettings }) {
             </div>
           ) : null}
         </div>
-        <div className="hidden justify-center pt-6 md:flex">
+        <div className="flex justify-center pt-2 md:pt-6">
           <div className="-rotate-2 drop-shadow-lg">
             <Image
               src="/logo.jpg"
               alt="Blue Ridge Beer Hub badge"
               width={230}
               height={230}
-              className="rounded-full"
+              className="h-auto w-36 rounded-full md:w-[230px]"
             />
           </div>
         </div>

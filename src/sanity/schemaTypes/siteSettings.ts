@@ -194,6 +194,16 @@ export const siteSettings = defineType({
       ],
     }),
     defineField({
+      name: "tapCount",
+      title: "Number of taps",
+      type: "number",
+      group: "tap",
+      initialValue: 16,
+      description:
+        "The big number in the “On tap” section. Change it if you add or retire lines.",
+      validation: (rule) => rule.min(1).max(99),
+    }),
+    defineField({
       name: "onTapBlurb",
       title: "On Tap section text",
       type: "text",

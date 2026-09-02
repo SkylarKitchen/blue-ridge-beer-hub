@@ -30,6 +30,7 @@ export interface SiteSettings {
   facebookUrl?: string;
   announcement?: string;
   onTapBlurb?: string;
+  tapCount?: number;
   hours?: DayHours[];
   heroHeading?: string;
   heroSubheading?: string;

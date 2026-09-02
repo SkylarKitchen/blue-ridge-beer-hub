@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Blue Ridge Beer Hub
 
-## Getting Started
+One-page site for [Blue Ridge Beer Hub](https://www.facebook.com/brbeerhub) —
+Waynesville, NC's community taproom & bottle shop. Next.js App Router +
+Tailwind v4 (CSS-first config) + Sanity (embedded Studio at `/studio`).
 
-First, run the development server:
+## Running it
 
 ```bash
+npm install
+cp .env.example .env.local   # fill in the Sanity project ID
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## How content works
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The homepage runs four GROQ queries (site settings, dated events, weekly
+events, gallery). If Sanity is unreachable or empty, `src/lib/fallback.ts`
+serves a baked-in copy of everything so the page always renders. Content
+editing happens in the Studio at `/studio` — see [UPDATING.md](UPDATING.md)
+for the monthly routine (it's written for the shop owners, not developers).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Events auto-expire**: the query floors at the start of today (America/New_York),
+  and the section heading computes the current month — an unmaintained calendar
+  drains gracefully instead of showing stale dates.
+- **Tap list is Untappd's job** — the site links out rather than maintaining one.
+- `seed/seed.ndjson` holds the original September 2026 import
+  (`npx sanity dataset import seed/seed.ndjson production`).
 
-## Learn More
+## Design system
 
-To learn more about Next.js, take a look at the following resources:
+Everything lives in `src/app/globals.css` (`@theme inline` — there is no
+tailwind.config). Badge-derived palette (cream/navy/amber + card washes),
+Anton for uppercase poster headings, Roboto Condensed for calendar rows,
+Geist for body. The badge logo is `public/logo.jpg` (also `src/app/icon.jpg`).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deploy
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Vercel project `blue-ridge-beer-hub` (public repo, Hobby plan). Set
+`NEXT_PUBLIC_SITE_URL` when the custom domain lands — metadata, sitemap,
+robots, and JSON-LD all read it from `src/lib/site.ts`.

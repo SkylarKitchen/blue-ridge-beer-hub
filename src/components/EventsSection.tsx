@@ -1,3 +1,5 @@
+import type { CSSProperties } from "react";
+
 import { categoryMeta } from "@/lib/categories";
 import { formatTimeRange } from "@/lib/format";
 import type { HubEvent, WeeklyEvent } from "@/lib/types";
@@ -27,25 +29,25 @@ function flyerDate(iso: string): string {
   return `${month} ${day} (${weekday})`;
 }
 
-function EventRow({ event }: { event: HubEvent }) {
+function EventRow({ event, index }: { event: HubEvent; index: number }) {
   const meta = categoryMeta(event.category);
-  const detail = [meta.label, formatTimeRange(event.start, event.endTime)]
-    .filter(Boolean)
-    .join("  |  ");
   return (
-    <li className="border-b border-navy/10 py-4">
+    <li
+      className="border-b border-cream/15 py-4"
+      style={{ "--rd": `${Math.min(index, 5) * 70}ms` } as CSSProperties}
+    >
       <div className="font-condensed text-lg font-bold">
-        <span className="uppercase tracking-wide text-amber">
+        <span className="uppercase tracking-wide text-amber-bright">
           {flyerDate(event.start)}
         </span>
-        <span className="mx-2 text-navy/40">•</span>
-        <span className="text-navy">
+        <span className="mx-2 text-cream/40">•</span>
+        <span className="text-cream">
           {event.link ? (
             <a
               href={event.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="underline decoration-amber/50 underline-offset-4 hover:decoration-amber"
+              className="underline decoration-amber-bright/50 underline-offset-4 hover:decoration-amber-bright"
             >
               {event.title}
             </a>
@@ -54,9 +56,18 @@ function EventRow({ event }: { event: HubEvent }) {
           )}
         </span>
       </div>
-      <div className="font-condensed mt-0.5 text-ink/75">{detail}</div>
+      <div className="mt-1.5 flex flex-wrap items-center gap-2">
+        <span
+          className={`${meta.chipClass} rounded-full px-2 py-0.5 font-condensed text-xs font-bold uppercase tracking-wider`}
+        >
+          {meta.label}
+        </span>
+        <span className="font-condensed text-sm text-cream/75">
+          {formatTimeRange(event.start, event.endTime)}
+        </span>
+      </div>
       {event.description ? (
-        <p className="font-condensed mt-1 max-w-xl text-sm leading-snug text-ink/60">
+        <p className="font-condensed mt-1 max-w-xl text-sm leading-snug text-cream/60">
           {event.description}
         </p>
       ) : null}
@@ -82,21 +93,24 @@ export function EventsSection({
   const half = Math.ceil(events.length / 2);
 
   return (
-    <section id="events" className="bg-paper">
+    <section id="events" className="bg-navy">
       <div className="mx-auto max-w-6xl px-5 py-20">
-        <h2 className="font-display text-5xl uppercase text-navy sm:text-6xl">
+        <h2
+          data-reveal
+          className="font-display text-5xl uppercase text-cream sm:text-6xl"
+        >
           {monthName} events
         </h2>
 
         {events.length === 0 ? (
-          <p className="font-condensed mt-8 max-w-xl text-lg text-ink/80">
+          <p className="font-condensed mt-8 max-w-xl text-lg text-cream/80">
             The next calendar drops soon — follow along on{" "}
             {instagramUrl ? (
               <a
                 href={instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-bold text-amber underline underline-offset-4"
+                className="font-bold text-amber-bright underline underline-offset-4"
               >
                 Instagram
               </a>
@@ -106,15 +120,18 @@ export function EventsSection({
             for the latest.
           </p>
         ) : (
-          <div className="mt-8 grid gap-x-14 md:grid-cols-2">
-            <ul>
-              {events.slice(0, half).map((event) => (
-                <EventRow key={event._id} event={event} />
+          <div className="mt-8 grid md:grid-cols-2">
+            <ul data-reveal-group className="md:pr-14">
+              {events.slice(0, half).map((event, i) => (
+                <EventRow key={event._id} event={event} index={i} />
               ))}
             </ul>
-            <ul>
-              {events.slice(half).map((event) => (
-                <EventRow key={event._id} event={event} />
+            <ul
+              data-reveal-group
+              className="md:border-l md:border-cream/15 md:pl-14"
+            >
+              {events.slice(half).map((event, i) => (
+                <EventRow key={event._id} event={event} index={i} />
               ))}
             </ul>
           </div>
@@ -122,23 +139,37 @@ export function EventsSection({
 
         {sortedWeekly.length > 0 ? (
           <div className="mt-12">
-            <h3 className="font-display text-2xl uppercase text-navy">
+            <h3
+              data-reveal
+              className="font-display text-2xl uppercase text-cream"
+            >
               Every week
             </h3>
-            <ul className="mt-2 md:max-w-xl">
-              {sortedWeekly.map((weekly) => (
-                <li key={weekly._id} className="border-b border-navy/10 py-4">
+            <ul data-reveal-group className="mt-2 md:max-w-xl">
+              {sortedWeekly.map((weekly, i) => (
+                <li
+                  key={weekly._id}
+                  className="border-b border-cream/15 py-4"
+                  style={
+                    { "--rd": `${Math.min(i, 5) * 70}ms` } as CSSProperties
+                  }
+                >
                   <div className="font-condensed text-lg font-bold">
-                    <span className="uppercase tracking-wide text-amber">
+                    <span className="uppercase tracking-wide text-amber-bright">
                       Every {weekly.dayOfWeek}
                     </span>
-                    <span className="mx-2 text-navy/40">•</span>
-                    <span className="text-navy">{weekly.title}</span>
+                    <span className="mx-2 text-cream/40">•</span>
+                    <span className="text-cream">{weekly.title}</span>
                   </div>
-                  <div className="font-condensed mt-0.5 text-ink/75">
-                    {[categoryMeta(weekly.category).label, weekly.time]
-                      .filter(Boolean)
-                      .join("  |  ")}
+                  <div className="mt-1.5 flex flex-wrap items-center gap-2">
+                    <span
+                      className={`${categoryMeta(weekly.category).chipClass} rounded-full px-2 py-0.5 font-condensed text-xs font-bold uppercase tracking-wider`}
+                    >
+                      {categoryMeta(weekly.category).label}
+                    </span>
+                    <span className="font-condensed text-sm text-cream/75">
+                      {weekly.time}
+                    </span>
                   </div>
                 </li>
               ))}

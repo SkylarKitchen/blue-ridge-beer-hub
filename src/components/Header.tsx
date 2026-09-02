@@ -20,16 +20,19 @@ export function Header({ name }: { name: string }) {
             className="rounded-full"
           />
 
-          <span className="font-display text-lg tracking-wide text-navy">
+          <span className="font-display text-base tracking-wide text-navy sm:text-lg">
             {name}
           </span>
         </a>
-        <nav className="flex items-center gap-1 sm:gap-2">
+        <nav
+          aria-label="Sections"
+          className="flex flex-wrap items-center justify-end gap-1 sm:gap-2"
+        >
           {NAV.map((item) => (
             <a
               key={item.href}
               href={item.href}
-              className="rounded-full px-3 py-1.5 text-sm font-semibold text-navy transition-colors hover:bg-navy hover:text-cream"
+              className="rounded-full px-2.5 py-1 text-xs font-semibold text-navy transition-colors hover:bg-navy hover:text-cream sm:px-3 sm:py-1.5 sm:text-sm"
             >
               {item.label}
             </a>

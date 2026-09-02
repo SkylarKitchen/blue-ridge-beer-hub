@@ -20,6 +20,7 @@ export const FALLBACK_SETTINGS: SiteSettings = {
     "🎉 One-year anniversary party this Friday, Sept 4 — $1 off full pours, Chris Campbell live 5–7 PM",
   onTapBlurb:
     "Sixteen rotating taps of serious craft — stouts, sours, IPAs, and the occasional white whale — plus cider, mead, and wine. The list lives on Untappd and changes almost daily.",
+  tapCount: 16,
   heroHeading: "Your friendly\n*neighborhood*\nbeer hub",
   heroSubheading:
     "Sixteen rotating taps, coolers full of carryout, and something happening almost every night — right on East Street in downtown Waynesville.",
@@ -97,6 +98,15 @@ export const FALLBACK_SETTINGS: SiteSettings = {
 };
 
 export const FALLBACK_EVENTS: HubEvent[] = [
+  {
+    _id: "fallback-drink-draw",
+    title: "Drink & Draw with Blue Ridge Art Way",
+    start: "2026-09-02T18:00:00-04:00",
+    endTime: "2026-09-02T19:30:00-04:00",
+    category: "art",
+    description:
+      "Bring a sketchbook or borrow supplies — a casual evening of drawing and drinking with Blue Ridge Art Way.",
+  },
   {
     _id: "fallback-eat-local",
     title: "Eat Local. End Hunger.",

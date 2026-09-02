@@ -3,7 +3,7 @@ import { defineQuery } from "next-sanity";
 export const SITE_SETTINGS_QUERY = defineQuery(
   `*[_type == "siteSettings"][0]{
     name, tagline, addressLine1, addressLine2, phone, email,
-    untappdUrl, instagramUrl, facebookUrl, announcement, onTapBlurb,
+    untappdUrl, instagramUrl, facebookUrl, announcement, onTapBlurb, tapCount,
     hours[]{day, opens, closes, closed},
     heroHeading, heroSubheading,
     heroImage{..., "alt": alt},

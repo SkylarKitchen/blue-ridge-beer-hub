@@ -3,8 +3,8 @@
 @theme inline {
   /* Badge-derived palette: cream paper, navy structure, amber accent,
      pine support, plus soft color-field washes for cards. */
-  --color-cream: #faf9f5;
-  --color-cream-deep: #f0ede5;
+  --color-cream: #faf5e6;
+  --color-cream-deep: #f1e8d2;
   --color-paper: #ffffff;
   --color-navy: #1b3560;
   --color-navy-deep: #122344;
@@ -49,4 +49,98 @@ body {
     transparent 1.3px
   );
   background-size: 26px 26px;
+}
+
+/* ---------- Motion ---------- */
+
+:root {
+  /* Strong ease-out — entrances start fast and settle soft. */
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Page-load entrances (hero). Pure CSS keyframes so they play at first
+   paint, before hydration. Stagger via per-element --ad delays. */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Badge lands like a sticker being pressed on: over-rotated and slightly
+   small, a whisper past level, then rest. Lives on a wrapper so the inner
+   div keeps its rotate-3 + hover transition untouched. */
+@keyframes badge-settle {
+  from {
+    opacity: 0;
+    transform: rotate(5deg) scale(0.94);
+  }
+  70% {
+    opacity: 1;
+    transform: rotate(-0.6deg) scale(1.005);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+.animate-rise {
+  animation: rise-in 600ms var(--ease-out-strong) both;
+  animation-delay: var(--ad, 0ms);
+}
+
+.animate-badge-settle {
+  animation: badge-settle 800ms var(--ease-out-strong) both;
+  animation-delay: var(--ad, 0ms);
+}
+
+/* Scroll reveals. The hidden state is gated behind html[data-reveals],
+   which RevealObserver sets on mount — no-JS visitors always see content.
+   [data-reveal] hides itself; [data-reveal-group] hides its direct
+   children instead, staggered via per-child --rd delays. */
+[data-reveal],
+[data-reveal-group] > * {
+  transition:
+    opacity 600ms var(--ease-out-strong),
+    transform 600ms var(--ease-out-strong);
+  transition-delay: var(--rd, 0ms);
+}
+
+html[data-reveals] [data-reveal]:not([data-inview]),
+html[data-reveals] [data-reveal-group]:not([data-inview]) > * {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+/* Reduced motion: keep the fades that aid comprehension, drop movement. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise,
+  .animate-badge-settle {
+    animation: fade-in 300ms ease both;
+  }
+
+  [data-reveal],
+  [data-reveal-group] > * {
+    transition-duration: 300ms;
+    transition-delay: 0ms;
+  }
+
+  html[data-reveals] [data-reveal]:not([data-inview]),
+  html[data-reveals] [data-reveal-group]:not([data-inview]) > * {
+    transform: none;
+  }
 }
