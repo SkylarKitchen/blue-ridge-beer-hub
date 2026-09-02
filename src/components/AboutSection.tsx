@@ -4,8 +4,6 @@ import type { CSSProperties } from "react";
 
 import type { SiteSettings } from "@/lib/types";
 
-import { MixedText } from "./MixedText";
-
 export function AboutSection({ settings }: { settings: SiteSettings }) {
   return (
     <section id="about" className="mx-auto max-w-6xl px-5 sm:px-10 pb-24">
@@ -15,7 +13,7 @@ export function AboutSection({ settings }: { settings: SiteSettings }) {
       >
         <div>
           <h2 className="font-display text-5xl uppercase text-navy sm:text-6xl">
-            <MixedText text={settings.aboutHeading ?? "About the Hub"} />
+            {settings.aboutHeading ?? "About the Hub"}
           </h2>
           {settings.aboutBody ? (
             <div className="prose-p:leading-relaxed mt-6 max-w-2xl space-y-4 text-lg text-ink/85">

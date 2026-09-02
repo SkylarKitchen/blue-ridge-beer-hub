@@ -4,7 +4,7 @@ import type { CSSProperties } from "react";
 import type { SiteSettings } from "@/lib/types";
 
 import { ArrowUpRight } from "./ArrowUpRight";
-import { MixedHeading } from "./MixedText";
+import { MixedHeading } from "./MixedHeading";
 import { OpenStatus } from "./OpenStatus";
 
 export function Hero({ settings }: { settings: SiteSettings }) {
