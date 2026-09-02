@@ -10,7 +10,6 @@ const geist = Geist({
 const archivo = Archivo({
   variable: "--font-archivo",
   subsets: ["latin"],
-  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {

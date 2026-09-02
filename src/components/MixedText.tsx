@@ -1,22 +1,10 @@
 /**
- * Renders a heading string where *starred* runs become italic accents in the
- * same display grotesque. Owners write e.g. "Your *beer* hub".
+ * Headings render in the uniform display grotesque. Content may contain
+ * *starred* runs (a legacy emphasis convention in seeded copy) — the stars
+ * are stripped and everything renders identically.
  */
 export function MixedText({ text }: { text: string }) {
-  const parts = text.split(/(\*[^*]+\*)/g);
-  return (
-    <>
-      {parts.map((part, i) =>
-        part.startsWith("*") && part.endsWith("*") ? (
-          <em key={i} className="italic">
-            {part.slice(1, -1)}
-          </em>
-        ) : (
-          <span key={i}>{part}</span>
-        ),
-      )}
-    </>
-  );
+  return <>{text.replace(/\*/g, "")}</>;
 }
 
 /** Multi-line variant: each newline-separated line renders as its own block. */
