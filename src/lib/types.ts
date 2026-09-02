@@ -37,6 +37,7 @@ export interface SiteSettings {
   aboutHeading?: string;
   aboutBody?: PortableTextBlock[];
   offerings?: Offering[];
+  pipelineEmails?: string[];
 }
 
 export type EventCategory = "music" | "art" | "games" | "party" | "community";

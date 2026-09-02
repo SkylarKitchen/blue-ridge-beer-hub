@@ -93,6 +93,23 @@ export const siteSettings = defineType({
         "Optional. Shows as a banner across the top of the site — e.g. “Closed today for a private event.” Leave empty to hide the banner.",
     }),
     defineField({
+      name: "pipelineEmails",
+      title: "Who gets the “new events found” email",
+      type: "array",
+      group: "identity",
+      of: [{ type: "string" }],
+      description:
+        "When a new flyer is posted to Facebook, these addresses get an email with a one-tap publish button. Add or remove addresses any time.",
+      validation: (rule) =>
+        rule
+          .unique()
+          .custom((emails?: string[]) =>
+            (emails ?? []).every((e) => /.+@.+\..+/.test(e))
+              ? true
+              : "One of these doesn't look like an email address.",
+          ),
+    }),
+    defineField({
       name: "hours",
       title: "Weekly hours",
       type: "array",

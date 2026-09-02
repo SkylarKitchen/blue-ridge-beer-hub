@@ -65,6 +65,25 @@ export const event = defineType({
       description:
         "Optional — tickets, the artist's page, or a Facebook event.",
     }),
+    defineField({
+      name: "source",
+      title: "Pipeline source",
+      type: "object",
+      hidden: true,
+      readOnly: true,
+      fields: [
+        defineField({
+          name: "fbPostId",
+          title: "Facebook post ID",
+          type: "string",
+        }),
+        defineField({
+          name: "ingestedAt",
+          title: "Ingested at",
+          type: "datetime",
+        }),
+      ],
+    }),
   ],
   orderings: [
     {
