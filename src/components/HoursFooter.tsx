@@ -3,7 +3,6 @@ import type { CSSProperties } from "react";
 import type { SiteSettings } from "@/lib/types";
 
 import { ArrowUpRight } from "./ArrowUpRight";
-import { MixedText } from "./MixedText";
 
 export function HoursFooter({ settings }: { settings: SiteSettings }) {
   const mapQuery = encodeURIComponent(
@@ -24,7 +23,7 @@ export function HoursFooter({ settings }: { settings: SiteSettings }) {
           data-reveal
           className="font-display text-4xl uppercase text-amber-bright sm:text-5xl"
         >
-          <MixedText text="Come *say hi*" />
+          Come say hi
         </h2>
         <div data-reveal-group className="mt-10 grid gap-10 md:grid-cols-3">
           <div>

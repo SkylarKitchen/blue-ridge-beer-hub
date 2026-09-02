@@ -2,8 +2,6 @@ import type { CSSProperties } from "react";
 
 import type { Offering } from "@/lib/types";
 
-import { MixedText } from "./MixedText";
-
 const CARD_WASHES = ["bg-butter", "bg-mist", "bg-mint"];
 
 export function OfferingsSection({ offerings }: { offerings: Offering[] }) {
@@ -14,7 +12,7 @@ export function OfferingsSection({ offerings }: { offerings: Offering[] }) {
         data-reveal
         className="font-display text-5xl uppercase text-navy sm:text-6xl"
       >
-        <MixedText text="What we *pour & stock*" />
+        What we pour &amp; stock
       </h2>
       <div data-reveal-group className="mt-10 grid gap-5 md:grid-cols-3">
         {offerings.map((offering, i) => (

@@ -15,7 +15,7 @@ export function AboutSection({ settings }: { settings: SiteSettings }) {
       >
         <div>
           <h2 className="font-display text-5xl uppercase text-navy sm:text-6xl">
-            <MixedText text={settings.aboutHeading ?? "About *the Hub*"} />
+            <MixedText text={settings.aboutHeading ?? "About the Hub"} />
           </h2>
           {settings.aboutBody ? (
             <div className="prose-p:leading-relaxed mt-6 max-w-2xl space-y-4 text-lg text-ink/85">

@@ -4,8 +4,6 @@ import type { CSSProperties } from "react";
 import type { GalleryImage } from "@/lib/types";
 import { urlFor } from "@/sanity/image";
 
-import { MixedText } from "./MixedText";
-
 export function GallerySection({ images }: { images: GalleryImage[] }) {
   if (images.length === 0) return null;
   return (
@@ -14,7 +12,7 @@ export function GallerySection({ images }: { images: GalleryImage[] }) {
         data-reveal
         className="font-display text-5xl uppercase text-navy sm:text-6xl"
       >
-        <MixedText text="Inside *the Hub*" />
+        Inside the Hub
       </h2>
       <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-3">
         {images.map((item, i) => (
