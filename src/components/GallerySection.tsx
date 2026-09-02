@@ -7,7 +7,7 @@ import { urlFor } from "@/sanity/image";
 export function GallerySection({ images }: { images: GalleryImage[] }) {
   if (images.length === 0) return null;
   return (
-    <section className="mx-auto max-w-6xl px-5 pb-20">
+    <section className="mx-auto max-w-6xl px-5 sm:px-10 pb-20">
       <h2
         data-reveal
         className="font-display text-5xl uppercase text-navy sm:text-6xl"

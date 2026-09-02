@@ -12,7 +12,7 @@ export function Hero({ settings }: { settings: SiteSettings }) {
     // 105px = announcement banner + sticky header; center within what's left.
     <section
       id="top"
-      className="mx-auto flex max-w-6xl flex-col justify-center px-5 py-14 sm:py-16 md:min-h-[calc(100svh-105px)]"
+      className="mx-auto flex max-w-6xl flex-col justify-center px-5 sm:px-10 py-14 sm:py-16 md:min-h-[calc(100svh-105px)]"
     >
       <div className="grid items-center gap-10 md:grid-cols-[3fr_2fr]">
         <div>

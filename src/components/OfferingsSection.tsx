@@ -7,7 +7,7 @@ const CARD_WASHES = ["bg-butter", "bg-mist", "bg-mint"];
 export function OfferingsSection({ offerings }: { offerings: Offering[] }) {
   if (offerings.length === 0) return null;
   return (
-    <section className="mx-auto max-w-6xl px-5 pb-20">
+    <section className="mx-auto max-w-6xl px-5 sm:px-10 pb-20">
       <h2
         data-reveal
         className="font-display text-5xl uppercase text-navy sm:text-6xl"

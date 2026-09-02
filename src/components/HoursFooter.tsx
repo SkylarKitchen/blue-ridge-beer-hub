@@ -18,7 +18,7 @@ export function HoursFooter({ settings }: { settings: SiteSettings }) {
 
   return (
     <footer id="hours" className="bg-navy text-cream">
-      <div className="mx-auto max-w-6xl px-5 py-16">
+      <div className="mx-auto max-w-6xl px-5 sm:px-10 py-16">
         <h2
           data-reveal
           className="font-display text-4xl uppercase text-amber-bright sm:text-5xl"

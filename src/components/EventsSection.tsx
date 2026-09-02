@@ -135,7 +135,7 @@ export function EventsSection({
 
   return (
     <section id="events" className="bg-navy">
-      <div className="mx-auto max-w-6xl px-5 py-20">
+      <div className="mx-auto max-w-6xl px-5 sm:px-10 py-20">
         <h2
           data-reveal
           className="font-display text-5xl uppercase text-cream sm:text-6xl"

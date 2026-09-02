@@ -8,7 +8,7 @@ import { MixedText } from "./MixedText";
 
 export function AboutSection({ settings }: { settings: SiteSettings }) {
   return (
-    <section id="about" className="mx-auto max-w-6xl px-5 pb-24">
+    <section id="about" className="mx-auto max-w-6xl px-5 sm:px-10 pb-24">
       <div
         data-reveal-group
         className="grid items-start gap-12 md:grid-cols-[3fr_2fr]"

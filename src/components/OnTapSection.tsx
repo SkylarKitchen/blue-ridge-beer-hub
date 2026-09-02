@@ -6,7 +6,7 @@ import { ArrowUpRight } from "./ArrowUpRight";
 
 export function OnTapSection({ settings }: { settings: SiteSettings }) {
   return (
-    <section id="tap" className="mx-auto max-w-6xl px-5 py-20">
+    <section id="tap" className="mx-auto max-w-6xl px-5 sm:px-10 py-20">
       <div
         data-reveal-group
         className="grid items-center gap-10 md:grid-cols-2"
