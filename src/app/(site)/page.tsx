@@ -8,6 +8,11 @@ import { HoursFooter } from "@/components/HoursFooter";
 import { OfferingsSection } from "@/components/OfferingsSection";
 import { OnTapSection } from "@/components/OnTapSection";
 import { Ridgeline } from "@/components/Ridgeline";
+import {
+  FALLBACK_EVENTS,
+  FALLBACK_SETTINGS,
+  FALLBACK_WEEKLY,
+} from "@/lib/fallback";
 import { startOfTodayIso } from "@/lib/format";
 import type {
   GalleryImage,
@@ -41,8 +46,15 @@ export default async function HomePage() {
     weeklyEvents = (weeklyRes.data ?? []) as WeeklyEvent[];
     gallery = (galleryRes.data ?? []) as GalleryImage[];
   } catch (error) {
-    // If Sanity is unreachable the site still renders its shell with defaults.
+    // If Sanity is unreachable the site still renders full fallback content.
     console.error("Sanity fetch failed; rendering fallbacks", error);
+  }
+
+  // Sanity unreachable or dataset not seeded yet → serve the baked-in copy.
+  if (!settings.name) {
+    settings = FALLBACK_SETTINGS;
+    events = FALLBACK_EVENTS;
+    weeklyEvents = FALLBACK_WEEKLY;
   }
 
   return (

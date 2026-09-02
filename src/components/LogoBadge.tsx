@@ -52,12 +52,12 @@ export function LogoBadge({ size = 200 }: { size?: number }) {
         <rect x="0" y="126" width="200" height="32" fill="#14181f" />
         <text
           x="100"
-          y="149"
+          y="148"
           textAnchor="middle"
           fill="#ffffff"
-          fontSize="23"
+          fontSize="18"
           fontWeight="800"
-          letterSpacing="4"
+          letterSpacing="2"
           fontFamily="var(--font-archivo)"
         >
           BEER HUB

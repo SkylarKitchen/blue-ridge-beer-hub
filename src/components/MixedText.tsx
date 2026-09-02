@@ -1,6 +1,6 @@
 /**
- * Renders a heading string where *starred* runs become italic serif accents —
- * the roman-grotesque / italic-serif mix. Owners write e.g. "Your *beer* hub".
+ * Renders a heading string where *starred* runs become italic accents in the
+ * same display grotesque. Owners write e.g. "Your *beer* hub".
  */
 export function MixedText({ text }: { text: string }) {
   const parts = text.split(/(\*[^*]+\*)/g);
@@ -8,7 +8,7 @@ export function MixedText({ text }: { text: string }) {
     <>
       {parts.map((part, i) =>
         part.startsWith("*") && part.endsWith("*") ? (
-          <em key={i} className="font-accent italic font-medium">
+          <em key={i} className="italic">
             {part.slice(1, -1)}
           </em>
         ) : (
