@@ -1,0 +1,102 @@
+<meta charset="utf-8" />
+<title>Beer Hub QR Card</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link
+  href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto+Condensed:wght@400;700&display=swap"
+  rel="stylesheet"
+/>
+<style>
+  /* 4x6in portrait card, printed borderless or fit-to-page. */
+  @page {
+    size: 4in 6in;
+    margin: 0;
+  }
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  html,
+  body {
+    width: 4in;
+    height: 6in;
+  }
+  body {
+    font-family: "Roboto Condensed", sans-serif;
+    background: #1b3560;
+    color: #faf9f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .card {
+    width: 100%;
+    height: 100%;
+    padding: 0.35in 0.3in;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+  }
+  .logo {
+    width: 1.35in;
+    height: 1.35in;
+    border-radius: 50%;
+    border: 3px solid #eba93d;
+  }
+  h1 {
+    font-family: "Anton", sans-serif;
+    font-weight: 400;
+    font-size: 34pt;
+    line-height: 1.02;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+  }
+  h1 .amber {
+    color: #eba93d;
+  }
+  .sub {
+    font-size: 11.5pt;
+    line-height: 1.35;
+    color: rgba(250, 249, 245, 0.85);
+    max-width: 3.1in;
+  }
+  .qr-wrap {
+    background: #ffffff;
+    padding: 0.12in;
+    border-radius: 10px;
+  }
+  .qr-wrap img {
+    display: block;
+    width: 1.7in;
+    height: 1.7in;
+  }
+  .url {
+    font-weight: 700;
+    font-size: 12pt;
+    letter-spacing: 0.02em;
+    color: #eba93d;
+  }
+  .footer {
+    font-size: 8.5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: rgba(250, 249, 245, 0.55);
+  }
+</style>
+<div class="card">
+  <img class="logo" src="logo.jpg" alt="Blue Ridge Beer Hub badge logo" />
+  <h1>The Hub is<br /><span class="amber">online</span></h1>
+  <p class="sub">
+    Live tap list, this month's events, hours &amp; more. Scan to see what's
+    pouring.
+  </p>
+  <div class="qr-wrap">
+    <img src="qr.png" alt="QR code to the Beer Hub website" />
+  </div>
+  <div class="url">brbeerhub.com</div>
+  <div class="footer">One year of the Beer Hub &middot; Sept 2026</div>
+</div>
