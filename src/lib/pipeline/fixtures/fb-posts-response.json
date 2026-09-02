@@ -1,0 +1,50 @@
+{
+  "data": [
+    {
+      "id": "1000_1",
+      "created_time": "2026-09-01T14:03:22+0000",
+      "message": "We are OPEN today, come thru"
+    },
+    {
+      "id": "1000_2",
+      "created_time": "2026-09-01T15:00:00+0000",
+      "message": "September events are HERE 🍻",
+      "attachments": {
+        "data": [
+          {
+            "media": {
+              "image": { "src": "https://scontent.example/flyer.jpg" }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "1000_3",
+      "created_time": "2026-08-31T12:00:00+0000",
+      "attachments": {
+        "data": [
+          {
+            "media": {
+              "image": { "src": "https://scontent.example/album-cover.jpg" }
+            },
+            "subattachments": {
+              "data": [
+                {
+                  "media": {
+                    "image": { "src": "https://scontent.example/a1.jpg" }
+                  }
+                },
+                {
+                  "media": {
+                    "image": { "src": "https://scontent.example/a2.jpg" }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
