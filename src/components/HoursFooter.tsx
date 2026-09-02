@@ -94,8 +94,7 @@ export function HoursFooter({ settings }: { settings: SiteSettings }) {
         </div>
         <p className="mt-14 border-t border-cream/15 pt-6 text-xs text-cream/50">
           © {new Date().getFullYear()} {settings.name ?? "Blue Ridge Beer Hub"}{" "}
-          · Made with care in Waynesville, NC · 21+ to drink — please enjoy
-          responsibly
+          · Made in Waynesville, NC · 21+ to drink · please enjoy responsibly
         </p>
       </div>
     </footer>

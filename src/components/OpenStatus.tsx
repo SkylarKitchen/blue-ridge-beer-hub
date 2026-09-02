@@ -46,7 +46,7 @@ function computeStatus(hours: DayHours[]): Status | null {
       if (nowMinutes < closes) {
         return {
           open: true,
-          label: `Open now — until ${compactTime(today.closes!)}`,
+          label: `Open until ${compactTime(today.closes!)}`,
         };
       }
     }
@@ -58,7 +58,7 @@ function computeStatus(hours: DayHours[]): Status | null {
       const dayLabel = offset === 1 ? "tomorrow" : next.day;
       return {
         open: false,
-        label: `Closed — opens ${dayLabel} at ${compactTime(next.opens!)}`,
+        label: `Closed, opens ${dayLabel} at ${compactTime(next.opens!)}`,
       };
     }
   }
