@@ -85,7 +85,7 @@ export function OpenStatus({ hours }: { hours?: DayHours[] }) {
   return (
     <a
       href="#hours"
-      className="animate-rise inline-flex items-center gap-2 rounded-full border border-navy/15 bg-paper px-3.5 py-1.5 text-sm font-semibold text-navy shadow-sm transition-colors hover:border-navy/40"
+      className="animate-rise inline-flex items-center gap-2.5 font-condensed text-sm font-bold uppercase tracking-[0.16em] text-navy/75 transition-colors hover:text-navy"
     >
       <span
         aria-hidden
