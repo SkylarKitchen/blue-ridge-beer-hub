@@ -1,3 +1,5 @@
+import type { CSSProperties } from "react";
+
 import type { SiteSettings } from "@/lib/types";
 
 import { ArrowUpRight } from "./ArrowUpRight";
@@ -18,10 +20,13 @@ export function HoursFooter({ settings }: { settings: SiteSettings }) {
   return (
     <footer id="hours" className="bg-navy text-cream">
       <div className="mx-auto max-w-6xl px-5 py-16">
-        <h2 className="font-display text-4xl uppercase text-amber-bright sm:text-5xl">
+        <h2
+          data-reveal
+          className="font-display text-4xl uppercase text-amber-bright sm:text-5xl"
+        >
           <MixedText text="Come *say hi*" />
         </h2>
-        <div className="mt-10 grid gap-10 md:grid-cols-3">
+        <div data-reveal-group className="mt-10 grid gap-10 md:grid-cols-3">
           <div>
             <h3 className="text-xs font-bold uppercase tracking-widest text-cream/60">
               Hours
@@ -37,7 +42,7 @@ export function HoursFooter({ settings }: { settings: SiteSettings }) {
               ))}
             </ul>
           </div>
-          <div>
+          <div style={{ "--rd": "90ms" } as CSSProperties}>
             <h3 className="text-xs font-bold uppercase tracking-widest text-cream/60">
               Find us
             </h3>
@@ -67,7 +72,7 @@ export function HoursFooter({ settings }: { settings: SiteSettings }) {
               <ArrowUpRight className="h-3.5 w-3.5" />
             </a>
           </div>
-          <div>
+          <div style={{ "--rd": "180ms" } as CSSProperties}>
             <h3 className="text-xs font-bold uppercase tracking-widest text-cream/60">
               Follow along
             </h3>

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { PortableText } from "next-sanity";
+import type { CSSProperties } from "react";
 
 import type { SiteSettings } from "@/lib/types";
 
@@ -8,7 +9,10 @@ import { MixedText } from "./MixedText";
 export function AboutSection({ settings }: { settings: SiteSettings }) {
   return (
     <section id="about" className="mx-auto max-w-6xl px-5 pb-24">
-      <div className="grid items-start gap-12 md:grid-cols-[3fr_2fr]">
+      <div
+        data-reveal-group
+        className="grid items-start gap-12 md:grid-cols-[3fr_2fr]"
+      >
         <div>
           <h2 className="font-display text-5xl uppercase text-navy sm:text-6xl">
             <MixedText text={settings.aboutHeading ?? "About *the Hub*"} />
@@ -19,7 +23,10 @@ export function AboutSection({ settings }: { settings: SiteSettings }) {
             </div>
           ) : null}
         </div>
-        <div className="flex justify-center pt-2 md:pt-6">
+        <div
+          className="flex justify-center pt-2 md:pt-6"
+          style={{ "--rd": "120ms" } as CSSProperties}
+        >
           <div className="-rotate-2 drop-shadow-lg">
             <Image
               src="/logo.jpg"
