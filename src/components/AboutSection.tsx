@@ -20,6 +20,18 @@ export function AboutSection({ settings }: { settings: SiteSettings }) {
               <PortableText value={settings.aboutBody} />
             </div>
           ) : null}
+          {settings.credentials?.length ? (
+            <ul className="mt-7 flex flex-wrap gap-2.5">
+              {settings.credentials.map((credential) => (
+                <li
+                  key={credential}
+                  className="rounded-full border border-amber/40 bg-butter px-4 py-1.5 text-sm font-semibold text-navy-deep"
+                >
+                  {credential}
+                </li>
+              ))}
+            </ul>
+          ) : null}
         </div>
         <div
           className="flex justify-center pt-2 md:pt-6"

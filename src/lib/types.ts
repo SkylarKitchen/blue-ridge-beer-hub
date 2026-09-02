@@ -36,6 +36,7 @@ export interface SiteSettings {
   heroSubheading?: string;
   aboutHeading?: string;
   aboutBody?: PortableTextBlock[];
+  credentials?: string[];
   offerings?: Offering[];
   pipelineEmails?: string[];
 }

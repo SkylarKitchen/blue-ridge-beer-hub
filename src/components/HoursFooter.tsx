@@ -70,6 +70,17 @@ export function HoursFooter({ settings }: { settings: SiteSettings }) {
               Get directions
               <ArrowUpRight className="h-3.5 w-3.5" />
             </a>
+            <p className="mt-4 text-sm text-cream/70">
+              Making a trip of it?{" "}
+              <a
+                href="https://www.visithaywood.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-cream/85 underline decoration-amber/50 underline-offset-4 hover:text-amber-bright"
+              >
+                Visit Haywood County
+              </a>
+            </p>
           </div>
           <div style={{ "--rd": "180ms" } as CSSProperties}>
             <h3 className="text-xs font-bold uppercase tracking-widest text-cream/60">

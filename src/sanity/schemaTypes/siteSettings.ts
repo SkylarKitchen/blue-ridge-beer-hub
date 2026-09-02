@@ -251,12 +251,22 @@ export const siteSettings = defineType({
       ],
     }),
     defineField({
+      name: "credentials",
+      title: "Trust badges",
+      type: "array",
+      group: "about",
+      of: [{ type: "string" }],
+      description:
+        "Short phrases shown as small badges under the About text — e.g. “Veteran-owned”, “Run by a retired schoolteacher”. Leave empty to hide.",
+      validation: (rule) => rule.max(4),
+    }),
+    defineField({
       name: "offerings",
       title: "What we offer",
       type: "array",
       group: "offerings",
       description:
-        "The three-ish cards describing what you pour and stock — taps, coolers & carryout, homebrew supplies.",
+        "The three-ish cards describing what you pour and stock — taps, coolers & carryout, kegs & tap rentals.",
       of: [
         {
           type: "object",

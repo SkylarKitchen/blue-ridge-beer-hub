@@ -36,7 +36,7 @@ export const FALLBACK_SETTINGS: SiteSettings = {
           _type: "span",
           _key: "about1a",
           marks: [],
-          text: "The Beer Hub is Waynesville's community taproom and bottle shop, right downtown. Inside you'll find sixteen taps of rotating craft beer, coolers stocked for carryout, and homebrew supplies on the shelves.",
+          text: "The Beer Hub is Waynesville's community taproom and bottle shop, right downtown. Inside you'll find sixteen taps of rotating craft beer, coolers stocked for carryout, and kegs to take the party home.",
         },
       ],
     },
@@ -69,6 +69,7 @@ export const FALLBACK_SETTINGS: SiteSettings = {
       ],
     },
   ],
+  credentials: ["Veteran-owned", "Run by a retired schoolteacher"],
   hours: [
     { day: "Monday", opens: "12:00 PM", closes: "9:00 PM", closed: false },
     { day: "Tuesday", opens: "12:00 PM", closes: "9:00 PM", closed: false },
@@ -90,9 +91,9 @@ export const FALLBACK_SETTINGS: SiteSettings = {
         "Bottles and cans to go, build-your-own six-packs, and shelves of wine, mead, cider, and THC drinks. Half the fun is browsing the coolers.",
     },
     {
-      title: "Homebrew supplies",
+      title: "Kegs & tap rentals",
       description:
-        "The shop's roots are in homebrew, and we still stock the gear and ingredients Haywood County's brewers need. Advice is free, from folks who've brewed a batch or two.",
+        "Throwing a party? We sell kegs and rent out the taps and CO2 to pour them right. Call or email ahead and we'll have everything cold and ready to go.",
     },
   ],
 };

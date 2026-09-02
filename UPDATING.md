@@ -42,8 +42,8 @@ news is over** — a stale banner is worse than no banner.
 
 **Studio → Site Settings.** Hours live under the Hours tab (type times like
 `12:00 PM` — the "open now" pill on the site reads them, so keep that format).
-Tap count, the on-tap intro, about text, and the offer cards each have their
-own tab.
+Tap count, the on-tap intro, about text, the trust badges under it, and the
+offer cards each have their own tab.
 
 ## Photos
 
