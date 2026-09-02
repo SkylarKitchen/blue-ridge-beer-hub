@@ -27,6 +27,18 @@ for the monthly routine (it's written for the shop owners, not developers).
 - `seed/seed.ndjson` holds the original September 2026 import
   (`npx sanity dataset import seed/seed.ndjson production`).
 
+### The flyer pipeline
+
+A daily cron (`/api/cron/ingest-flyer`, `vercel.json`) polls the Hub's
+Facebook Page via the Graph API, runs new flyer images through Claude
+(`src/lib/pipeline/claude.ts`), writes extracted events as Sanity _drafts_,
+and emails the owners a signed one-tap publish link
+(`/api/pipeline/approve`). Nothing publishes without that tap. Errors and
+token death alert `PIPELINE_ALERT_EMAIL`, never the owners. Setup runbook and
+design: `docs/superpowers/specs/2026-09-02-flyer-pipeline-design.md`. If the
+Meta tether ever becomes a burden, the documented escape hatch is an
+email-the-flyer-in route reusing the same extract → draft → approve tail.
+
 ## Design system
 
 Everything lives in `src/app/globals.css` (`@theme inline` — there is no

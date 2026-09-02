@@ -68,7 +68,7 @@ Owner taps email link
   Rules baked into the prompt: resolve month/day-only dates to the next future
   occurrence (handles December flyers listing January); drop events already in
   the past; return an empty list rather than guess when unsure. Model:
-  `claude-sonnet-5` (vision-capable; ~1 call/day → cents/month). Responses are
+  `claude-opus-5` (per current Claude-API guidance at implementation time). Responses are
   validated by hand (no new deps) before anything is written.
 - **`drafts.ts`** — dedupes against existing events (drafts _and_ published) by
   normalized title + same calendar date, then creates `drafts.` event documents

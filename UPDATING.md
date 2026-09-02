@@ -4,6 +4,22 @@ Everything below happens in the editing screen at **`/studio`** on the live
 site (bookmark it). Changes go live a minute or two after you hit **Publish**.
 Nothing here requires touching code.
 
+## The robot does the flyer now (usually)
+
+When you post the monthly flyer to Facebook, the website reads it overnight.
+The next morning you'll get an email — **"New flyer spotted — 6 events ready
+to publish"** — listing what it found. Tap **Publish all** and they're on the
+site. That's the whole job.
+
+- **Something's wrong in the email** (bad date, wrong time)? Don't tap publish —
+  open `/studio` → Events, fix the drafts there, and publish them by hand.
+- **Fixed a date on the flyer itself?** The robot won't re-read corrections —
+  make the same fix in `/studio` too.
+- **No email the morning after you posted?** The manual steps below always
+  work; the robot is a convenience, not a requirement.
+- Who receives the email lives in **Studio → Site Settings → Name & Contact →
+  "Who gets the new events found email."**
+
 ## When the new monthly flyer drops (~15 minutes)
 
 1. Open **`/studio` → Events**.
