@@ -59,7 +59,7 @@ export default async function OpenGraphImage() {
             color: "#eba93d",
           }}
         >
-          Waynesville&apos;s community taproom &amp; bottle shop
+          Waynesville’s community taproom &amp; bottle shop
         </div>
         <div
           style={{

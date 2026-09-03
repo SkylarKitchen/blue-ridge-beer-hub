@@ -47,7 +47,7 @@ export function Hero({ settings }: { settings: SiteSettings }) {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full bg-navy px-6 py-3 font-display text-base tracking-wide text-cream transition-colors hover:bg-navy-deep"
               >
-                See what&apos;s on tap
+                See what’s on tap
                 <ArrowUpRight />
               </a>
             ) : null}

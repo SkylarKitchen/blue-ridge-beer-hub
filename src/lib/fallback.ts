@@ -8,7 +8,7 @@ import type { HubEvent, SiteSettings, WeeklyEvent } from "./types";
  */
 export const FALLBACK_SETTINGS: SiteSettings = {
   name: "Blue Ridge Beer Hub",
-  tagline: "Waynesville's community taproom & bottle shop",
+  tagline: "Waynesville’s community taproom & bottle shop",
   addressLine1: "21 East St",
   addressLine2: "Waynesville, NC 28786",
   phone: "(828) 246-9320",
@@ -23,7 +23,7 @@ export const FALLBACK_SETTINGS: SiteSettings = {
   tapCount: 16,
   heroHeading: "Your friendly\nneighborhood\nbeer hub",
   heroSubheading:
-    "Sixteen rotating taps and coolers full of carryout on East Street in downtown Waynesville. Most nights there's something going on, live music more often than not.",
+    "Sixteen rotating taps and coolers full of carryout on East Street in downtown Waynesville. Most nights there’s something going on, live music more often than not.",
   aboutHeading: "About the Hub",
   aboutBody: [
     {
@@ -36,7 +36,7 @@ export const FALLBACK_SETTINGS: SiteSettings = {
           _type: "span",
           _key: "about1a",
           marks: [],
-          text: "The Beer Hub is Waynesville's community taproom and bottle shop, right downtown. Inside you'll find sixteen taps of rotating craft beer, coolers stocked for carryout, and kegs to take the party home.",
+          text: "The Beer Hub is Waynesville’s community taproom and bottle shop, right downtown. Inside you’ll find sixteen taps of rotating craft beer, coolers stocked for carryout, and kegs to take the party home.",
         },
       ],
     },
@@ -50,7 +50,7 @@ export const FALLBACK_SETTINGS: SiteSettings = {
           _type: "span",
           _key: "about2a",
           marks: [],
-          text: "The Hub has been serving Haywood County since 2017, and Jason & Charlotte Johnson took it over in September 2025. It's where neighbors catch bluegrass on a Thursday and visitors find a new favorite pour, and most people leave knowing somebody they didn't walk in with.",
+          text: "The Hub has been serving Haywood County since 2017, and Jason & Charlotte Johnson took it over in September 2025. It’s where neighbors catch bluegrass on a Thursday and visitors find a new favorite pour, and most people leave knowing somebody they didn’t walk in with.",
         },
       ],
     },
@@ -64,7 +64,7 @@ export const FALLBACK_SETTINGS: SiteSettings = {
           _type: "span",
           _key: "about3a",
           marks: [],
-          text: "Swing by for a taster flight, fill a growler, or just come hang out. There's a stool with your name on it.",
+          text: "Swing by for a taster flight, fill a growler, or just come hang out. There’s a stool with your name on it.",
         },
       ],
     },
@@ -93,7 +93,7 @@ export const FALLBACK_SETTINGS: SiteSettings = {
     {
       title: "Kegs & tap rentals",
       description:
-        "Throwing a party? We sell kegs and rent out the taps and CO2 to pour them right. Call or email ahead and we'll have everything cold and ready to go.",
+        "Throwing a party? We sell kegs and rent out the taps and CO2 to pour them right. Call or email ahead and we’ll have everything cold and ready to go.",
     },
   ],
 };
@@ -114,7 +114,7 @@ export const FALLBACK_EVENTS: HubEvent[] = [
     start: "2026-09-03T12:00:00-04:00",
     category: "community",
     description:
-      "10% of the day's sales donated to Haywood Christian Ministries.",
+      "10% of the day’s sales donated to Haywood Christian Ministries.",
   },
   {
     _id: "fallback-anniversary",
@@ -220,6 +220,6 @@ export const FALLBACK_WEEKLY: WeeklyEvent[] = [
     dayOfWeek: "Thursday",
     time: "5–7 PM",
     category: "music",
-    description: "Waynesville's finest pickin', every Thursday evening.",
+    description: "Waynesville’s finest pickin’, every Thursday evening.",
   },
 ];

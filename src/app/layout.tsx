@@ -22,7 +22,7 @@ const robotoCondensed = Roboto_Condensed({
 });
 
 const description =
-  "Waynesville's community taproom & bottle shop. 16 rotating taps, coolers full of carryout, kegs & tap rentals, and something happening almost every night.";
+  "Waynesville’s community taproom & bottle shop. 16 rotating taps, coolers full of carryout, kegs & tap rentals, and something happening almost every night.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
