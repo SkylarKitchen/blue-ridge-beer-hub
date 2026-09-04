@@ -3,6 +3,11 @@ import { PortableText } from "next-sanity";
 import type { CSSProperties } from "react";
 
 import type { SiteSettings } from "@/lib/types";
+import { urlFor } from "@/sanity/image";
+
+// Pinned gallery-shoot asset; GALLERY_QUERY excludes it so it only appears here.
+const OWNERS_IMAGE =
+  "image-fc66f7f4d741bb78af4b98b31f4514f36047adc9-2048x2560-jpg";
 
 export function AboutSection({ settings }: { settings: SiteSettings }) {
   return (
@@ -39,11 +44,15 @@ export function AboutSection({ settings }: { settings: SiteSettings }) {
         >
           <div className="-rotate-2 drop-shadow-lg">
             <Image
-              src="/logo.jpg"
-              alt="Blue Ridge Beer Hub badge"
-              width={230}
-              height={230}
-              className="h-auto w-36 rounded-full md:w-[230px]"
+              src={urlFor(OWNERS_IMAGE)
+                .width(600)
+                .height(750)
+                .fit("crop")
+                .url()}
+              alt="Jason and Charlotte outside the Hub under the orange OPEN flag"
+              width={600}
+              height={750}
+              className="h-auto w-56 rounded-2xl md:w-[300px]"
             />
           </div>
         </div>

@@ -85,12 +85,8 @@ export function OpenStatus({ hours }: { hours?: DayHours[] }) {
   return (
     <a
       href="#hours"
-      className="animate-rise inline-flex items-center gap-2.5 font-condensed text-sm font-bold uppercase tracking-[0.16em] text-navy/75 transition-colors hover:text-navy"
+      className="animate-rise inline-flex items-center font-condensed text-sm font-bold uppercase tracking-[0.16em] text-navy/75 transition-colors hover:text-navy"
     >
-      <span
-        aria-hidden
-        className={`h-2 w-2 rounded-full ${status.open ? "bg-pine" : "bg-amber"}`}
-      />
       {status.label}
     </a>
   );

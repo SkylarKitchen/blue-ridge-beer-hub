@@ -24,8 +24,12 @@ export const WEEKLY_EVENTS_QUERY = defineQuery(
   }`,
 );
 
+// Excludes the shots pinned into the hero and About sections (see Hero.tsx,
+// AboutSection.tsx) so they don't double up in the grid.
 export const GALLERY_QUERY = defineQuery(
-  `*[_type == "galleryImage"] | order(order asc, _createdAt asc){
+  `*[_type == "galleryImage"
+    && !(_id in ["galleryImage-tap-handles", "galleryImage-owners-open-flag"])]
+    | order(order asc, _createdAt asc){
     _id, image, alt, caption
   }`,
 );
