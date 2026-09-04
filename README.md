@@ -20,6 +20,16 @@ serves a baked-in copy of everything so the page always renders. Content
 editing happens in the Studio at `/studio` — see [UPDATING.md](UPDATING.md)
 for the monthly routine (it's written for the shop owners, not developers).
 
+The Studio opens on a **visual editor** (Sanity's Presentation tool): the
+live site with click-to-edit overlays, previewing draft changes before they
+publish. It needs `SANITY_API_READ_TOKEN` (Viewer token) set in the
+environment; without it the Studio's structure editing and the public site
+still work, but the preview pane can't show drafts. Draft previews use
+Next.js draft mode (`/api/draft-mode/enable`, wired in `sanity.config.ts`);
+strings shown in previews carry invisible stega characters, so anything that
+parses or compares Sanity strings must `stegaClean` first (see
+`src/lib/hours.ts` for the pattern).
+
 - **Events auto-expire**: the query floors at the start of today (America/New_York),
   and the section heading computes the current month — an unmaintained calendar
   drains gracefully instead of showing stale dates.

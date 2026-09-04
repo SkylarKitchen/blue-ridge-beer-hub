@@ -2,10 +2,13 @@ import { defineLive } from "next-sanity/live";
 
 import { client } from "./client";
 
-// Live updates of published content need no token; a read token would only be
-// required for draft-mode previews, which this site doesn't use.
+// Viewer-scope token: unlocks draft-mode previews (the Studio's visual
+// editor). Without it the site still works — live updates of published
+// content need no token — so `false` keeps unconfigured environments viable.
+const token = process.env.SANITY_API_READ_TOKEN;
+
 export const { sanityFetch, SanityLive } = defineLive({
   client,
-  serverToken: false,
-  browserToken: false,
+  serverToken: token ?? false,
+  browserToken: token ?? false,
 });

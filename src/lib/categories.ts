@@ -1,3 +1,5 @@
+import { stegaClean } from "next-sanity";
+
 import type { EventCategory } from "./types";
 
 export const CATEGORY_META: Record<
@@ -12,8 +14,10 @@ export const CATEGORY_META: Record<
 };
 
 export function categoryMeta(category?: string) {
+  // stegaClean: draft-mode previews append invisible visual-editing
+  // characters, which would miss the lookup and mislabel every chip.
   return (
-    CATEGORY_META[(category ?? "music") as EventCategory] ??
+    CATEGORY_META[stegaClean(category ?? "music") as EventCategory] ??
     CATEGORY_META.community
   );
 }

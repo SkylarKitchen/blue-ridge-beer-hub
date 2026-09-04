@@ -1,3 +1,5 @@
+import { stegaClean } from "next-sanity";
+
 const TZ = "America/New_York";
 
 export function formatEventDate(iso: string): {
@@ -5,7 +7,9 @@ export function formatEventDate(iso: string): {
   monthDay: string;
   time: string;
 } {
-  const d = new Date(iso);
+  // stegaClean: draft-mode previews may append invisible visual-editing
+  // characters, and Date() rejects the string outright with them attached.
+  const d = new Date(stegaClean(iso));
   return {
     weekday: d.toLocaleDateString("en-US", { weekday: "short", timeZone: TZ }),
     monthDay: d.toLocaleDateString("en-US", {

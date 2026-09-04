@@ -1,11 +1,17 @@
+import { stegaClean } from "next-sanity";
+
 /**
  * Hours in Sanity are owner-entered strings like "12:00 PM" (see the
  * dayHours schema). These helpers parse that one format — anything they
  * can't read returns null and callers hide themselves rather than guess.
+ *
+ * Both parse fns stegaClean their input: draft-mode previews append
+ * invisible visual-editing characters that would fail the regex (and BOM
+ * counts as \s, so the whitespace collapse would leave stray spaces).
  */
 export function parseTimeToMinutes(value?: string): number | null {
   if (!value) return null;
-  const match = value
+  const match = stegaClean(value)
     .trim()
     .match(/^(\d{1,2})(?::(\d{2}))?\s*(a\.?m\.?|p\.?m\.?)?$/i);
   if (!match) return null;
@@ -20,7 +26,7 @@ export function parseTimeToMinutes(value?: string): number | null {
 
 /** "9:00 PM" → "9 PM" for chip copy. */
 export function compactTime(value: string): string {
-  return value.replace(":00", "").replace(/\s+/g, " ").trim();
+  return stegaClean(value).replace(":00", "").replace(/\s+/g, " ").trim();
 }
 
 /** Minutes since midnight → "HH:MM" (24h), the format schema.org expects. */
