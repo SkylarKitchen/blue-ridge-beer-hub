@@ -16,8 +16,6 @@ export const FALLBACK_SETTINGS: SiteSettings = {
   untappdUrl: "https://untappd.com/v/blue-ridge-beer-hub/6732717",
   instagramUrl: "https://www.instagram.com/brbeerhub/",
   facebookUrl: "https://www.facebook.com/brbeerhub",
-  announcement:
-    "🎉 One-year anniversary party this Friday, Sept 4: $1 off full pours, Chris Campbell live 5 to 7 PM",
   onTapBlurb:
     "Sixteen taps that change almost daily: stouts, sours, IPAs, and the occasional white whale. The full list lives on Untappd.",
   tapCount: 16,
