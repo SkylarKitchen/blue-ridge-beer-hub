@@ -8,10 +8,17 @@ export const maxDuration = 30;
 function page(title: string, body: string): Response {
   return new Response(
     `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>${title}</title></head>
-<body style="font-family:system-ui,sans-serif;background:#faf6ec;color:#1d3557;max-width:480px;margin:48px auto;padding:0 16px">
+<body style="font-family:system-ui,sans-serif;background:#faf7ef;color:#1b3560;max-width:480px;margin:48px auto;padding:0 16px">
 ${body}
 </body></html>`,
     { headers: { "Content-Type": "text/html; charset=utf-8" } },
+  );
+}
+
+function misconfiguredPage(): Response {
+  return new Response(
+    "Publishing links are not configured on this deployment (PIPELINE_SECRET is unset).",
+    { status: 500, headers: { "Content-Type": "text/plain; charset=utf-8" } },
   );
 }
 
@@ -26,8 +33,10 @@ function expiredPage(): Response {
 }
 
 export async function GET(request: Request) {
+  const secret = process.env.PIPELINE_SECRET;
+  if (!secret) return misconfiguredPage();
   const token = new URL(request.url).searchParams.get("token") ?? "";
-  const payload = verifyApprovalToken(token, process.env.PIPELINE_SECRET!);
+  const payload = verifyApprovalToken(token, secret);
   if (!payload) return expiredPage();
 
   const drafts = await writeClient.fetch<{ title: string; start: string }[]>(
@@ -63,7 +72,7 @@ export async function GET(request: Request) {
      <ul style="padding-left:20px">${rows}</ul>
      <form method="POST">
        <input type="hidden" name="token" value="${token.replace(/"/g, "&quot;")}">
-       <button type="submit" style="background:#1d3557;color:#fff;border:0;padding:12px 24px;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer">
+       <button type="submit" style="background:#1b3560;color:#fff;border:0;padding:12px 24px;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer">
          Yes, publish
        </button>
      </form>
@@ -73,9 +82,11 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  const secret = process.env.PIPELINE_SECRET;
+  if (!secret) return misconfiguredPage();
   const form = await request.formData();
   const token = String(form.get("token") ?? "");
-  const payload = verifyApprovalToken(token, process.env.PIPELINE_SECRET!);
+  const payload = verifyApprovalToken(token, secret);
   if (!payload) return expiredPage();
 
   const count = await publishDrafts(payload.draftIds);

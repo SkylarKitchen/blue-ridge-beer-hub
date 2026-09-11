@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
+import { STEGA } from "./__fixtures__/stega.ts";
 import { categoryMeta } from "./categories.ts";
 import { formatEventDate } from "./format.ts";
 import { compactTime, parseTimeToMinutes } from "./hours.ts";
@@ -12,21 +13,6 @@ import { localBusinessJsonLd } from "./jsonld.ts";
 // text back to its field. Anything that parses or compares those strings
 // must strip the encoding first. This suffix is real output from
 // @vercel/stega's encoder (the same one @sanity/client uses).
-const STEGA =
-  "\u200b\u200b\u200b\u200b\u200c\ufeff\u200d\ufeff\u200b\u200d" +
-  "\u200b\u200d\u200c\u200d\ufeff\ufeff\u200c\ufeff\u200b\u200d" +
-  "\u200c\u200d\u200d\u200c\u200c\u200d\u200c\ufeff\u200c\u200d" +
-  "\u200d\u200c\u200c\u200d\ufeff\u200d\u200b\u200d\u200b\u200d" +
-  "\u200b\ufeff\u200d\u200d\u200b\u200d\u200b\u200d\u200c\ufeff" +
-  "\u200b\ufeff\u200c\u200d\u200b\u200c\u200c\u200d\ufeff\u200d" +
-  "\u200c\u200d\u200d\u200c\u200c\ufeff\u200c\u200b\u200c\ufeff" +
-  "\u200d\u200c\u200b\u200d\ufeff\u200d\u200c\u200d\u200d\u200c" +
-  "\u200c\u200d\ufeff\ufeff\u200b\u200d\u200b\u200d\u200b\u200d" +
-  "\ufeff\u200b\u200b\u200d\u200b\u200d\u200c\u200d\u200d\u200b" +
-  "\u200c\ufeff\u200b\u200d\u200c\u200d\u200c\u200c\u200c\u200d" +
-  "\u200c\u200d\u200b\u200d\u200b\u200d\u200b\ufeff\u200d\u200d" +
-  "\u200b\u200d\u200b\u200d\u200b\u200d\ufeff\ufeff\u200c\ufeff" +
-  "\u200d\u200b\u200b\u200d\u200b\u200d\u200c\ufeff\ufeff\u200c";
 
 // The four invisible code points @vercel/stega encodes with. Asserting they
 // are absent from a whole payload is stronger than comparing field by field:

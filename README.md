@@ -44,7 +44,12 @@ parses or compares Sanity strings must `stegaClean` first (see
 
 - **Events auto-expire**: the query floors at the start of today (America/New_York),
   and the section heading computes the current month — an unmaintained calendar
-  drains gracefully instead of showing stale dates.
+  drains gracefully instead of showing stale dates. Sanity Live only re-renders
+  on content changes, so the page also sets `revalidate = 3600`; without it a
+  quiet week would keep last Saturday's show on the page.
+- **Two photos are pinned by asset ID** (hero tap handles, owners in About) as
+  defaults; owners can override either from Site Settings → Top of Page /
+  About without touching code.
 - **Tap list is Untappd's job** — the site links out rather than maintaining one.
 - `seed/seed.ndjson` holds the original September 2026 import
   (`npx sanity dataset import seed/seed.ndjson production`).
@@ -100,6 +105,7 @@ Geist for body. The badge logo is `public/logo.jpg` (also `src/app/icon.jpg`).
 
 ## Deploy
 
-Vercel project `blue-ridge-beer-hub` (public repo, Hobby plan). Set
-`NEXT_PUBLIC_SITE_URL` when the custom domain lands — metadata, sitemap,
-robots, and JSON-LD all read it from `src/lib/site.ts`.
+Vercel project `blue-ridge-beer-hub` (public repo, Hobby plan). The canonical
+origin is `https://www.brbeerhub.com` (`src/lib/site.ts`); metadata, sitemap,
+robots, JSON-LD, and pipeline emails all read it. Set `NEXT_PUBLIC_SITE_URL`
+only to override it on preview deployments.

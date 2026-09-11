@@ -10,12 +10,16 @@ import { Editable } from "./Editable";
 import { MixedHeading } from "./MixedHeading";
 import { OpenStatus } from "./OpenStatus";
 
-// Pinned gallery-shoot asset; GALLERY_QUERY excludes it so it only appears here.
+// Default when Site Settings has no "Top-of-page photo": a pinned
+// gallery-shoot asset that GALLERY_QUERY excludes so it doesn't double up.
 const TAP_HANDLES_IMAGE =
   "image-600687a3a1747959048b8eb3b14f917ad2e3073b-2560x1707-jpg";
+const TAP_HANDLES_ALT =
+  "Numbered tap handles branded with the Blue Ridge Beer Hub hop logo";
 
 export function Hero({ settings }: { settings: SiteSettings }) {
   const heading = settings.heroHeading ?? DEFAULT_COPY.heroHeading;
+  const photo = settings.heroImage?.asset ? settings.heroImage : null;
   return (
     <section
       id="top"
@@ -23,12 +27,12 @@ export function Hero({ settings }: { settings: SiteSettings }) {
     >
       <div className="animate-rise relative mb-10 h-44 overflow-hidden rounded-2xl sm:mb-12 sm:h-[clamp(200px,26vh,320px)]">
         <Image
-          src={urlFor(TAP_HANDLES_IMAGE)
+          src={urlFor(photo ?? TAP_HANDLES_IMAGE)
             .width(1840)
             .height(900)
             .fit("crop")
             .url()}
-          alt="Numbered tap handles branded with the Blue Ridge Beer Hub hop logo"
+          alt={photo?.alt ?? (photo ? "" : TAP_HANDLES_ALT)}
           fill
           preload
           sizes="(min-width: 1152px) 1072px, 100vw"

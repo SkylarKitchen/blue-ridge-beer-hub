@@ -33,6 +33,16 @@ export async function GET(request: Request) {
   }
 
   try {
+    const missing = [
+      "FB_PAGE_ID",
+      "FB_PAGE_TOKEN",
+      "PIPELINE_SECRET",
+      "SANITY_API_WRITE_TOKEN",
+    ].filter((name) => !process.env[name]);
+    if (missing.length > 0) {
+      throw new Error(`Pipeline env not configured: ${missing.join(", ")}`);
+    }
+
     const state = await getPipelineState();
     const posts = await fetchNewPosts({
       pageId: process.env.FB_PAGE_ID!,
