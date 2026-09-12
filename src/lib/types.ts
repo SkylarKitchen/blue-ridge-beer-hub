@@ -15,7 +15,8 @@ export interface Offering {
 }
 
 export interface SanityImageRef {
-  asset?: { _ref: string };
+  _type?: "image";
+  asset?: { _type?: "reference"; _ref: string };
   alt?: string;
   hotspot?: { x: number; y: number; height?: number; width?: number };
   crop?: { top: number; bottom: number; left: number; right: number };
