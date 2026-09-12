@@ -19,6 +19,7 @@ import {
   type ReactNode,
 } from "react";
 
+import type { EditScope } from "@/lib/edit-scope";
 import {
   decodeEditTarget,
   normalizeEditedText,
@@ -81,6 +82,14 @@ export interface EditableFieldProps {
   path?: string;
   documentId?: string;
   documentType?: string;
+  /**
+   * Block-aware alternative to `path`/`documentId`/`documentType`: the
+   * scope knows which document the block lives in and how to spell the
+   * field's full path. `field` is the block-relative name, e.g. "heading"
+   * or "perks[2]".
+   */
+  scope?: EditScope;
+  field?: string;
   /** Keep newlines — the hero headline breaks across three lines. */
   multiline?: boolean;
   className?: string;
@@ -112,18 +121,26 @@ export function EditableField({
   path,
   documentId = SITE_SETTINGS_ID,
   documentType = "siteSettings",
+  scope,
+  field,
   multiline = false,
   className,
   label,
 }: EditableFieldProps) {
-  const target = useMemo(
-    () =>
-      decodeEditTarget(value) ??
-      (path
-        ? { id: getPublishedId(documentId), type: documentType, path }
-        : null),
-    [value, path, documentId, documentType],
-  );
+  const target = useMemo(() => {
+    const decoded = decodeEditTarget(value);
+    if (decoded) return decoded;
+    if (scope && field) {
+      return {
+        id: getPublishedId(scope.documentId),
+        type: scope.documentType,
+        path: scope.field(field),
+      };
+    }
+    return path
+      ? { id: getPublishedId(documentId), type: documentType, path }
+      : null;
+  }, [value, scope, field, path, documentId, documentType]);
   const clean = stegaClean(value ?? "");
 
   const live = useSanityOptimistic<string, SanityDocument>(

@@ -4,8 +4,10 @@ import { test } from "node:test";
 import { createEditUrl } from "@sanity/client/csm";
 import { vercelStegaCombine } from "@vercel/stega";
 
+import { blockScope } from "./edit-scope.ts";
 import {
   decodeEditTarget,
+  editAttribute,
   normalizeEditedText,
   valueAtPath,
 } from "./editable.ts";
@@ -99,4 +101,15 @@ test("normalizeEditedText flattens newlines only for single-line fields", () => 
   assert.equal(normalizeEditedText("Come\nsay hi", false), "Come say hi");
   assert.equal(normalizeEditedText("Come\nsay hi", true), "Come\nsay hi");
   assert.equal(normalizeEditedText("beer hub\n", true), "beer hub");
+});
+
+test("editAttribute points the overlay at a keyed block field", () => {
+  const attr = editAttribute(blockScope("k1"), "tapCount");
+  assert.match(attr, /id=homePage/);
+  assert.match(attr, /type=homePage/);
+  // createDataAttribute spells a keyed segment as `sections:k1`.
+  assert.equal(
+    attr,
+    "id=homePage;type=homePage;path=sections:k1.tapCount;base=%2F",
+  );
 });
