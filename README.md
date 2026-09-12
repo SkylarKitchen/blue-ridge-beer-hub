@@ -19,6 +19,8 @@ events, gallery). If Sanity is unreachable or empty, `src/lib/fallback.ts`
 serves a baked-in copy of everything so the page always renders. Content
 editing happens in the Studio at `/studio` — see [UPDATING.md](UPDATING.md)
 for the monthly routine (it's written for the shop owners, not developers).
+The live site serves that same file at `/guide`, so the owners get one link
+rather than a file.
 
 The Studio opens on a **visual editor** (Sanity's Presentation tool): the
 live site with the text editable in place, previewing draft changes before
