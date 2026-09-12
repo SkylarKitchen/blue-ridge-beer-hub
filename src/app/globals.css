@@ -134,3 +134,353 @@ html[data-reveals] [data-reveal-group]:not([data-inview]) > * {
     transform: none;
   }
 }
+
+/* ---------- Owners' guide (/guide) ---------- */
+
+/* UPDATING.md rendered through marked, so these target the plain HTML it
+   emits rather than utility classes. Preflight zeroes list styles and
+   margins, so each is restored here. */
+.guide-prose {
+  font-size: 1.0625rem;
+  line-height: 1.65;
+}
+
+.guide-prose h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 7vw, 4rem);
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--color-navy);
+}
+
+/* The intro paragraph reads as a lede. */
+.guide-prose h1 + p {
+  margin-top: 1.25rem;
+  font-size: 1.1875rem;
+  line-height: 1.55;
+}
+
+.guide-prose h2 {
+  margin-top: 3.5rem;
+  padding-top: 1.25rem;
+  border-top: 2px solid var(--color-amber);
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--color-navy);
+  /* Anchor jumps land below the sticky header. */
+  scroll-margin-top: 5rem;
+}
+
+.guide-prose h3 {
+  margin-top: 2.25rem;
+  font-family: var(--font-condensed);
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-navy);
+  scroll-margin-top: 5rem;
+}
+
+.guide-prose p,
+.guide-prose ul,
+.guide-prose ol {
+  margin-top: 1rem;
+}
+
+.guide-prose h2 + p,
+.guide-prose h2 + ul,
+.guide-prose h2 + ol,
+.guide-prose h3 + p,
+.guide-prose h3 + ul,
+.guide-prose h3 + ol {
+  margin-top: 0.875rem;
+}
+
+.guide-prose ul {
+  padding-left: 1.5rem;
+  list-style: disc;
+}
+
+.guide-prose li {
+  margin-top: 0.5rem;
+  padding-left: 0.25rem;
+}
+
+.guide-prose ul > li::marker {
+  color: var(--color-amber);
+  font-weight: 700;
+}
+
+.guide-prose li > p {
+  margin-top: 0.35rem;
+}
+
+.guide-prose li > p:first-child {
+  margin-top: 0;
+}
+
+/* Numbered steps: a navy badge per step. The renderer sets the counter's
+   start so a list that resumes after a screenshot keeps counting. */
+.guide-prose ol.guide-steps {
+  padding-left: 0;
+  list-style: none;
+}
+
+.guide-prose ol.guide-steps > li {
+  position: relative;
+  margin-top: 0.85rem;
+  padding-left: 2.9rem;
+  counter-increment: step;
+}
+
+.guide-prose ol.guide-steps > li::before {
+  content: counter(step);
+  position: absolute;
+  top: 0.05em;
+  left: 0;
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border-radius: 9999px;
+  background-color: var(--color-navy);
+  color: var(--color-cream);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.guide-prose strong {
+  font-weight: 700;
+  color: var(--color-navy);
+}
+
+.guide-prose code {
+  padding: 0.1em 0.4em;
+  border-radius: 0.375rem;
+  background-color: var(--color-cream-deep);
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.9em;
+  color: var(--color-navy);
+}
+
+.guide-prose kbd {
+  padding: 0.1em 0.45em;
+  border: 1px solid color-mix(in srgb, var(--color-navy) 25%, transparent);
+  border-bottom-width: 2px;
+  border-radius: 0.375rem;
+  background-color: var(--color-paper);
+  font-family: var(--font-sans);
+  font-size: 0.85em;
+  font-weight: 600;
+  color: var(--color-navy);
+}
+
+.guide-prose a {
+  font-weight: 600;
+  color: var(--color-navy);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--color-amber) 50%, transparent);
+  text-underline-offset: 4px;
+  transition: color 150ms ease;
+}
+
+.guide-prose a:hover {
+  color: var(--color-amber);
+}
+
+/* ---------- Guide: figures ---------- */
+
+.guide-figure {
+  margin: 1.5rem 0 0;
+}
+
+.guide-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid color-mix(in srgb, var(--color-navy) 14%, transparent);
+  border-radius: 0.75rem;
+  background-color: var(--color-paper);
+  box-shadow: 0 1px 2px rgb(27 53 96 / 0.06), 0 8px 24px -12px rgb(27 53 96 / 0.25);
+}
+
+.guide-figure figcaption {
+  margin-top: 0.65rem;
+  padding-left: 0.85rem;
+  border-left: 3px solid var(--color-amber);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--color-ink) 78%, transparent);
+}
+
+/* ---------- Guide: task cards ---------- */
+
+.guide-prose ul.guide-tasks {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+  padding-left: 0;
+  list-style: none;
+}
+
+.guide-prose ul.guide-tasks > li {
+  margin: 0;
+  padding: 0;
+}
+
+.guide-prose ul.guide-tasks a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: 3.5rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--color-navy) 15%, transparent);
+  border-radius: 0.75rem;
+  background-color: var(--color-paper);
+  font-size: 1rem;
+  line-height: 1.3;
+  text-decoration: none;
+  transition: border-color 150ms ease, transform 150ms var(--ease-out-strong), box-shadow 150ms ease;
+}
+
+.guide-prose ul.guide-tasks a::after {
+  content: "→";
+  flex: none;
+  color: var(--color-amber);
+  transition: transform 150ms var(--ease-out-strong);
+}
+
+.guide-prose ul.guide-tasks a:hover {
+  border-color: var(--color-amber);
+  box-shadow: 0 6px 16px -10px rgb(27 53 96 / 0.35);
+  transform: translateY(-1px);
+  color: var(--color-navy);
+}
+
+.guide-prose ul.guide-tasks a:hover::after {
+  transform: translateX(3px);
+}
+
+/* ---------- Guide: callouts ---------- */
+
+.guide-callout {
+  margin-top: 1.25rem;
+  padding: 0.9rem 1.15rem 1rem;
+  border-left: 4px solid var(--color-amber);
+  border-radius: 0 0.75rem 0.75rem 0;
+  background-color: color-mix(in srgb, var(--color-butter) 55%, transparent);
+}
+
+.guide-callout__label {
+  display: block;
+  font-family: var(--font-condensed);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-amber);
+}
+
+.guide-callout > p {
+  margin-top: 0.35rem;
+}
+
+.guide-callout.is-note {
+  border-left-color: var(--color-navy);
+  background-color: color-mix(in srgb, var(--color-mist) 60%, transparent);
+}
+
+.guide-callout.is-note .guide-callout__label {
+  color: var(--color-navy);
+}
+
+.guide-callout.is-tip {
+  border-left-color: var(--color-pine);
+  background-color: color-mix(in srgb, var(--color-mint) 60%, transparent);
+}
+
+.guide-callout.is-tip .guide-callout__label {
+  color: var(--color-pine);
+}
+
+/* ---------- Guide: "On this page" ---------- */
+
+.guide-toc__title,
+.guide-toc--mobile > summary {
+  font-family: var(--font-condensed);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-ink) 60%, transparent);
+}
+
+.guide-toc__list {
+  margin-top: 0.75rem;
+  border-left: 1px solid color-mix(in srgb, var(--color-navy) 15%, transparent);
+}
+
+.guide-toc__list a {
+  display: block;
+  margin-left: -1px;
+  padding: 0.3rem 0 0.3rem 0.85rem;
+  border-left: 2px solid transparent;
+  font-size: 0.9rem;
+  line-height: 1.3;
+  color: color-mix(in srgb, var(--color-ink) 75%, transparent);
+  transition: color 150ms ease, border-color 150ms ease;
+}
+
+.guide-toc__list a:hover {
+  color: var(--color-navy);
+}
+
+.guide-toc__list a[aria-current="location"] {
+  border-left-color: var(--color-amber);
+  font-weight: 600;
+  color: var(--color-navy);
+}
+
+.guide-toc--mobile {
+  margin-bottom: 1.5rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--color-navy) 15%, transparent);
+  border-radius: 0.75rem;
+  background-color: var(--color-paper);
+}
+
+.guide-toc--mobile > summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+.guide-toc--mobile > summary::-webkit-details-marker {
+  display: none;
+}
+
+.guide-toc--mobile > summary::after {
+  content: "＋";
+  float: right;
+  color: var(--color-amber);
+}
+
+.guide-toc--mobile[open] > summary::after {
+  content: "－";
+}
+
+.guide-toc--mobile .guide-toc__list {
+  margin-top: 0.5rem;
+  border-left: 0;
+}
+
+.guide-toc--mobile .guide-toc__list a {
+  padding-left: 0;
+  border-left: 0;
+}

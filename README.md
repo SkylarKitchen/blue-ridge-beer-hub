@@ -19,6 +19,18 @@ events, gallery). If Sanity is unreachable or empty, `src/lib/fallback.ts`
 serves a baked-in copy of everything so the page always renders. Content
 editing happens in the Studio at `/studio` — see [UPDATING.md](UPDATING.md)
 for the monthly routine (it's written for the shop owners, not developers).
+The live site serves that same file at `/guide`, so the owners get one link
+rather than a file. The page (`src/app/guide/page.tsx`) renders the markdown
+with a few extras — screenshots become captioned figures, `**Tip:**` /
+`**Heads up:**` / `**Note:**` blockquotes become callouts, a list of links
+becomes task cards, and `##` headings feed an "On this page" sidebar — while
+the file stays readable on GitHub as-is. The screenshots live in
+`public/guide/` and are cut from raw Studio captures by
+`scripts/guide-figures.mjs`, which also draws the numbered callouts and
+writes `src/app/guide/figures.json` (image sizes, so the page reserves the
+space before images load). After a Studio change, re-capture at a 1384×853
+viewport on a 2x display and re-run the script; the callout coordinates are
+all in that file.
 
 The Studio opens on a **visual editor** (Sanity's Presentation tool): the
 live site with the text editable in place, previewing draft changes before

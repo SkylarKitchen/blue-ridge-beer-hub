@@ -1,4 +1,6 @@
-import { minutesTo24h, parseTimeToMinutes } from "./hours";
+import { stegaClean } from "next-sanity";
+
+import { minutesTo24h, parseTimeToMinutes } from "./hours.ts";
 import type { SiteSettings } from "./types";
 
 /**
@@ -32,7 +34,11 @@ export function localBusinessJsonLd(settings: SiteSettings, siteUrl: string) {
     settings.facebookUrl,
   ].filter(Boolean);
 
-  return {
+  // Nothing inside a <script> tag is clickable in the visual editor, so
+  // there’s no stega worth preserving — it would just be invisible bloat
+  // corrupting the structured data Google reads. Cleaning the whole payload
+  // at the boundary also covers any field added here later.
+  return stegaClean({
     "@context": "https://schema.org",
     "@type": "BarOrPub",
     name: settings.name ?? "Blue Ridge Beer Hub",
@@ -51,5 +57,5 @@ export function localBusinessJsonLd(settings: SiteSettings, siteUrl: string) {
     },
     ...(openingHoursSpecification.length > 0 && { openingHoursSpecification }),
     ...(sameAs.length > 0 && { sameAs }),
-  };
+  });
 }
