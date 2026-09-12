@@ -19,8 +19,6 @@ export const FALLBACK_SETTINGS: SiteSettings = {
   untappdUrl: "https://untappd.com/v/blue-ridge-beer-hub/6732717",
   instagramUrl: "https://www.instagram.com/brbeerhub/",
   facebookUrl: "https://www.facebook.com/brbeerhub",
-  announcement:
-    "🎉 One-year anniversary party this Friday, Sept 4: $1 off full pours, Chris Campbell live 5 to 7 PM",
   tapCount: 16,
   heroSubheading:
     "Sixteen rotating taps and coolers full of carryout on East Street in downtown Waynesville. Most nights there’s something going on, live music more often than not.",
