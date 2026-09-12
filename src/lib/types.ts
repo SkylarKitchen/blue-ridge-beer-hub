@@ -1,6 +1,7 @@
 import type { PortableTextBlock } from "next-sanity";
 
 export interface DayHours {
+  _key?: string;
   day: string;
   opens?: string;
   closes?: string;
@@ -8,6 +9,7 @@ export interface DayHours {
 }
 
 export interface Offering {
+  _key?: string;
   title: string;
   description: string;
 }
@@ -29,15 +31,34 @@ export interface SiteSettings {
   instagramUrl?: string;
   facebookUrl?: string;
   announcement?: string;
-  onTapBlurb?: string;
-  tapCount?: number;
   hours?: DayHours[];
   heroHeading?: string;
   heroSubheading?: string;
+  heroPrimaryCta?: string;
+  heroSecondaryCta?: string;
+  eventsHeading?: string;
+  weeklyHeading?: string;
+  onTapHeading?: string;
+  onTapBlurb?: string;
+  onTapSecondary?: string;
+  onTapCta?: string;
+  tapCount?: number;
+  tapCountLabel?: string;
+  tapCountFootnote?: string;
+  tapPerks?: string[];
+  offeringsHeading?: string;
+  offerings?: Offering[];
+  galleryHeading?: string;
   aboutHeading?: string;
   aboutBody?: PortableTextBlock[];
   credentials?: string[];
-  offerings?: Offering[];
+  footerHeading?: string;
+  footerHoursLabel?: string;
+  footerFindUsLabel?: string;
+  footerFollowLabel?: string;
+  footerDirectionsCta?: string;
+  footerVisitLine?: string;
+  footerLegal?: string;
   pipelineEmails?: string[];
 }
 

@@ -2,8 +2,12 @@ import Image from "next/image";
 import { PortableText } from "next-sanity";
 import type { CSSProperties } from "react";
 
+import { DEFAULT_COPY } from "@/lib/copy";
+import { simpleBlockText } from "@/lib/editable";
 import type { SiteSettings } from "@/lib/types";
 import { urlFor } from "@/sanity/image";
+
+import { Editable } from "./Editable";
 
 // Pinned gallery-shoot asset; GALLERY_QUERY excludes it so it only appears here.
 const OWNERS_IMAGE =
@@ -18,21 +22,41 @@ export function AboutSection({ settings }: { settings: SiteSettings }) {
       >
         <div>
           <h2 className="font-display text-5xl uppercase text-navy sm:text-6xl">
-            {settings.aboutHeading ?? "About the Hub"}
+            <Editable
+              value={settings.aboutHeading ?? DEFAULT_COPY.aboutHeading}
+              path="aboutHeading"
+              label="About heading"
+            />
           </h2>
           {settings.aboutBody ? (
             <div className="prose-p:leading-relaxed mt-6 max-w-2xl space-y-4 text-lg text-ink/85">
-              <PortableText value={settings.aboutBody} />
+              {settings.aboutBody.map((block, i) => {
+                // Plain paragraphs get typed on the page; anything carrying
+                // formatting keeps the real serializer.
+                const text = simpleBlockText(block);
+                const key = block._key ?? `block-${i}`;
+                return text === null ? (
+                  <PortableText key={key} value={[block]} />
+                ) : (
+                  <p key={key}>
+                    <Editable value={text} label="About paragraph" multiline />
+                  </p>
+                );
+              })}
             </div>
           ) : null}
           {settings.credentials?.length ? (
             <ul className="mt-7 flex flex-wrap gap-2.5">
-              {settings.credentials.map((credential) => (
+              {settings.credentials.map((credential, i) => (
                 <li
-                  key={credential}
+                  key={i}
                   className="rounded-full border border-amber/40 bg-butter px-4 py-1.5 text-sm font-semibold text-navy-deep"
                 >
-                  {credential}
+                  <Editable
+                    value={credential}
+                    path={`credentials[${i}]`}
+                    label={`Trust badge ${i + 1}`}
+                  />
                 </li>
               ))}
             </ul>

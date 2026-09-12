@@ -1,3 +1,4 @@
+import { DEFAULT_COPY } from "./copy";
 import type { HubEvent, SiteSettings, WeeklyEvent } from "./types";
 
 /**
@@ -7,6 +8,8 @@ import type { HubEvent, SiteSettings, WeeklyEvent } from "./types";
  * source of truth, edits happen there; keep this file as the emergency copy.
  */
 export const FALLBACK_SETTINGS: SiteSettings = {
+  ...DEFAULT_COPY,
+  tapPerks: [...DEFAULT_COPY.tapPerks],
   name: "Blue Ridge Beer Hub",
   tagline: "Waynesville’s community taproom & bottle shop",
   addressLine1: "21 East St",
@@ -18,13 +21,9 @@ export const FALLBACK_SETTINGS: SiteSettings = {
   facebookUrl: "https://www.facebook.com/brbeerhub",
   announcement:
     "🎉 One-year anniversary party this Friday, Sept 4: $1 off full pours, Chris Campbell live 5 to 7 PM",
-  onTapBlurb:
-    "Sixteen taps that change almost daily: stouts, sours, IPAs, and the occasional white whale. The full list lives on Untappd.",
   tapCount: 16,
-  heroHeading: "Your friendly\nneighborhood\nbeer hub",
   heroSubheading:
     "Sixteen rotating taps and coolers full of carryout on East Street in downtown Waynesville. Most nights there’s something going on, live music more often than not.",
-  aboutHeading: "About the Hub",
   aboutBody: [
     {
       _type: "block",

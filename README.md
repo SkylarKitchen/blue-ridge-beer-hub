@@ -21,8 +21,8 @@ editing happens in the Studio at `/studio` — see [UPDATING.md](UPDATING.md)
 for the monthly routine (it's written for the shop owners, not developers).
 
 The Studio opens on a **visual editor** (Sanity's Presentation tool): the
-live site with click-to-edit overlays, previewing draft changes before they
-publish. It needs `SANITY_API_READ_TOKEN` (Viewer token) set in the
+live site with the text editable in place, previewing draft changes before
+they publish. It needs `SANITY_API_READ_TOKEN` (Viewer token) set in the
 environment; without it the Studio's structure editing and the public site
 still work, but the preview pane can't show drafts. Draft previews use
 Next.js draft mode (`/api/draft-mode/enable`, wired in `sanity.config.ts`);
@@ -36,6 +36,36 @@ parses or compares Sanity strings must `stegaClean` first (see
 - **Tap list is Untappd's job** — the site links out rather than maintaining one.
 - `seed/seed.ndjson` holds the original September 2026 import
   (`npx sanity dataset import seed/seed.ndjson production`).
+
+### Editing on the page
+
+Copy is wrapped in `<Editable>` (`src/components/Editable.tsx`), which reads
+`draftMode()` and renders plain text on the live site — visitors get the same
+markup and none of the editing JavaScript. Inside a preview it renders
+`EditableField`, a `contentEditable` span that:
+
+- reads through `useOptimistic` from `@sanity/visual-editing/react`, so a
+  change made in the Studio form shows up with no server round trip, and
+- writes through `useDocuments().patch`, committing on a 700ms debounce.
+
+The write target comes from the stega payload already on the string — no
+document ids to thread through — decoded by `src/lib/editable.ts`. Pass
+`path` as well for copy the owners have never touched: a field that's still
+empty has no stega, and would otherwise be the one thing unreachable from the
+page. Two consequences worth knowing:
+
+- The text inside an editable span is `stegaClean`ed, or typing would write
+  the invisible characters back into the document. That also hides it from
+  the click-to-edit overlay (intentional — an intercepted click can't place a
+  caret), which is why `EditableField` registers its document for optimistic
+  updates by hand rather than relying on the overlay's own scan.
+- Values that aren't strings carry no stega at all. The tap count uses a
+  `data-sanity` attribute (`siteSettingsField`) so the overlay can still open
+  it in the Studio pane.
+
+About paragraphs are Portable Text; `simpleBlockText` only makes a block
+editable when it's a single unformatted run, so a paragraph carrying a link
+or bold text keeps the real serializer rather than risking a flatten.
 
 ### The flyer pipeline
 

@@ -3,11 +3,17 @@ import { defineQuery } from "next-sanity";
 export const SITE_SETTINGS_QUERY = defineQuery(
   `*[_type == "siteSettings"][0]{
     name, tagline, addressLine1, addressLine2, phone, email,
-    untappdUrl, instagramUrl, facebookUrl, announcement, onTapBlurb, tapCount,
-    hours[]{day, opens, closes, closed},
-    heroHeading, heroSubheading,
+    untappdUrl, instagramUrl, facebookUrl, announcement,
+    hours[]{_key, day, opens, closes, closed},
+    heroHeading, heroSubheading, heroPrimaryCta, heroSecondaryCta,
+    eventsHeading, weeklyHeading,
+    onTapHeading, onTapBlurb, onTapSecondary, onTapCta,
+    tapCount, tapCountLabel, tapCountFootnote, tapPerks,
+    offeringsHeading, offerings[]{_key, title, description},
+    galleryHeading,
     aboutHeading, aboutBody, credentials,
-    offerings[]{title, description}
+    footerHeading, footerHoursLabel, footerFindUsLabel, footerFollowLabel,
+    footerDirectionsCta, footerVisitLine, footerLegal
   }`,
 );
 
