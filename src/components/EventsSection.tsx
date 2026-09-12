@@ -1,10 +1,12 @@
 import type { CSSProperties } from "react";
 
 import { categoryMeta } from "@/lib/categories";
+import { DEFAULT_COPY } from "@/lib/copy";
 import { formatTimeRange } from "@/lib/format";
 import type { HubEvent, WeeklyEvent } from "@/lib/types";
 
 import { AddToCalendar } from "./AddToCalendar";
+import { Editable } from "./Editable";
 
 const TZ = "America/New_York";
 const DAY_ORDER = [
@@ -69,10 +71,22 @@ function EventRow({
               rel="noopener noreferrer"
               className="underline decoration-amber-bright/50 underline-offset-4 hover:decoration-amber-bright"
             >
-              {event.title}
+              <Editable
+                value={event.title}
+                documentId={event._id}
+                documentType="event"
+                path="title"
+                label="Event title"
+              />
             </a>
           ) : (
-            event.title
+            <Editable
+              value={event.title}
+              documentId={event._id}
+              documentType="event"
+              path="title"
+              label="Event title"
+            />
           )}
         </span>
       </div>
@@ -89,7 +103,14 @@ function EventRow({
       </div>
       {event.description ? (
         <p className="font-condensed mt-1 max-w-xl text-sm leading-snug text-cream/60">
-          {event.description}
+          <Editable
+            value={event.description}
+            documentId={event._id}
+            documentType="event"
+            path="description"
+            label="Event description"
+            multiline
+          />
         </p>
       ) : null}
     </li>
@@ -107,11 +128,15 @@ export function EventsSection({
   weeklyEvents,
   instagramUrl,
   location,
+  heading,
+  weeklyHeading,
 }: {
   events: HubEvent[];
   weeklyEvents: WeeklyEvent[];
   instagramUrl?: string;
   location: string;
+  heading?: string;
+  weeklyHeading?: string;
 }) {
   const sortedWeekly = [...weeklyEvents].sort(
     (a, b) => DAY_ORDER.indexOf(a.dayOfWeek) - DAY_ORDER.indexOf(b.dayOfWeek),
@@ -140,7 +165,11 @@ export function EventsSection({
           data-reveal
           className="font-display text-5xl uppercase text-cream sm:text-6xl"
         >
-          Coming up at the Hub
+          <Editable
+            value={heading ?? DEFAULT_COPY.eventsHeading}
+            path="eventsHeading"
+            label="Events heading"
+          />
         </h2>
 
         {groups.length === 0 ? (
@@ -207,7 +236,11 @@ export function EventsSection({
               data-reveal
               className="font-display text-2xl uppercase text-cream"
             >
-              Every week
+              <Editable
+                value={weeklyHeading ?? DEFAULT_COPY.weeklyHeading}
+                path="weeklyHeading"
+                label="Weekly events heading"
+              />
             </h3>
             <ul data-reveal-group className="mt-2 md:max-w-xl">
               {sortedWeekly.map((weekly, i) => (
@@ -223,7 +256,15 @@ export function EventsSection({
                       Every {weekly.dayOfWeek}
                     </span>
                     <span className="mx-2 text-cream/40">•</span>
-                    <span className="text-cream">{weekly.title}</span>
+                    <span className="text-cream">
+                      <Editable
+                        value={weekly.title}
+                        documentId={weekly._id}
+                        documentType="weeklyEvent"
+                        path="title"
+                        label="Weekly event title"
+                      />
+                    </span>
                   </div>
                   <div className="mt-1.5 flex flex-wrap items-center gap-2">
                     <span
@@ -232,7 +273,13 @@ export function EventsSection({
                       {categoryMeta(weekly.category).label}
                     </span>
                     <span className="font-condensed text-sm text-cream/75">
-                      {weekly.time}
+                      <Editable
+                        value={weekly.time}
+                        documentId={weekly._id}
+                        documentType="weeklyEvent"
+                        path="time"
+                        label="Weekly event time"
+                      />
                     </span>
                   </div>
                 </li>

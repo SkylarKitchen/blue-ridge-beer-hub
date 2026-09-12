@@ -1,10 +1,19 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
 
+import { DEFAULT_COPY } from "@/lib/copy";
 import type { GalleryImage } from "@/lib/types";
 import { urlFor } from "@/sanity/image";
 
-export function GallerySection({ images }: { images: GalleryImage[] }) {
+import { Editable } from "./Editable";
+
+export function GallerySection({
+  images,
+  heading,
+}: {
+  images: GalleryImage[];
+  heading?: string;
+}) {
   if (images.length === 0) return null;
   return (
     <section className="mx-auto max-w-6xl px-5 sm:px-10 pb-20">
@@ -12,7 +21,11 @@ export function GallerySection({ images }: { images: GalleryImage[] }) {
         data-reveal
         className="font-display text-5xl uppercase text-navy sm:text-6xl"
       >
-        Inside the Hub
+        <Editable
+          value={heading ?? DEFAULT_COPY.galleryHeading}
+          path="galleryHeading"
+          label="Photo section heading"
+        />
       </h2>
       <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-3">
         {images.map((item, i) => (
@@ -31,7 +44,13 @@ export function GallerySection({ images }: { images: GalleryImage[] }) {
             />
             {item.caption ? (
               <figcaption className="mt-2 text-sm text-ink/60">
-                {item.caption}
+                <Editable
+                  value={item.caption}
+                  documentId={item._id}
+                  documentType="galleryImage"
+                  path="caption"
+                  label="Photo caption"
+                />
               </figcaption>
             ) : null}
           </figure>

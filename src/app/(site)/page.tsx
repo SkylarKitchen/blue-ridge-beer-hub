@@ -78,6 +78,8 @@ export default async function HomePage() {
         <EventsSection
           events={events}
           weeklyEvents={weeklyEvents}
+          heading={settings.eventsHeading}
+          weeklyHeading={settings.weeklyHeading}
           instagramUrl={settings.instagramUrl}
           location={[
             settings.name ?? "Blue Ridge Beer Hub",
@@ -88,8 +90,11 @@ export default async function HomePage() {
             .join(", ")}
         />
         <OnTapSection settings={settings} />
-        <OfferingsSection offerings={settings.offerings ?? []} />
-        <GallerySection images={gallery} />
+        <OfferingsSection
+          offerings={settings.offerings ?? []}
+          heading={settings.offeringsHeading}
+        />
+        <GallerySection images={gallery} heading={settings.galleryHeading} />
         <AboutSection settings={settings} />
         <Ridgeline />
         <HoursFooter settings={settings} />

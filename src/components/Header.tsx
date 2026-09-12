@@ -1,5 +1,7 @@
 import Image from "next/image";
 
+import { Editable } from "./Editable";
+
 const NAV = [
   { href: "#tap", label: "On Tap" },
   { href: "#events", label: "Events" },
@@ -21,7 +23,7 @@ export function Header({ name }: { name: string }) {
           />
 
           <span className="hidden font-display tracking-wide text-navy sm:inline sm:text-lg">
-            {name}
+            <Editable value={name} path="name" label="Business name" />
           </span>
         </a>
         <nav
