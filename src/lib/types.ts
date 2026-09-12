@@ -17,7 +17,8 @@ export interface Offering {
 export interface SanityImageRef {
   asset?: { _ref: string };
   alt?: string;
-  hotspot?: { x: number; y: number };
+  hotspot?: { x: number; y: number; height?: number; width?: number };
+  crop?: { top: number; bottom: number; left: number; right: number };
 }
 
 export interface SiteSettings {
@@ -36,6 +37,7 @@ export interface SiteSettings {
   heroSubheading?: string;
   heroPrimaryCta?: string;
   heroSecondaryCta?: string;
+  heroImage?: SanityImageRef;
   eventsHeading?: string;
   weeklyHeading?: string;
   onTapHeading?: string;
@@ -51,6 +53,7 @@ export interface SiteSettings {
   galleryHeading?: string;
   aboutHeading?: string;
   aboutBody?: PortableTextBlock[];
+  aboutImage?: SanityImageRef;
   credentials?: string[];
   footerHeading?: string;
   footerHoursLabel?: string;

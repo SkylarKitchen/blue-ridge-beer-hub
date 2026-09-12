@@ -22,7 +22,8 @@ export function Header({ name }: { name: string }) {
             className="rounded-full"
           />
 
-          <span className="hidden font-display tracking-wide text-navy sm:inline sm:text-lg">
+          {/* sr-only (not hidden) so the link still has a name on phones. */}
+          <span className="sr-only font-display tracking-wide text-navy sm:not-sr-only sm:inline sm:text-lg">
             <Editable value={name} path="name" label="Business name" />
           </span>
         </a>

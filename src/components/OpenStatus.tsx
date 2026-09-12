@@ -1,85 +1,29 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-import { compactTime, parseTimeToMinutes } from "@/lib/hours";
+import { computeStatus, type OpenStatus as Status } from "@/lib/open-status";
 import type { DayHours } from "@/lib/types";
-
-const TZ = "America/New_York";
-
-interface Status {
-  open: boolean;
-  label: string;
-}
-
-/**
- * Walks the hours array in its stored order (the schema asks owners to keep
- * it in week order), so "next open day" is whatever row follows today.
- */
-function computeStatus(hours: DayHours[]): Status | null {
-  const parts = new Intl.DateTimeFormat("en-US", {
-    timeZone: TZ,
-    weekday: "long",
-    hour: "numeric",
-    minute: "numeric",
-    hour12: false,
-  }).formatToParts(new Date());
-  const part = (type: string) => parts.find((p) => p.type === type)?.value;
-  const weekday = part("weekday");
-  const nowMinutes =
-    ((Number(part("hour")) % 24) * 60 + Number(part("minute"))) | 0;
-
-  const todayIndex = hours.findIndex((row) => row.day === weekday);
-  if (todayIndex === -1) return null;
-
-  const today = hours[todayIndex];
-  if (!today.closed) {
-    const opens = parseTimeToMinutes(today.opens);
-    const closes = parseTimeToMinutes(today.closes);
-    if (opens != null && closes != null) {
-      if (nowMinutes < opens) {
-        return {
-          open: false,
-          label: `Opens today at ${compactTime(today.opens!)}`,
-        };
-      }
-      if (nowMinutes < closes) {
-        return {
-          open: true,
-          label: `Open until ${compactTime(today.closes!)}`,
-        };
-      }
-    }
-  }
-
-  for (let offset = 1; offset <= hours.length; offset++) {
-    const next = hours[(todayIndex + offset) % hours.length];
-    if (!next.closed && parseTimeToMinutes(next.opens) != null) {
-      const dayLabel = offset === 1 ? "tomorrow" : next.day;
-      return {
-        open: false,
-        label: `Closed, opens ${dayLabel} at ${compactTime(next.opens!)}`,
-      };
-    }
-  }
-  return null;
-}
 
 /**
  * Live "open right now" chip. Computed client-side only (renders nothing on
  * the server) so a statically cached page can't show yesterday's answer.
+ * The logic lives in lib/open-status.ts so it can be unit-tested.
  */
 export function OpenStatus({ hours }: { hours?: DayHours[] }) {
   const [status, setStatus] = useState<Status | null>(null);
+  // Re-run the effect only when the hours content changes, not on every
+  // parent render that passes a fresh array reference.
+  const hoursKey = useMemo(() => JSON.stringify(hours ?? []), [hours]);
 
   useEffect(() => {
-    if (!hours?.length) return;
-    const update = () => setStatus(computeStatus(hours));
+    const rows: DayHours[] = JSON.parse(hoursKey);
+    if (rows.length === 0) return;
+    const update = () => setStatus(computeStatus(rows));
     update();
     const id = setInterval(update, 60_000);
     return () => clearInterval(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(hours)]);
+  }, [hoursKey]);
 
   if (!status) return null;
   return (

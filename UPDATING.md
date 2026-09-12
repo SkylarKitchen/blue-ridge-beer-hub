@@ -198,6 +198,11 @@ To add a photo:
 To remove a photo, open it, click the three dots next to Publish, and choose
 **Delete**.
 
+The two big photos outside the gallery — the wide one at the very top and the
+one beside the About text — live in **Site Settings → Top of Page** and
+**Site Settings → About**. Upload a replacement there (and describe it) to swap
+either one; clear the field to go back to the originals.
+
 ## When something looks wrong
 
 **My change isn’t showing on the site.** Did you press Publish? A yellow Draft

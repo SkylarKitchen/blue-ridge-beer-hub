@@ -14,6 +14,7 @@ import {
   FALLBACK_SETTINGS,
   FALLBACK_WEEKLY,
 } from "@/lib/fallback";
+import { upcomingEvents } from "@/lib/events";
 import { startOfTodayIso } from "@/lib/format";
 import { localBusinessJsonLd } from "@/lib/jsonld";
 import { SITE_URL } from "@/lib/site";
@@ -31,7 +32,18 @@ import {
   WEEKLY_EVENTS_QUERY,
 } from "@/sanity/queries";
 
+/**
+ * Sanity Live re-renders this page when content changes, but nothing else
+ * would — and the "upcoming events" floor is computed at render time. Without
+ * time-based revalidation a quiet week leaves last Saturday's show on the
+ * page. Hourly ISR keeps the floor within an hour of midnight; the other
+ * queries still come from the tag-based data cache, so this costs one extra
+ * events query per hour at most.
+ */
+export const revalidate = 3600;
+
 export default async function HomePage() {
+  const from = startOfTodayIso();
   let settings: SiteSettings = {};
   let events: HubEvent[] = [];
   let weeklyEvents: WeeklyEvent[] = [];
@@ -40,7 +52,7 @@ export default async function HomePage() {
   try {
     const [settingsRes, eventsRes, weeklyRes, galleryRes] = await Promise.all([
       sanityFetch({ query: SITE_SETTINGS_QUERY }),
-      sanityFetch({ query: EVENTS_QUERY, params: { from: startOfTodayIso() } }),
+      sanityFetch({ query: EVENTS_QUERY, params: { from } }),
       sanityFetch({ query: WEEKLY_EVENTS_QUERY }),
       sanityFetch({ query: GALLERY_QUERY }),
     ]);
@@ -56,7 +68,7 @@ export default async function HomePage() {
   // Sanity unreachable or dataset not seeded yet → serve the baked-in copy.
   if (!settings.name) {
     settings = FALLBACK_SETTINGS;
-    events = FALLBACK_EVENTS;
+    events = upcomingEvents(FALLBACK_EVENTS, from);
     weeklyEvents = FALLBACK_WEEKLY;
   }
 
@@ -70,9 +82,15 @@ export default async function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLd }}
       />
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-full focus:bg-navy focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-cream"
+      >
+        Skip to content
+      </a>
       <AnnouncementBanner text={settings.announcement} />
       <Header name={settings.name ?? "Blue Ridge Beer Hub"} />
-      <main>
+      <main id="main">
         <Hero settings={settings} />
         <Ridgeline />
         <EventsSection

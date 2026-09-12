@@ -40,6 +40,7 @@ export function GallerySection({
               alt={item.alt}
               width={800}
               height={600}
+              sizes="(min-width: 1152px) 360px, (min-width: 768px) 33vw, 50vw"
               className="rounded-xl object-cover"
             />
             {item.caption ? (

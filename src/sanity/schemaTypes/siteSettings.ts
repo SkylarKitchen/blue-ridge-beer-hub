@@ -65,6 +65,7 @@ export const siteSettings = defineType({
       title: "Email address",
       type: "string",
       group: "identity",
+      validation: (rule) => rule.email(),
     }),
     defineField({
       name: "untappdUrl",
@@ -234,7 +235,8 @@ export const siteSettings = defineType({
       type: "image",
       group: "hero",
       options: { hotspot: true },
-      description: "Optional. A wide photo behind or beside the headline.",
+      description:
+        "Optional. Replaces the wide photo band at the top of the page. Leave empty to keep the tap-handles shot.",
       fields: [
         defineField({
           name: "alt",
@@ -399,6 +401,24 @@ export const siteSettings = defineType({
           styles: [{ title: "Normal", value: "normal" }],
           lists: [],
         },
+      ],
+    }),
+    defineField({
+      name: "aboutImage",
+      title: "About photo",
+      type: "image",
+      group: "about",
+      options: { hotspot: true },
+      description:
+        "Optional. Replaces the photo beside the About text. Leave empty to keep the owners-under-the-flag shot.",
+      fields: [
+        defineField({
+          name: "alt",
+          title: "Describe this photo",
+          type: "string",
+          description:
+            "For screen readers and search engines, e.g. “Jason and Charlotte outside the Hub.”",
+        }),
       ],
     }),
     defineField({

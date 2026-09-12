@@ -9,11 +9,15 @@ import { urlFor } from "@/sanity/image";
 
 import { Editable } from "./Editable";
 
-// Pinned gallery-shoot asset; GALLERY_QUERY excludes it so it only appears here.
+// Default when Site Settings has no "About photo": a pinned gallery-shoot
+// asset that GALLERY_QUERY excludes so it doesn't double up.
 const OWNERS_IMAGE =
   "image-fc66f7f4d741bb78af4b98b31f4514f36047adc9-2048x2560-jpg";
+const OWNERS_ALT =
+  "Jason and Charlotte outside the Hub under the orange OPEN flag";
 
 export function AboutSection({ settings }: { settings: SiteSettings }) {
+  const photo = settings.aboutImage?.asset ? settings.aboutImage : null;
   return (
     <section id="about" className="mx-auto max-w-6xl px-5 sm:px-10 pb-24">
       <div
@@ -68,14 +72,15 @@ export function AboutSection({ settings }: { settings: SiteSettings }) {
         >
           <div className="-rotate-2 drop-shadow-lg">
             <Image
-              src={urlFor(OWNERS_IMAGE)
+              src={urlFor(photo ?? OWNERS_IMAGE)
                 .width(600)
                 .height(750)
                 .fit("crop")
                 .url()}
-              alt="Jason and Charlotte outside the Hub under the orange OPEN flag"
+              alt={photo?.alt ?? (photo ? "" : OWNERS_ALT)}
               width={600}
               height={750}
+              sizes="(min-width: 768px) 300px, 224px"
               className="h-auto w-56 rounded-2xl md:w-[300px]"
             />
           </div>
