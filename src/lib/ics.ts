@@ -1,6 +1,10 @@
+import { stegaClean } from "next-sanity";
+
 /**
- * Builds a single-event iCalendar file (RFC 5545). Kept dependency-free and
- * erasable-syntax-only so the unit test can run under Node's type stripping.
+ * Builds a single-event iCalendar file (RFC 5545). Kept erasable-syntax-only
+ * (no TS enums, no parameter properties) so the unit test can run under
+ * Node's type stripping; the one import is fine because Node's test runner
+ * resolves it, the same way hours.ts already does.
  */
 
 interface CalendarEvent {
@@ -22,8 +26,14 @@ function toUtcBasic(date: Date): string {
     .replace(/\.\d{3}/, "");
 }
 
+/**
+ * Escapes per RFC 5545 and strips stega: draft-mode previews append invisible
+ * visual-editing characters, and a guest who saves the .ics would carry them
+ * into their own calendar forever. Every text value in the file passes
+ * through here, so cleaning once covers any field added later too.
+ */
 function escapeText(value: string): string {
-  return value
+  return stegaClean(value)
     .replace(/\\/g, "\\\\")
     .replace(/;/g, "\\;")
     .replace(/,/g, "\\,")
