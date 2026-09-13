@@ -96,6 +96,20 @@ export function imageRef(id: string, alt: string): SanityImageRef {
   return { _type: "image", asset: { _type: "reference", _ref: id }, alt };
 }
 
+/**
+ * The Studio path of one block inside a Home Page's `sections` array.
+ *
+ * Kept here rather than inlined in the component because its SHAPE is
+ * load-bearing, not cosmetic: @sanity/visual-editing decides an element is
+ * draggable by testing whether the segment after the final "." contains "[".
+ * A path that stopped being an array path would silently disable drag with no
+ * error anywhere. `src/lib/sections.test.ts` asserts it against a copy of
+ * that predicate.
+ */
+export function sectionArrayPath(key: string): string {
+  return `sections[_key=="${key}"]`;
+}
+
 /* ---------- Legacy adapter ---------- */
 
 /** Block field → Site Settings field, per block type. */

@@ -11,6 +11,7 @@ import {
   PINNED_HERO_IMAGE,
   placeHome,
   placeLegacy,
+  sectionArrayPath,
   sectionsFromSettings,
   slugify,
   visibleSections,
@@ -391,4 +392,56 @@ test("an image field present but with no asset falls back to the pinned one", ()
 
   assert.equal(hero.image?.asset?._ref, PINNED_HERO_IMAGE);
   assert.equal(about.image?.asset?._ref, PINNED_ABOUT_IMAGE);
+});
+
+
+/*
+ * Drag-to-reorder (Task 14) rests on one thing this repo controls: the shape
+ * of the path in `data-sanity`. @sanity/visual-editing 6.1.2 never reports an
+ * unsuitable path — a block that is not draggable simply is not draggable,
+ * with nothing in the console to say why. So the library's own rule is copied
+ * here verbatim and the emitted path is tested against it.
+ *
+ * Copied from node_modules/@sanity/visual-editing/dist/SharedStateContext-*.js:
+ *
+ *   function isSanityArrayPath(path) {
+ *     let lastDotIndex = path.lastIndexOf(".");
+ *     return path.substring(lastDotIndex, path.length).includes("[");
+ *   }
+ *
+ * If a version bump changes that rule, this test still passes while drag
+ * silently stops working — so re-read the predicate when bumping the package,
+ * rather than trusting a green here.
+ */
+const isSanityArrayPath = (path: string) =>
+  path.substring(path.lastIndexOf(".")).includes("[");
+
+/** Also copied: two nodes must resolve to the SAME array to be siblings. */
+const arrayPathOf = (path: string) => {
+  if (!isSanityArrayPath(path)) return null;
+  const split = path.split(".");
+  split[split.length - 1] = split[split.length - 1].replace(/\[.*?\]/g, "[]");
+  return split.join(".");
+};
+
+test("a section path is an array path, which is what makes a block draggable", () => {
+  assert.equal(sectionArrayPath("legacy-hero"), 'sections[_key=="legacy-hero"]');
+  assert.ok(
+    isSanityArrayPath(sectionArrayPath("legacy-hero")),
+    "the overlay would refuse to drag this element",
+  );
+});
+
+test("every block on a page resolves to the same array, at a distinct path", () => {
+  // The overlay's third requirement: resolveDragAndDropGroup returns null for
+  // a group of one, so siblings must agree on the array and differ on the
+  // path. Both halves are asserted — equal arrays, distinct paths.
+  const keys = sectionsFromSettings(FALLBACK_SETTINGS).map((s) => s._key);
+  const paths = keys.map(sectionArrayPath);
+
+  const arrays = new Set(paths.map(arrayPathOf));
+  assert.equal(arrays.size, 1, "blocks disagree about which array they are in");
+  assert.equal([...arrays][0], "sections[]");
+  assert.equal(new Set(paths).size, paths.length, "two blocks share a path");
+  assert.ok(paths.length > 1, "a single block is never draggable");
 });
