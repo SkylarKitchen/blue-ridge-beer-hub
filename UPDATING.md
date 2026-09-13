@@ -170,7 +170,7 @@ All of these live under **Site Settings**.
 
 ![The Hours tab lists every day of the week. Click one to open it.](public/guide/studio-hours.webp)
 
-![One day. Type times like 12:00 PM — the “open now” label on the site reads them, so keep that format. Flip Closed this day for days you’re shut.](public/guide/studio-hours-day.webp)
+![One day. Type times like 12:00 PM — the “open now” label on the site reads them, so keep that format. Flip Closed for days you’re shut.](public/guide/studio-hours-day.webp)
 
 **The Name & Contact tab** has the phone number, the email address, and the
 Untappd, Instagram, and Facebook links.
