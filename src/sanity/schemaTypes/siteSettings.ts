@@ -1,16 +1,17 @@
 import { defineField, defineType } from "sanity";
 
 /**
- * Singleton holding everything that appears once on the site: identity,
- * contact info, hours, hero copy, about copy, and the offerings blocks.
- * Field descriptions are written for the shop owners, not developers.
+ * Singleton holding the site's fixed chrome: identity, contact info, hours,
+ * links, the announcement banner and the footer copy. The page's sections
+ * live on the Home Page document (schemaTypes/homePage.ts). Field
+ * descriptions are written for the shop owners, not developers.
  *
  * Two things shape the form's layout, and both are for the owners' benefit:
  *
- * - `groups` are the tabs. They run in the order the sections appear on the
- *   page, so scrolling the site and scanning the tabs feel like the same
- *   trip. "Name & Contact" is marked `default` — without one, Studio opens on
- *   its synthetic "All fields" tab, which is every field in one column.
+ * - `groups` are the tabs. They run in the order the content appears on the
+ *   page, header to footer. "Name & Contact" is marked `default` — without
+ *   one, Studio opens on its synthetic "All fields" tab, which is every
+ *   field in one column.
  * - `fieldsets` are the titled blocks inside a tab. Besides naming what a
  *   run of fields is for, a fieldset's members sit on a 32px grid instead of
  *   the form root's 52px stack, so grouping closes the gaps as well.
@@ -30,16 +31,10 @@ export const siteSettings = defineType({
   name: "siteSettings",
   title: "Site Settings",
   type: "document",
-  // Tab order mirrors the page, top to bottom.
+  // Tab order mirrors the page, header to footer.
   groups: [
     { name: "identity", title: "Name & Contact", default: true },
     { name: "hours", title: "Hours" },
-    { name: "hero", title: "Top of Page" },
-    { name: "events", title: "Events" },
-    { name: "tap", title: "On Tap" },
-    { name: "offerings", title: "What We Offer" },
-    { name: "gallery", title: "Photos" },
-    { name: "about", title: "About" },
     { name: "footer", title: "Footer" },
   ],
   fieldsets: [
@@ -71,29 +66,6 @@ export const siteSettings = defineType({
       group: "identity",
       description: "Set this once and forget it.",
       options: { collapsible: true, collapsed: true },
-    },
-    {
-      name: "heroButtons",
-      title: "The two buttons",
-      group: "hero",
-    },
-    {
-      name: "eventsHeadings",
-      title: "Headings",
-      group: "events",
-      description: "The two headings in the events section.",
-    },
-    {
-      name: "tapNumber",
-      title: "The big number",
-      group: "tap",
-      description:
-        "The big number in the “On tap” section and the two small lines under it. Change the number if you add or retire lines.",
-    },
-    {
-      name: "tapWriting",
-      title: "The writing",
-      group: "tap",
     },
     {
       name: "footerColumns",
@@ -285,252 +257,6 @@ export const siteSettings = defineType({
         },
       ],
       validation: (rule) => rule.max(7),
-    }),
-    // ── Top of Page ───────────────────────────────────────────────────
-    defineField({
-      name: "heroHeading",
-      title: "Big headline",
-      type: "string",
-      group: "hero",
-      description: "The large text at the top of the page.",
-      validation: (rule) => rule.required(),
-    }),
-    defineField({
-      name: "heroSubheading",
-      title: "Supporting line",
-      type: "text",
-      rows: 2,
-      group: "hero",
-      description: "One or two sentences under the big headline.",
-    }),
-    defineField({
-      name: "heroPrimaryCta",
-      title: "Main button label",
-      type: "string",
-      group: "hero",
-      fieldset: "heroButtons",
-      initialValue: "See what’s on tap",
-      description: "The filled button under the headline. It opens Untappd.",
-    }),
-    defineField({
-      name: "heroSecondaryCta",
-      title: "Second button label",
-      type: "string",
-      group: "hero",
-      fieldset: "heroButtons",
-      initialValue: "Upcoming events",
-      description: "The outlined button. It jumps down to the events list.",
-    }),
-    defineField({
-      name: "heroImage",
-      title: "Top-of-page photo",
-      type: "image",
-      group: "hero",
-      options: { hotspot: true },
-      description:
-        "Optional. Replaces the wide photo band at the top of the page. Leave empty to keep the tap-handles shot.",
-      fields: [
-        defineField({
-          name: "alt",
-          title: "Describe this photo",
-          type: "string",
-          description:
-            "For screen readers and search engines, e.g. “The taproom bar with 16 taps.”",
-        }),
-      ],
-    }),
-    // ── Events ────────────────────────────────────────────────────────
-    defineField({
-      name: "eventsHeading",
-      title: "Events section heading",
-      type: "string",
-      group: "events",
-      fieldset: "eventsHeadings",
-      initialValue: "Coming up at the Hub",
-      description: "Sits above the one-off events that have a date.",
-    }),
-    defineField({
-      name: "weeklyHeading",
-      title: "Weekly events heading",
-      type: "string",
-      group: "events",
-      fieldset: "eventsHeadings",
-      initialValue: "Every week",
-      description:
-        "Sits above the things that happen on the same day every week.",
-    }),
-    // ── On Tap ────────────────────────────────────────────────────────
-    defineField({
-      name: "tapCount",
-      title: "Number of taps",
-      type: "number",
-      group: "tap",
-      fieldset: "tapNumber",
-      initialValue: 16,
-      validation: (rule) => rule.min(1).max(99),
-    }),
-    defineField({
-      name: "tapCountLabel",
-      title: "Label under the big number",
-      type: "string",
-      group: "tap",
-      fieldset: "tapNumber",
-      initialValue: "taps pouring right now*",
-    }),
-    defineField({
-      name: "tapCountFootnote",
-      title: "Footnote under that label",
-      type: "string",
-      group: "tap",
-      fieldset: "tapNumber",
-      initialValue: "*give or take. The live list knows best.",
-    }),
-    defineField({
-      name: "onTapHeading",
-      title: "On Tap section heading",
-      type: "string",
-      group: "tap",
-      fieldset: "tapWriting",
-      initialValue: "On tap right now",
-    }),
-    defineField({
-      name: "onTapBlurb",
-      title: "On Tap section text",
-      type: "text",
-      rows: 3,
-      group: "tap",
-      fieldset: "tapWriting",
-      description:
-        "The paragraph in the “On tap right now” section. The tap list itself lives on Untappd — this is just the intro.",
-    }),
-    defineField({
-      name: "onTapSecondary",
-      title: "Second line",
-      type: "text",
-      rows: 2,
-      group: "tap",
-      fieldset: "tapWriting",
-      initialValue:
-        "Not a beer person? Wine, mead, and cider pour here too, and the coolers are stocked for carryout.",
-      description: "The smaller line under the main On Tap paragraph.",
-    }),
-    defineField({
-      name: "onTapCta",
-      title: "Tap list button label",
-      type: "string",
-      group: "tap",
-      fieldset: "tapWriting",
-      initialValue: "Open the live tap list",
-    }),
-    defineField({
-      name: "tapPerks",
-      title: "Short list on the navy card",
-      type: "array",
-      group: "tap",
-      of: [{ type: "string" }],
-      description:
-        "One line each — growlers, six-packs, pour sizes. Leave empty to hide the list.",
-      validation: (rule) => rule.max(5),
-    }),
-    // ── What We Offer ─────────────────────────────────────────────────
-    defineField({
-      name: "offeringsHeading",
-      title: "Offerings section heading",
-      type: "string",
-      group: "offerings",
-      initialValue: "What we pour & stock",
-    }),
-    defineField({
-      name: "offerings",
-      title: "What we offer",
-      type: "array",
-      group: "offerings",
-      description:
-        "The three-ish cards describing what you pour and stock — taps, coolers & carryout, kegs & tap rentals.",
-      of: [
-        {
-          type: "object",
-          name: "offering",
-          fields: [
-            defineField({
-              name: "title",
-              title: "Title",
-              type: "string",
-              validation: (rule) => rule.required(),
-            }),
-            defineField({
-              name: "description",
-              title: "Description",
-              type: "text",
-              rows: 3,
-              validation: (rule) => rule.required(),
-            }),
-          ],
-          preview: {
-            select: { title: "title", subtitle: "description" },
-          },
-        },
-      ],
-    }),
-    // ── Photos ────────────────────────────────────────────────────────
-    defineField({
-      name: "galleryHeading",
-      title: "Photo section heading",
-      type: "string",
-      group: "gallery",
-      initialValue: "Inside the Hub",
-      description:
-        "The photos themselves live under Gallery Photos in the sidebar.",
-    }),
-    // ── About ─────────────────────────────────────────────────────────
-    defineField({
-      name: "aboutHeading",
-      title: "About section heading",
-      type: "string",
-      group: "about",
-      initialValue: "About the Hub",
-    }),
-    defineField({
-      name: "aboutBody",
-      title: "About text",
-      type: "array",
-      group: "about",
-      description: "The story of the shop. A few short paragraphs works best.",
-      of: [
-        {
-          type: "block",
-          styles: [{ title: "Normal", value: "normal" }],
-          lists: [],
-        },
-      ],
-    }),
-    defineField({
-      name: "aboutImage",
-      title: "About photo",
-      type: "image",
-      group: "about",
-      options: { hotspot: true },
-      description:
-        "Optional. Replaces the photo beside the About text. Leave empty to keep the owners-under-the-flag shot.",
-      fields: [
-        defineField({
-          name: "alt",
-          title: "Describe this photo",
-          type: "string",
-          description:
-            "For screen readers and search engines, e.g. “Jason and Charlotte outside the Hub.”",
-        }),
-      ],
-    }),
-    defineField({
-      name: "credentials",
-      title: "Trust badges",
-      type: "array",
-      group: "about",
-      of: [{ type: "string" }],
-      description:
-        "Short phrases shown as small badges under the About text — e.g. “Veteran-owned”, “Run by a retired schoolteacher”. Leave empty to hide.",
-      validation: (rule) => rule.max(4),
     }),
     // ── Footer ────────────────────────────────────────────────────────
     defineField({

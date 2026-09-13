@@ -5,14 +5,6 @@ export const SITE_SETTINGS_QUERY = defineQuery(
     name, tagline, addressLine1, addressLine2, phone, email,
     untappdUrl, instagramUrl, facebookUrl, announcement,
     hours[]{_key, day, opens, closes, closed},
-    heroHeading, heroSubheading, heroImage{asset, hotspot, crop, alt},
-    heroPrimaryCta, heroSecondaryCta,
-    eventsHeading, weeklyHeading,
-    onTapHeading, onTapBlurb, onTapSecondary, onTapCta,
-    tapCount, tapCountLabel, tapCountFootnote, tapPerks,
-    offeringsHeading, offerings[]{_key, title, description},
-    galleryHeading,
-    aboutHeading, aboutBody, credentials, aboutImage{asset, hotspot, crop, alt},
     footerHeading, footerHoursLabel, footerFindUsLabel, footerFollowLabel,
     footerDirectionsCta, footerVisitLine, footerLegal
   }`,
@@ -31,13 +23,8 @@ export const WEEKLY_EVENTS_QUERY = defineQuery(
   }`,
 );
 
-// Excludes the shots pinned into the hero and About sections (see
-// PINNED_HERO_IMAGE and PINNED_ABOUT_IMAGE in src/lib/sections.ts) so they
-// don't double up in the grid.
 export const GALLERY_QUERY = defineQuery(
-  `*[_type == "galleryImage"
-    && !(_id in ["galleryImage-tap-handles", "galleryImage-owners-open-flag"])]
-    | order(order asc, _createdAt asc){
+  `*[_type == "galleryImage"] | order(order asc, _createdAt asc){
     _id, image, alt, caption
   }`,
 );

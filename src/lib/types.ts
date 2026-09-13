@@ -1,5 +1,3 @@
-import type { PortableTextBlock } from "next-sanity";
-
 export interface DayHours {
   _key?: string;
   day: string;
@@ -37,28 +35,6 @@ export interface SiteSettings {
   facebookUrl?: string;
   announcement?: string;
   hours?: DayHours[];
-  heroHeading?: string;
-  heroSubheading?: string;
-  heroPrimaryCta?: string;
-  heroSecondaryCta?: string;
-  heroImage?: SanityImageRef;
-  eventsHeading?: string;
-  weeklyHeading?: string;
-  onTapHeading?: string;
-  onTapBlurb?: string;
-  onTapSecondary?: string;
-  onTapCta?: string;
-  tapCount?: number;
-  tapCountLabel?: string;
-  tapCountFootnote?: string;
-  tapPerks?: string[];
-  offeringsHeading?: string;
-  offerings?: Offering[];
-  galleryHeading?: string;
-  aboutHeading?: string;
-  aboutBody?: PortableTextBlock[];
-  aboutImage?: SanityImageRef;
-  credentials?: string[];
   footerHeading?: string;
   footerHoursLabel?: string;
   footerFindUsLabel?: string;
