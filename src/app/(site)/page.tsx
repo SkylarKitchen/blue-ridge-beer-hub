@@ -17,6 +17,7 @@ import {
 import { upcomingEvents } from "@/lib/events";
 import { startOfTodayIso } from "@/lib/format";
 import { localBusinessJsonLd } from "@/lib/jsonld";
+import { placeLegacy } from "@/lib/sections";
 import { SITE_URL } from "@/lib/site";
 import type {
   GalleryImage,
@@ -72,6 +73,9 @@ export default async function HomePage() {
     weeklyEvents = FALLBACK_WEEKLY;
   }
 
+  const placed = placeLegacy(settings);
+  const heroPlaced = placed.find((p) => p.section._type === "heroBlock");
+
   const jsonLd = JSON.stringify(
     localBusinessJsonLd(settings, SITE_URL),
   ).replace(/</g, "\\u003c");
@@ -91,7 +95,14 @@ export default async function HomePage() {
       <AnnouncementBanner text={settings.announcement} />
       <Header name={settings.name ?? "Blue Ridge Beer Hub"} />
       <main id="main">
-        <Hero settings={settings} />
+        {heroPlaced && heroPlaced.section._type === "heroBlock" ? (
+          <Hero
+            block={heroPlaced.section}
+            scope={heroPlaced.scope}
+            settings={settings}
+            eventsHref="#events"
+          />
+        ) : null}
         <Ridgeline />
         <EventsSection
           events={events}
