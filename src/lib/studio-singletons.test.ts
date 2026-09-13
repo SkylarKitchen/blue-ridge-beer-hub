@@ -73,6 +73,6 @@ test("homePage stays a singleton", () => {
       '`*[_type == "homePage"][0]` with no _id filter, so its [0] is only ' +
       "safe while exactly one exists: a second Home Page makes the live " +
       "page's content arbitrary, and deleting the only one silently drops " +
-      "the site back to the legacy adapter.",
+      "the site back to the baked-in FALLBACK_SECTIONS.",
   );
 });

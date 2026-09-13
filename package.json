@@ -10,7 +10,6 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "migrate:sections": "node --env-file=.env.local scripts/migrate-to-sections.ts",
     "main-invariants": "bash scripts/main-invariants.sh",
     "lint": "eslint",
     "drift-check": "bash scripts/drift-check.sh",

@@ -39,10 +39,9 @@ import { Ridgeline } from "./Ridgeline";
  *
  * We control 1, 2 and 3. Points 4 and 5 are the runtime's.
  *
- * Only a Home Page document has a `sections` array to reorder. The legacy
- * adapter's blocks are synthesized from flat Site Settings fields and live in
- * no array at all, so wrapping those would advertise a reorder that cannot be
- * written back.
+ * Only a Home Page document has a `sections` array to reorder; the guard on
+ * the scope's document id keeps a block placed anywhere else from
+ * advertising a reorder that cannot be written back.
  */
 function dragAttribute(scope: Placed["scope"], key: string) {
   if (scope.documentId !== HOME_PAGE_ID) return undefined;

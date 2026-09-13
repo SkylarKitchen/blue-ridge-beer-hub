@@ -1,4 +1,5 @@
 import { DEFAULT_COPY } from "./copy.ts";
+import { imageRef, toGoSeedSection, type Section } from "./sections.ts";
 import type { HubEvent, SiteSettings, WeeklyEvent } from "./types";
 
 /**
@@ -8,8 +9,13 @@ import type { HubEvent, SiteSettings, WeeklyEvent } from "./types";
  * source of truth, edits happen there; keep this file as the emergency copy.
  */
 export const FALLBACK_SETTINGS: SiteSettings = {
-  ...DEFAULT_COPY,
-  tapPerks: [...DEFAULT_COPY.tapPerks],
+  footerHeading: DEFAULT_COPY.footerHeading,
+  footerHoursLabel: DEFAULT_COPY.footerHoursLabel,
+  footerFindUsLabel: DEFAULT_COPY.footerFindUsLabel,
+  footerFollowLabel: DEFAULT_COPY.footerFollowLabel,
+  footerDirectionsCta: DEFAULT_COPY.footerDirectionsCta,
+  footerVisitLine: DEFAULT_COPY.footerVisitLine,
+  footerLegal: DEFAULT_COPY.footerLegal,
   name: "Blue Ridge Beer Hub",
   tagline: "Waynesville’s community taproom & bottle shop",
   addressLine1: "21 East St",
@@ -19,54 +25,6 @@ export const FALLBACK_SETTINGS: SiteSettings = {
   untappdUrl: "https://untappd.com/v/blue-ridge-beer-hub/6732717",
   instagramUrl: "https://www.instagram.com/brbeerhub/",
   facebookUrl: "https://www.facebook.com/brbeerhub",
-  tapCount: 16,
-  heroSubheading:
-    "Sixteen rotating taps and coolers full of carryout on East Street in downtown Waynesville. Most nights there’s something going on, live music more often than not.",
-  aboutBody: [
-    {
-      _type: "block",
-      _key: "about1",
-      style: "normal",
-      markDefs: [],
-      children: [
-        {
-          _type: "span",
-          _key: "about1a",
-          marks: [],
-          text: "The Beer Hub is Waynesville’s community taproom and bottle shop, right downtown. Inside you’ll find sixteen taps of rotating craft beer, coolers stocked for carryout, and kegs to take the party home.",
-        },
-      ],
-    },
-    {
-      _type: "block",
-      _key: "about2",
-      style: "normal",
-      markDefs: [],
-      children: [
-        {
-          _type: "span",
-          _key: "about2a",
-          marks: [],
-          text: "The Hub has been serving Haywood County since 2017, and Jason & Charlotte Johnson took it over in September 2025. It’s where neighbors catch bluegrass on a Thursday and visitors find a new favorite pour, and most people leave knowing somebody they didn’t walk in with.",
-        },
-      ],
-    },
-    {
-      _type: "block",
-      _key: "about3",
-      style: "normal",
-      markDefs: [],
-      children: [
-        {
-          _type: "span",
-          _key: "about3a",
-          marks: [],
-          text: "Swing by for a taster flight, fill a growler, or just come hang out. There’s a stool with your name on it.",
-        },
-      ],
-    },
-  ],
-  credentials: ["Veteran-owned", "Run by a retired schoolteacher"],
   hours: [
     { day: "Monday", opens: "12:00 PM", closes: "9:00 PM", closed: false },
     { day: "Tuesday", opens: "12:00 PM", closes: "9:00 PM", closed: false },
@@ -76,24 +34,139 @@ export const FALLBACK_SETTINGS: SiteSettings = {
     { day: "Saturday", opens: "12:00 PM", closes: "9:00 PM", closed: false },
     { day: "Sunday", opens: "1:00 PM", closes: "7:00 PM", closed: false },
   ],
-  offerings: [
-    {
-      title: "On tap",
-      description:
-        "Sixteen rotating lines of beer, cider, and mead, heavy on Asheville-area breweries. Pours run from a 4 oz taster to a full pint, and we fill growlers to go.",
-    },
-    {
-      title: "Coolers & carryout",
-      description:
-        "Bottles and cans to go, build-your-own six-packs, and shelves of wine, mead, cider, and THC drinks. Half the fun is browsing the coolers.",
-    },
-    {
-      title: "Kegs & tap rentals",
-      description:
-        "Throwing a party? We sell kegs and rent out the taps and CO2 to pour them right. Call or email ahead and we’ll have everything cold and ready to go.",
-    },
-  ],
 };
+
+/**
+ * The homepage as the migration wrote it on 2026-09-13: the page that ran
+ * from the flat Site Settings fields, block by block, plus the To Go block
+ * seeded hidden after On Tap. Keys are the migration's so an anchor or a
+ * Studio path written against the live document matches here too.
+ */
+export const FALLBACK_SECTIONS: Section[] = [
+  {
+    _key: "legacy-hero",
+    _type: "heroBlock",
+    heading: DEFAULT_COPY.heroHeading,
+    subheading:
+      "Sixteen rotating taps and coolers full of carryout on East Street in downtown Waynesville. Most nights there’s something going on, live music more often than not.",
+    primaryCta: DEFAULT_COPY.heroPrimaryCta,
+    secondaryCta: DEFAULT_COPY.heroSecondaryCta,
+    // The gallery-shoot assets the Hero and About blocks own since the
+    // migration (they were pinned by asset id before the builder existed).
+    image: imageRef(
+      "image-600687a3a1747959048b8eb3b14f917ad2e3073b-2560x1707-jpg",
+      "Numbered tap handles branded with the Blue Ridge Beer Hub hop logo",
+    ),
+  },
+  { _key: "legacy-divider-1", _type: "dividerBlock" },
+  {
+    _key: "legacy-events",
+    _type: "eventsBlock",
+    heading: DEFAULT_COPY.eventsHeading,
+    weeklyHeading: DEFAULT_COPY.weeklyHeading,
+  },
+  {
+    _key: "legacy-tap",
+    _type: "onTapBlock",
+    heading: DEFAULT_COPY.onTapHeading,
+    blurb: DEFAULT_COPY.onTapBlurb,
+    secondary: DEFAULT_COPY.onTapSecondary,
+    cta: DEFAULT_COPY.onTapCta,
+    tapCount: 16,
+    tapCountLabel: DEFAULT_COPY.tapCountLabel,
+    tapCountFootnote: DEFAULT_COPY.tapCountFootnote,
+    perks: [...DEFAULT_COPY.tapPerks],
+  },
+  toGoSeedSection(),
+  {
+    _key: "legacy-offerings",
+    _type: "offeringsBlock",
+    heading: DEFAULT_COPY.offeringsHeading,
+    cards: [
+      {
+        _type: "offering",
+        _key: "card-0",
+        title: "On tap",
+        description:
+          "Sixteen rotating lines of beer, cider, and mead, heavy on Asheville-area breweries. Pours run from a 4 oz taster to a full pint, and we fill growlers to go.",
+      },
+      {
+        _type: "offering",
+        _key: "card-1",
+        title: "Coolers & carryout",
+        description:
+          "Bottles and cans to go, build-your-own six-packs, and shelves of wine, mead, cider, and THC drinks. Half the fun is browsing the coolers.",
+      },
+      {
+        _type: "offering",
+        _key: "card-2",
+        title: "Kegs & tap rentals",
+        description:
+          "Throwing a party? We sell kegs and rent out the taps and CO2 to pour them right. Call or email ahead and we’ll have everything cold and ready to go.",
+      },
+    ],
+  },
+  {
+    _key: "legacy-gallery",
+    _type: "galleryBlock",
+    heading: DEFAULT_COPY.galleryHeading,
+  },
+  {
+    _key: "legacy-about",
+    _type: "aboutBlock",
+    heading: DEFAULT_COPY.aboutHeading,
+    body: [
+      {
+        _type: "block",
+        _key: "about1",
+        style: "normal",
+        markDefs: [],
+        children: [
+          {
+            _type: "span",
+            _key: "about1a",
+            marks: [],
+            text: "The Beer Hub is Waynesville’s community taproom and bottle shop, right downtown. Inside you’ll find sixteen taps of rotating craft beer, coolers stocked for carryout, and kegs to take the party home.",
+          },
+        ],
+      },
+      {
+        _type: "block",
+        _key: "about2",
+        style: "normal",
+        markDefs: [],
+        children: [
+          {
+            _type: "span",
+            _key: "about2a",
+            marks: [],
+            text: "The Hub has been serving Haywood County since 2017, and Jason & Charlotte Johnson took it over in September 2025. It’s where neighbors catch bluegrass on a Thursday and visitors find a new favorite pour, and most people leave knowing somebody they didn’t walk in with.",
+          },
+        ],
+      },
+      {
+        _type: "block",
+        _key: "about3",
+        style: "normal",
+        markDefs: [],
+        children: [
+          {
+            _type: "span",
+            _key: "about3a",
+            marks: [],
+            text: "Swing by for a taster flight, fill a growler, or just come hang out. There’s a stool with your name on it.",
+          },
+        ],
+      },
+    ],
+    credentials: ["Veteran-owned", "Run by a retired schoolteacher"],
+    image: imageRef(
+      "image-fc66f7f4d741bb78af4b98b31f4514f36047adc9-2048x2560-jpg",
+      "Jason and Charlotte outside the Hub under the orange OPEN flag",
+    ),
+  },
+  { _key: "legacy-divider-2", _type: "dividerBlock" },
+];
 
 export const FALLBACK_EVENTS: HubEvent[] = [
   {

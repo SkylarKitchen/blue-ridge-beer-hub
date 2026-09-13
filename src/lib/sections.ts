@@ -2,8 +2,8 @@ import type { PortableTextBlock } from "next-sanity";
 import { stegaClean } from "next-sanity";
 
 import { FEATURE_COPY } from "./copy.ts";
-import { blockScope, legacyScope, type EditScope } from "./edit-scope.ts";
-import type { Offering, SanityImageRef, SiteSettings } from "./types";
+import { blockScope, type EditScope } from "./edit-scope.ts";
+import type { Offering, SanityImageRef } from "./types";
 
 /* ---------- Block types ---------- */
 
@@ -105,14 +105,7 @@ export interface Placed {
   scope: EditScope;
 }
 
-/* ---------- Pinned photos (legacy) ---------- */
-
-// The two gallery-shoot assets hard-wired into Hero and About before the
-// builder existed. The migration copies them into block image fields.
-export const PINNED_HERO_IMAGE =
-  "image-600687a3a1747959048b8eb3b14f917ad2e3073b-2560x1707-jpg";
-export const PINNED_ABOUT_IMAGE =
-  "image-fc66f7f4d741bb78af4b98b31f4514f36047adc9-2048x2560-jpg";
+/* ---------- Image references ---------- */
 
 export function imageRef(id: string, alt: string): SanityImageRef {
   return { _type: "image", asset: { _type: "reference", _ref: id }, alt };
@@ -132,130 +125,7 @@ export function sectionArrayPath(key: string): string {
   return `sections[_key=="${key}"]`;
 }
 
-/* ---------- Legacy adapter ---------- */
-
-/** Block field → Site Settings field, per block type. */
-export const LEGACY_FIELDS: Record<SectionType, Record<string, string>> = {
-  heroBlock: {
-    heading: "heroHeading",
-    subheading: "heroSubheading",
-    primaryCta: "heroPrimaryCta",
-    secondaryCta: "heroSecondaryCta",
-    image: "heroImage",
-  },
-  eventsBlock: { heading: "eventsHeading", weeklyHeading: "weeklyHeading" },
-  onTapBlock: {
-    heading: "onTapHeading",
-    blurb: "onTapBlurb",
-    secondary: "onTapSecondary",
-    cta: "onTapCta",
-    tapCount: "tapCount",
-    tapCountLabel: "tapCountLabel",
-    tapCountFootnote: "tapCountFootnote",
-    perks: "tapPerks",
-  },
-  offeringsBlock: { heading: "offeringsHeading", cards: "offerings" },
-  galleryBlock: { heading: "galleryHeading" },
-  aboutBlock: {
-    heading: "aboutHeading",
-    image: "aboutImage",
-    body: "aboutBody",
-    credentials: "credentials",
-  },
-  dividerBlock: {},
-  featureBlock: {},
-};
-
-/**
- * Today's page, expressed as blocks, from the flat Site Settings fields.
- * Used when no Home Page document exists yet (and for the offline fallback).
- * The migration script writes exactly this to Content Lake.
- */
-export function sectionsFromSettings(settings: SiteSettings): Section[] {
-  return [
-    {
-      _key: "legacy-hero",
-      _type: "heroBlock",
-      heading: settings.heroHeading,
-      subheading: settings.heroSubheading,
-      primaryCta: settings.heroPrimaryCta,
-      secondaryCta: settings.heroSecondaryCta,
-      // An owner upload wins; an empty field keeps the shipped shot, which
-      // is exactly what the Studio's help text promises them. The guard is
-      // on `.asset` rather than on the object: Sanity leaves a bare
-      // `{_type:"image"}` behind after a removed upload, and that would
-      // render as a broken image. No alt is synthesized here — the block
-      // carries the owner's own alt or none, and the components already
-      // treat an alt-less owner photo as decorative. Borrowing the pinned
-      // shot's alt would describe a different photograph.
-      image: settings.heroImage?.asset
-        ? settings.heroImage
-        : imageRef(
-            PINNED_HERO_IMAGE,
-            "Numbered tap handles branded with the Blue Ridge Beer Hub hop logo",
-          ),
-    },
-    { _key: "legacy-divider-1", _type: "dividerBlock" },
-    {
-      _key: "legacy-events",
-      _type: "eventsBlock",
-      heading: settings.eventsHeading,
-      weeklyHeading: settings.weeklyHeading,
-    },
-    {
-      _key: "legacy-tap",
-      _type: "onTapBlock",
-      heading: settings.onTapHeading,
-      blurb: settings.onTapBlurb,
-      secondary: settings.onTapSecondary,
-      cta: settings.onTapCta,
-      tapCount: settings.tapCount,
-      tapCountLabel: settings.tapCountLabel,
-      tapCountFootnote: settings.tapCountFootnote,
-      perks: settings.tapPerks,
-    },
-    {
-      _key: "legacy-offerings",
-      _type: "offeringsBlock",
-      heading: settings.offeringsHeading,
-      // `_type` is written rather than spread through: the offline fallback
-      // cards have never carried one, and a projection that forgets to ask
-      // for it would silently strip it from the migrated document.
-      cards: settings.offerings?.map((card, i) => ({
-        ...card,
-        _type: "offering" as const,
-        _key: card._key ?? `card-${i}`,
-      })),
-    },
-    {
-      _key: "legacy-gallery",
-      _type: "galleryBlock",
-      heading: settings.galleryHeading,
-    },
-    {
-      _key: "legacy-about",
-      _type: "aboutBlock",
-      heading: settings.aboutHeading,
-      body: settings.aboutBody,
-      credentials: settings.credentials,
-      // Same rule as the hero photo above.
-      image: settings.aboutImage?.asset
-        ? settings.aboutImage
-        : imageRef(
-            PINNED_ABOUT_IMAGE,
-            "Jason and Charlotte outside the Hub under the orange OPEN flag",
-          ),
-    },
-    { _key: "legacy-divider-2", _type: "dividerBlock" },
-  ];
-}
-
-export function placeLegacy(settings: SiteSettings): Placed[] {
-  return sectionsFromSettings(settings).map((section) => ({
-    section,
-    scope: legacyScope(LEGACY_FIELDS[section._type]),
-  }));
-}
+/* ---------- Placement ---------- */
 
 export function placeHome(sections: Section[]): Placed[] {
   return sections.map((section) => ({
@@ -293,13 +163,6 @@ export function toGoSeedSection(): FeatureBlock {
     listHeading: FEATURE_COPY.toGo.listHeading,
     listItems: [],
   };
-}
-
-/** Today's sections plus the seeded To Go block directly after On Tap. */
-export function withToGoSeed(sections: Section[]): Section[] {
-  const i = sections.findIndex((s) => s._type === "onTapBlock");
-  const at = i < 0 ? sections.length : i + 1;
-  return [...sections.slice(0, at), toGoSeedSection(), ...sections.slice(at)];
 }
 
 /* ---------- Anchors and nav ---------- */

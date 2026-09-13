@@ -1,10 +1,11 @@
 /**
  * Default text for the section headings, button labels and small print that
- * used to be hardcoded in the components. They live in Site Settings now so
- * the owners can retype them on the page, but a Site Settings document saved
- * before these fields existed has none of them — and `initialValue` only
- * fires for brand-new documents. So components render these until someone
- * types over them, and `lib/fallback.ts` reuses them for the offline copy.
+ * used to be hardcoded in the components. They live on the Home Page's
+ * section blocks (and, for the footer, on Site Settings) so the owners can
+ * retype them on the page, but a block or document saved before a field
+ * existed has none of it — and `initialValue` only fires for brand-new
+ * documents. So components render these until someone types over them, and
+ * `lib/fallback.ts` reuses them for the offline copy.
  */
 export const DEFAULT_COPY = {
   heroHeading: "Your friendly\nneighborhood\nbeer hub",
@@ -42,11 +43,8 @@ export const DEFAULT_COPY = {
 } as const;
 
 /**
- * Copy for section blocks, kept out of DEFAULT_COPY: that object is spread into
- * FALLBACK_SETTINGS, which is annotated SiteSettings, and TypeScript does not
- * excess-property-check keys arriving through a spread — so anything added to
- * DEFAULT_COPY that is not a Site Settings field rides in silently and forever
- * uncheckable.
+ * Copy for the Feature block and the On Tap link into it, kept out of
+ * DEFAULT_COPY so that object stays one flat map of field name → default.
  */
 export const FEATURE_COPY = {
   onTapSecondaryLinkLabel: "See what’s new to go",

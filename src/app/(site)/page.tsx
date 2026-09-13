@@ -5,19 +5,14 @@ import { RevealObserver } from "@/components/RevealObserver";
 import { Sections } from "@/components/Sections";
 import {
   FALLBACK_EVENTS,
+  FALLBACK_SECTIONS,
   FALLBACK_SETTINGS,
   FALLBACK_WEEKLY,
 } from "@/lib/fallback";
 import { upcomingEvents } from "@/lib/events";
 import { startOfTodayIso } from "@/lib/format";
 import { localBusinessJsonLd } from "@/lib/jsonld";
-import {
-  navFromSections,
-  placeHome,
-  placeLegacy,
-  type Placed,
-  type Section,
-} from "@/lib/sections";
+import { navFromSections, placeHome, type Section } from "@/lib/sections";
 import { SITE_URL } from "@/lib/site";
 import type {
   GalleryImage,
@@ -83,11 +78,11 @@ export default async function HomePage() {
     home = null;
   }
 
-  // No Home Page document yet (pre-migration) → today's page, synthesized
-  // from the legacy Site Settings fields. See lib/sections.ts.
-  const placed: Placed[] = home?.sections?.length
-    ? placeHome(home.sections)
-    : placeLegacy(settings);
+  // Sanity unreachable, or the Home Page document missing → the baked-in
+  // section list, which is the migrated page as it stood on 2026-09-13.
+  const placed = placeHome(
+    home?.sections?.length ? home.sections : FALLBACK_SECTIONS,
+  );
 
   const jsonLd = JSON.stringify(
     localBusinessJsonLd(settings, SITE_URL),
