@@ -52,8 +52,15 @@ export default async function HomePage() {
       sanityFetch({ query: HOME_PAGE_QUERY }),
     ]);
     settings = (settingsRes.data ?? {}) as SiteSettings;
-    events = (eventsRes.data ?? []) as HubEvent[];
-    weeklyEvents = (weeklyRes.data ?? []) as WeeklyEvent[];
+    // The generated result types (sanity.types.ts) are stricter than the
+    // hand-written ones in two ways: missing fields come back as `null`, not
+    // `undefined`, and every string is stega-branded in previews, so a
+    // literal union like `category` must be `stegaClean`ed before it is
+    // compared (lib/categories.ts does). Until the hand-written types adopt
+    // that shape, these two go through `unknown`; the assignment above
+    // compiles only because Site Settings has no literal unions.
+    events = (eventsRes.data ?? []) as unknown as HubEvent[];
+    weeklyEvents = (weeklyRes.data ?? []) as unknown as WeeklyEvent[];
     home = (homeRes.data ?? null) as HomePageDoc | null;
   } catch (error) {
     // If Sanity is unreachable the site still renders full fallback content.
