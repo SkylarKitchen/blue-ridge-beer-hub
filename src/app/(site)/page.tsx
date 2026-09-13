@@ -80,6 +80,7 @@ export default async function HomePage() {
     (p) => p.section._type === "offeringsBlock",
   );
   const galleryPlaced = placed.find((p) => p.section._type === "galleryBlock");
+  const aboutPlaced = placed.find((p) => p.section._type === "aboutBlock");
 
   const jsonLd = JSON.stringify(
     localBusinessJsonLd(settings, SITE_URL),
@@ -144,7 +145,9 @@ export default async function HomePage() {
             images={gallery}
           />
         ) : null}
-        <AboutSection settings={settings} />
+        {aboutPlaced && aboutPlaced.section._type === "aboutBlock" ? (
+          <AboutSection block={aboutPlaced.section} scope={aboutPlaced.scope} />
+        ) : null}
         <Ridgeline />
         <HoursFooter settings={settings} />
       </main>
