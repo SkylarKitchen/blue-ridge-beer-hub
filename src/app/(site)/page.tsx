@@ -1,14 +1,8 @@
-import { AboutSection } from "@/components/AboutSection";
 import { AnnouncementBanner } from "@/components/AnnouncementBanner";
-import { EventsSection } from "@/components/EventsSection";
-import { GallerySection } from "@/components/GallerySection";
 import { Header } from "@/components/Header";
-import { Hero } from "@/components/Hero";
 import { HoursFooter } from "@/components/HoursFooter";
-import { OfferingsSection } from "@/components/OfferingsSection";
-import { OnTapSection } from "@/components/OnTapSection";
 import { RevealObserver } from "@/components/RevealObserver";
-import { Ridgeline } from "@/components/Ridgeline";
+import { Sections } from "@/components/Sections";
 import {
   FALLBACK_EVENTS,
   FALLBACK_SETTINGS,
@@ -17,6 +11,13 @@ import {
 import { upcomingEvents } from "@/lib/events";
 import { startOfTodayIso } from "@/lib/format";
 import { localBusinessJsonLd } from "@/lib/jsonld";
+import {
+  navFromSections,
+  placeHome,
+  placeLegacy,
+  type Placed,
+  type Section,
+} from "@/lib/sections";
 import { SITE_URL } from "@/lib/site";
 import type {
   GalleryImage,
@@ -28,9 +29,14 @@ import { sanityFetch } from "@/sanity/live";
 import {
   EVENTS_QUERY,
   GALLERY_QUERY,
+  HOME_PAGE_QUERY,
   SITE_SETTINGS_QUERY,
   WEEKLY_EVENTS_QUERY,
 } from "@/sanity/queries";
+
+interface HomePageDoc {
+  sections?: Section[];
+}
 
 /**
  * Sanity Live re-renders this page when content changes, but nothing else
@@ -48,18 +54,22 @@ export default async function HomePage() {
   let events: HubEvent[] = [];
   let weeklyEvents: WeeklyEvent[] = [];
   let gallery: GalleryImage[] = [];
+  let home: HomePageDoc | null = null;
 
   try {
-    const [settingsRes, eventsRes, weeklyRes, galleryRes] = await Promise.all([
-      sanityFetch({ query: SITE_SETTINGS_QUERY }),
-      sanityFetch({ query: EVENTS_QUERY, params: { from } }),
-      sanityFetch({ query: WEEKLY_EVENTS_QUERY }),
-      sanityFetch({ query: GALLERY_QUERY }),
-    ]);
+    const [settingsRes, eventsRes, weeklyRes, galleryRes, homeRes] =
+      await Promise.all([
+        sanityFetch({ query: SITE_SETTINGS_QUERY }),
+        sanityFetch({ query: EVENTS_QUERY, params: { from } }),
+        sanityFetch({ query: WEEKLY_EVENTS_QUERY }),
+        sanityFetch({ query: GALLERY_QUERY }),
+        sanityFetch({ query: HOME_PAGE_QUERY }),
+      ]);
     settings = (settingsRes.data ?? {}) as SiteSettings;
     events = (eventsRes.data ?? []) as HubEvent[];
     weeklyEvents = (weeklyRes.data ?? []) as WeeklyEvent[];
     gallery = (galleryRes.data ?? []) as GalleryImage[];
+    home = (homeRes.data ?? null) as HomePageDoc | null;
   } catch (error) {
     // If Sanity is unreachable the site still renders full fallback content.
     console.error("Sanity fetch failed; rendering fallbacks", error);
@@ -70,7 +80,14 @@ export default async function HomePage() {
     settings = FALLBACK_SETTINGS;
     events = upcomingEvents(FALLBACK_EVENTS, from);
     weeklyEvents = FALLBACK_WEEKLY;
+    home = null;
   }
+
+  // No Home Page document yet (pre-migration) → today's page, synthesized
+  // from the legacy Site Settings fields. See lib/sections.ts.
+  const placed: Placed[] = home?.sections?.length
+    ? placeHome(home.sections)
+    : placeLegacy(settings);
 
   const jsonLd = JSON.stringify(
     localBusinessJsonLd(settings, SITE_URL),
@@ -89,32 +106,15 @@ export default async function HomePage() {
         Skip to content
       </a>
       <AnnouncementBanner text={settings.announcement} />
-      <Header name={settings.name ?? "Blue Ridge Beer Hub"} />
+      <Header
+        name={settings.name ?? "Blue Ridge Beer Hub"}
+        nav={navFromSections(placed.map((p) => p.section))}
+      />
       <main id="main">
-        <Hero settings={settings} />
-        <Ridgeline />
-        <EventsSection
-          events={events}
-          weeklyEvents={weeklyEvents}
-          heading={settings.eventsHeading}
-          weeklyHeading={settings.weeklyHeading}
-          instagramUrl={settings.instagramUrl}
-          location={[
-            settings.name ?? "Blue Ridge Beer Hub",
-            settings.addressLine1,
-            settings.addressLine2,
-          ]
-            .filter(Boolean)
-            .join(", ")}
+        <Sections
+          placed={placed}
+          ctx={{ settings, events, weeklyEvents, gallery }}
         />
-        <OnTapSection settings={settings} />
-        <OfferingsSection
-          offerings={settings.offerings ?? []}
-          heading={settings.offeringsHeading}
-        />
-        <GallerySection images={gallery} heading={settings.galleryHeading} />
-        <AboutSection settings={settings} />
-        <Ridgeline />
         <HoursFooter settings={settings} />
       </main>
       <RevealObserver />

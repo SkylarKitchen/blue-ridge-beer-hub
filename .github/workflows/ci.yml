@@ -1,0 +1,89 @@
+# The repo's first CI. See issue #30 for why it was absent and what it cost:
+# across 137 commits nothing independently ran the suite, so every "99 passing,
+# tsc 0, lint 0" was a self-report with nothing binding a test count to a SHA.
+#
+# All four checks were measured on a clean Linux checkout (Node 22.22, npm ci
+# from the committed lockfile) before this landed, because #30's open questions
+# could only be answered by a runner:
+#
+#   npm ci      14s    1254 packages, exit 0
+#   npm test    <1s    99 pass, 0 fail
+#   typecheck   ~1.5s  exit 0, ZERO errors -- answering #30's Q1: tsconfig
+#                      includes .next/types and next-env.d.ts, both absent on a
+#                      clean checkout, and tsc does not mind
+#   lint        ~1.5s  exit 0
+#
+# WHAT IS DELIBERATELY NOT HERE
+#
+# next build. Vercel already builds every PR as a deploy preview, so running it
+# here duplicates that signal while adding a network dependency on the live
+# Sanity API (the homepage is statically rendered against it). A gate that goes
+# red because a third-party API blipped teaches people to ignore red.
+#
+# main-invariants.sh / drift-check.sh. Both are branch-lifetime tools whose
+# controls are pinned to the pre-merge world -- main-invariants' positive control
+# asserts src/lib/sections.ts is ABSENT on origin/main, which stops being true
+# the moment skylar/page-builder merges. Wiring them in would create a gate that
+# turns red on merge for reasons unrelated to code quality. Run them by hand:
+# `npm run main-invariants -- --self-test`.
+#
+# Branch protection / required status checks are NOT set by this file. That is a
+# repo-settings change and Skylar's call; merging here is already human-only.
+
+name: CI
+
+# Both triggers, deliberately. They are not redundant: `pull_request` runs
+# against the PR's MERGE ref (the branch merged into its base), `push` runs
+# against the branch head. Different commits, different questions.
+#
+# `push` covers every branch because `pull_request` silently cannot run when a
+# PR is conflicting: GitHub builds no merge commit (`merge_commit_sha: null`),
+# so there is no ref to run on and no workflow is even registered. That is how
+# this file sat completely inert on PR #28 while reporting nothing at all --
+# not a red X, a correct-looking void indistinguishable from "no CI here".
+# See issue #30. A gate must keep reporting exactly when a branch is in trouble.
+on:
+  push:
+    branches: ['**']
+  pull_request:
+
+# Grouped by github.ref, which differs between refs/heads/* and
+# refs/pull/N/merge, so a push run and a pull_request run for the same branch
+# do NOT cancel each other. That is intended -- collapsing them would keep
+# whichever started second and silently discard the other commit's result.
+# Re-pushing the same branch still cancels its own superseded run.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # .nvmrc, not a literal, so the pin has one home. The floor is Node
+          # 22.18: the suite relies on unflagged .ts type stripping and on
+          # `node --test` glob support. Node 20 fails `npm test` even though
+          # next accepts it, and nothing in the repo made that visible before
+          # -- there was no engines field, no .nvmrc, no .node-version.
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      # Kept as separate steps rather than one chained command so a failure
+      # names itself in the UI instead of collapsing into "Run checks failed".
+      - run: npm test
+      - run: npm run typecheck
+
+      # --max-warnings=0 only in CI, so local `npm run lint` stays quiet to work
+      # with. The repo has 0 warnings today, so this is free now and stops the
+      # gate from silently weakening as warnings accumulate -- bare `eslint`
+      # exits 0 on any number of warnings.
+      - run: npm run lint -- --max-warnings=0

@@ -31,12 +31,22 @@ export const WEEKLY_EVENTS_QUERY = defineQuery(
   }`,
 );
 
-// Excludes the shots pinned into the hero and About sections (see Hero.tsx,
-// AboutSection.tsx) so they don't double up in the grid.
+// Excludes the shots pinned into the hero and About sections (see
+// PINNED_HERO_IMAGE and PINNED_ABOUT_IMAGE in src/lib/sections.ts) so they
+// don't double up in the grid.
 export const GALLERY_QUERY = defineQuery(
   `*[_type == "galleryImage"
     && !(_id in ["galleryImage-tap-handles", "galleryImage-owners-open-flag"])]
     | order(order asc, _createdAt asc){
     _id, image, alt, caption
   }`,
+);
+
+/**
+ * The block list that composes the homepage. `...` keeps every block field
+ * flowing through without this projection changing per block type; the
+ * stega on each string still names its exact path.
+ */
+export const HOME_PAGE_QUERY = defineQuery(
+  `*[_type == "homePage"][0]{ sections[]{ ... } }`,
 );

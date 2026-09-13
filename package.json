@@ -2,18 +2,25 @@
   "name": "blue-ridge-beer-hub",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=22.18"
+  },
   "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "migrate:sections": "node --env-file=.env.local scripts/migrate-to-sections.ts",
+    "main-invariants": "bash scripts/main-invariants.sh",
     "lint": "eslint",
     "drift-check": "bash scripts/drift-check.sh",
+    "typecheck": "tsc --noEmit",
     "test": "node --test \"src/**/*.test.ts\""
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.123.0",
     "@rolldown/binding-wasm32-wasi": "^1.2.7",
+    "@sanity/client": "^8.4.0",
     "@sanity/image-url": "^2.1.1",
     "@sanity/mutate": "^0.18.1",
     "@sanity/vision": "^6.12.0",

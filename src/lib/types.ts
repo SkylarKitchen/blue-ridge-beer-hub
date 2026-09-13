@@ -9,13 +9,17 @@ export interface DayHours {
 }
 
 export interface Offering {
+  /** Sanity resolves an array member's schema by this; the Studio shows
+   * "Item of type object not valid for this list" without it. */
+  _type?: "offering";
   _key?: string;
   title: string;
   description: string;
 }
 
 export interface SanityImageRef {
-  asset?: { _ref: string };
+  _type?: "image";
+  asset?: { _type?: "reference"; _ref: string };
   alt?: string;
   hotspot?: { x: number; y: number; height?: number; width?: number };
   crop?: { top: number; bottom: number; left: number; right: number };

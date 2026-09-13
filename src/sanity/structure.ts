@@ -1,13 +1,17 @@
 import type { StructureResolver } from "sanity/structure";
 
 /**
- * Studio sidebar: Site Settings pinned as a singleton, then the three
- * owner-managed lists. Events default to soonest-first.
+ * Studio sidebar: Home Page and Site Settings pinned as singletons, then
+ * the three owner-managed lists. Events default to soonest-first.
  */
 export const structure: StructureResolver = (S) =>
   S.list()
     .title("Content")
     .items([
+      S.listItem()
+        .title("Home Page")
+        .id("homePage")
+        .child(S.document().schemaType("homePage").documentId("homePage")),
       S.listItem()
         .title("Site Settings")
         .id("siteSettings")

@@ -4,19 +4,20 @@ import { decodeSanityNodeData } from "@sanity/visual-editing-csm";
 import { vercelStegaDecode } from "@vercel/stega";
 import { createDataAttribute } from "next-sanity";
 
-/** The Site Settings singleton's document id (see `src/sanity/structure.ts`). */
-export const SITE_SETTINGS_ID = "siteSettings";
+import type { EditScope } from "./edit-scope.ts";
+
+export { SITE_SETTINGS_ID } from "./edit-scope.ts";
 
 /**
- * `data-sanity` builder for Site Settings fields that aren't strings — a
- * number like the tap count carries no stega, so without this the overlay
- * has nothing to attach to and the field is unreachable from the page.
- * Click-to-edit opens it in the Studio pane; `Editable` handles the rest.
+ * `data-sanity` for values that carry no stega (numbers, booleans) inside a
+ * block. Click-to-edit then opens the right field in the Studio pane.
  */
-export const siteSettingsField = createDataAttribute({
-  id: SITE_SETTINGS_ID,
-  type: "siteSettings",
-});
+export function editAttribute(scope: EditScope, field: string): string {
+  return createDataAttribute({
+    id: scope.documentId,
+    type: scope.documentType,
+  })(scope.field(field));
+}
 
 /**
  * Where a rendered string came from in Sanity. In draft-mode previews every

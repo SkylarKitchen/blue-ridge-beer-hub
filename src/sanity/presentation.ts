@@ -19,6 +19,10 @@ export const resolve: PresentationPluginOptions["resolve"] = {
     },
   ]),
   locations: {
+    homePage: defineLocations({
+      message: "The Home Page is the homepage, top to bottom.",
+      locations: [{ title: "Homepage", href: "/" }],
+    }),
     siteSettings: defineLocations({
       message: "Settings render across the whole homepage.",
       locations: [{ title: "Homepage", href: "/" }],

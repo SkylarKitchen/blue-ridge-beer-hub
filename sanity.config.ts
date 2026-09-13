@@ -13,7 +13,7 @@ import { structure } from "./src/sanity/structure";
 // One document each, addressed by a fixed _id (see structure.ts and
 // lib/pipeline/state.ts). Hide them from the global "create" menu and strip
 // the actions that would orphan or duplicate them.
-const SINGLETONS = new Set(["siteSettings", "pipelineState"]);
+const SINGLETONS = new Set(["siteSettings", "pipelineState", "homePage"]);
 const SINGLETON_BLOCKED_ACTIONS = new Set(["unpublish", "delete", "duplicate"]);
 
 export default defineConfig({

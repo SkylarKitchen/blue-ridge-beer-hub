@@ -1,4 +1,4 @@
-import { DEFAULT_COPY } from "./copy";
+import { DEFAULT_COPY } from "./copy.ts";
 import type { HubEvent, SiteSettings, WeeklyEvent } from "./types";
 
 /**

@@ -2,7 +2,9 @@ import type { CSSProperties } from "react";
 
 import { categoryMeta } from "@/lib/categories";
 import { DEFAULT_COPY } from "@/lib/copy";
+import type { EditScope } from "@/lib/edit-scope";
 import { formatTimeRange } from "@/lib/format";
+import type { EventsBlock } from "@/lib/sections";
 import type { HubEvent, WeeklyEvent } from "@/lib/types";
 
 import { AddToCalendar } from "./AddToCalendar";
@@ -124,19 +126,21 @@ interface MonthGroup {
 }
 
 export function EventsSection({
+  block,
+  scope,
   events,
   weeklyEvents,
   instagramUrl,
   location,
-  heading,
-  weeklyHeading,
+  id = "events",
 }: {
+  block: EventsBlock;
+  scope: EditScope;
   events: HubEvent[];
   weeklyEvents: WeeklyEvent[];
   instagramUrl?: string;
   location: string;
-  heading?: string;
-  weeklyHeading?: string;
+  id?: string;
 }) {
   const sortedWeekly = [...weeklyEvents].sort(
     (a, b) => DAY_ORDER.indexOf(a.dayOfWeek) - DAY_ORDER.indexOf(b.dayOfWeek),
@@ -159,15 +163,16 @@ export function EventsSection({
   }
 
   return (
-    <section id="events" className="bg-navy">
+    <section id={id} className="bg-navy">
       <div className="mx-auto max-w-6xl px-5 sm:px-10 py-20">
         <h2
           data-reveal
           className="font-display text-5xl uppercase text-cream sm:text-6xl"
         >
           <Editable
-            value={heading ?? DEFAULT_COPY.eventsHeading}
-            path="eventsHeading"
+            value={block.heading ?? DEFAULT_COPY.eventsHeading}
+            scope={scope}
+            field="heading"
             label="Events heading"
           />
         </h2>
@@ -237,8 +242,9 @@ export function EventsSection({
               className="font-display text-2xl uppercase text-cream"
             >
               <Editable
-                value={weeklyHeading ?? DEFAULT_COPY.weeklyHeading}
-                path="weeklyHeading"
+                value={block.weeklyHeading ?? DEFAULT_COPY.weeklyHeading}
+                scope={scope}
+                field="weeklyHeading"
                 label="Weekly events heading"
               />
             </h3>

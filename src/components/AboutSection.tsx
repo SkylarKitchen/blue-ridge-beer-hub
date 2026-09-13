@@ -3,23 +3,32 @@ import { PortableText } from "next-sanity";
 import type { CSSProperties } from "react";
 
 import { DEFAULT_COPY } from "@/lib/copy";
+import type { EditScope } from "@/lib/edit-scope";
 import { simpleBlockText } from "@/lib/editable";
-import type { SiteSettings } from "@/lib/types";
+import type { AboutBlock } from "@/lib/sections";
 import { urlFor } from "@/sanity/image";
 
 import { Editable } from "./Editable";
 
-// Default when Site Settings has no "About photo": a pinned gallery-shoot
+// Default when the about block has no photo: a pinned gallery-shoot
 // asset that GALLERY_QUERY excludes so it doesn't double up.
 const OWNERS_IMAGE =
   "image-fc66f7f4d741bb78af4b98b31f4514f36047adc9-2048x2560-jpg";
 const OWNERS_ALT =
   "Jason and Charlotte outside the Hub under the orange OPEN flag";
 
-export function AboutSection({ settings }: { settings: SiteSettings }) {
-  const photo = settings.aboutImage?.asset ? settings.aboutImage : null;
+export function AboutSection({
+  block,
+  scope,
+  id = "about",
+}: {
+  block: AboutBlock;
+  scope: EditScope;
+  id?: string;
+}) {
+  const photo = block.image?.asset ? block.image : null;
   return (
-    <section id="about" className="mx-auto max-w-6xl px-5 sm:px-10 pb-24">
+    <section id={id} className="mx-auto max-w-6xl px-5 sm:px-10 pb-24">
       <div
         data-reveal-group
         className="grid items-start gap-12 md:grid-cols-[3fr_2fr]"
@@ -27,20 +36,21 @@ export function AboutSection({ settings }: { settings: SiteSettings }) {
         <div>
           <h2 className="font-display text-5xl uppercase text-navy sm:text-6xl">
             <Editable
-              value={settings.aboutHeading ?? DEFAULT_COPY.aboutHeading}
-              path="aboutHeading"
+              value={block.heading ?? DEFAULT_COPY.aboutHeading}
+              scope={scope}
+              field="heading"
               label="About heading"
             />
           </h2>
-          {settings.aboutBody ? (
+          {block.body ? (
             <div className="prose-p:leading-relaxed mt-6 max-w-2xl space-y-4 text-lg text-ink/85">
-              {settings.aboutBody.map((block, i) => {
+              {block.body.map((textBlock, i) => {
                 // Plain paragraphs get typed on the page; anything carrying
                 // formatting keeps the real serializer.
-                const text = simpleBlockText(block);
-                const key = block._key ?? `block-${i}`;
+                const text = simpleBlockText(textBlock);
+                const key = textBlock._key ?? `block-${i}`;
                 return text === null ? (
-                  <PortableText key={key} value={[block]} />
+                  <PortableText key={key} value={[textBlock]} />
                 ) : (
                   <p key={key}>
                     <Editable value={text} label="About paragraph" multiline />
@@ -49,16 +59,17 @@ export function AboutSection({ settings }: { settings: SiteSettings }) {
               })}
             </div>
           ) : null}
-          {settings.credentials?.length ? (
+          {block.credentials?.length ? (
             <ul className="mt-7 flex flex-wrap gap-2.5">
-              {settings.credentials.map((credential, i) => (
+              {block.credentials.map((credential, i) => (
                 <li
                   key={i}
                   className="rounded-full border border-amber/40 bg-butter px-4 py-1.5 text-sm font-semibold text-navy-deep"
                 >
                   <Editable
                     value={credential}
-                    path={`credentials[${i}]`}
+                    scope={scope}
+                    field={`credentials[${i}]`}
                     label={`Trust badge ${i + 1}`}
                   />
                 </li>
