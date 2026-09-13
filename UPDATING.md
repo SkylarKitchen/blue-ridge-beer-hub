@@ -149,14 +149,15 @@ The colored strip across the very top of the site. Good for “closed today”,
 
 1. Open **Site Settings** — it’s what the editor opens on — and click the
    **Name & Contact** tab.
-2. Scroll to **Announcement banner**, near the bottom, and type the message.
-   Publish.
+2. **Announcement banner** is the first thing on that tab. Type the message
+   and press Publish.
 3. **Clear it when the news is over.** Delete the text and publish again. A
    stale banner is worse than no banner.
 
-![The Name & Contact tab, scrolled to the bottom: the banner text, and the folded-up Email alerts section under it.](public/guide/studio-announcement.webp)
+![The top of the Name & Contact tab: the banner text sits first, above the rest of the details.](public/guide/studio-announcement.webp)
 
-Below it is a folded-up section called **Email alerts**. Click it to open.
+Further down that tab is a folded-up section called **Email alerts**. Click it
+to open.
 Inside is **Who gets the “new events found” email**, the list of addresses the
 robot writes to. Click **Add item** to add one. It stays folded because you
 set it once and then forget it.

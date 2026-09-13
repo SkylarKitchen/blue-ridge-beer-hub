@@ -78,17 +78,17 @@ export const siteSettings = defineType({
       options: { columns: 2 },
     },
     {
-      name: "tapWriting",
-      title: "The writing",
-      group: "tap",
-    },
-    {
       name: "tapNumber",
       title: "The big number",
       group: "tap",
       description:
         "The big number in the “On tap” section and the two small lines under it. Change the number if you add or retire lines.",
       options: { columns: 2 },
+    },
+    {
+      name: "tapWriting",
+      title: "The writing",
+      group: "tap",
     },
     {
       name: "footerColumns",
@@ -108,6 +108,14 @@ export const siteSettings = defineType({
   ],
   fields: [
     // ── Name & Contact ────────────────────────────────────────────────
+    defineField({
+      name: "announcement",
+      title: "Announcement banner",
+      type: "string",
+      group: "identity",
+      description:
+        "Optional. Shows as a banner across the top of the site — e.g. “Closed today for a private event.” Leave empty to hide the banner.",
+    }),
     defineField({
       name: "name",
       title: "Business name",
@@ -182,14 +190,6 @@ export const siteSettings = defineType({
       type: "url",
       group: "identity",
       fieldset: "links",
-    }),
-    defineField({
-      name: "announcement",
-      title: "Announcement banner",
-      type: "string",
-      group: "identity",
-      description:
-        "Optional. Shows as a banner across the top of the site — e.g. “Closed today for a private event.” Leave empty to hide the banner.",
     }),
     defineField({
       name: "pipelineEmails",
@@ -356,6 +356,31 @@ export const siteSettings = defineType({
     }),
     // ── On Tap ────────────────────────────────────────────────────────
     defineField({
+      name: "tapCount",
+      title: "Number of taps",
+      type: "number",
+      group: "tap",
+      fieldset: "tapNumber",
+      initialValue: 16,
+      validation: (rule) => rule.min(1).max(99),
+    }),
+    defineField({
+      name: "tapCountLabel",
+      title: "Label under the big number",
+      type: "string",
+      group: "tap",
+      fieldset: "tapNumber",
+      initialValue: "taps pouring right now*",
+    }),
+    defineField({
+      name: "tapCountFootnote",
+      title: "Footnote under that label",
+      type: "string",
+      group: "tap",
+      fieldset: "tapNumber",
+      initialValue: "*give or take. The live list knows best.",
+    }),
+    defineField({
       name: "onTapHeading",
       title: "On Tap section heading",
       type: "string",
@@ -391,31 +416,6 @@ export const siteSettings = defineType({
       group: "tap",
       fieldset: "tapWriting",
       initialValue: "Open the live tap list",
-    }),
-    defineField({
-      name: "tapCount",
-      title: "Number of taps",
-      type: "number",
-      group: "tap",
-      fieldset: "tapNumber",
-      initialValue: 16,
-      validation: (rule) => rule.min(1).max(99),
-    }),
-    defineField({
-      name: "tapCountLabel",
-      title: "Label under the big number",
-      type: "string",
-      group: "tap",
-      fieldset: "tapNumber",
-      initialValue: "taps pouring right now*",
-    }),
-    defineField({
-      name: "tapCountFootnote",
-      title: "Footnote under that label",
-      type: "string",
-      group: "tap",
-      fieldset: "tapNumber",
-      initialValue: "*give or take. The live list knows best.",
     }),
     defineField({
       name: "tapPerks",
