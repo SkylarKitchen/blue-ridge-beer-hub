@@ -71,6 +71,13 @@ left on the Home Page blocks.
 `sanity.types.ts`, which types every `sanityFetch` result by its query text.
 Both files are committed; re-run it after any schema or query change.
 `src/sanity/typegen.test.ts` fails when either has drifted.
+
+`npm run backup` exports the dataset (documents and assets) to a dated
+tarball under the gitignored `backups/` folder. Take one before anything
+that writes to the live dataset — a seed import, `unset:legacy`,
+`unset:nulls`. It authenticates with `SANITY_BACKUP_TOKEN`, falling back to
+`SANITY_API_READ_TOKEN`. To restore:
+`npx sanity dataset import backups/<file> production --replace`.
 `featureBlock` is the reusable words-plus-photos section; layout follows the
 photo count (`src/lib/feature.ts`). `/dev/blocks` renders every layout in
 development.

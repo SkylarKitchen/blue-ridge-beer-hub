@@ -42,3 +42,6 @@ next-env.d.ts
 
 # keep the example env committed
 !.env.example
+
+# dataset backups (npm run backup)
+/backups
