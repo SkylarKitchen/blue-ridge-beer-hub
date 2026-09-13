@@ -1,6 +1,7 @@
 import type { PortableTextBlock } from "next-sanity";
 import { stegaClean } from "next-sanity";
 
+import { FEATURE_COPY } from "./copy.ts";
 import { blockScope, legacyScope, type EditScope } from "./edit-scope.ts";
 import type { Offering, SanityImageRef, SiteSettings } from "./types";
 
@@ -261,6 +262,44 @@ export function placeHome(sections: Section[]): Placed[] {
     section,
     scope: blockScope(section._key),
   }));
+}
+
+/* ---------- To Go seed ---------- */
+
+// The gallery shot that shows the coolers; placeholder until the owners
+// add real cooler photos.
+export const BAR_STOOLS_IMAGE =
+  "image-54c73c104a932d177981f0a0f0412ab9f0039148-2560x1707-jpg";
+
+export function toGoSeedSection(): FeatureBlock {
+  return {
+    _key: "to-go",
+    _type: "featureBlock",
+    hiddenOnSite: true,
+    menuLabel: "To Go",
+    eyebrow: FEATURE_COPY.toGo.eyebrow,
+    heading: FEATURE_COPY.toGo.heading,
+    body: FEATURE_COPY.toGo.body,
+    photoSide: "right",
+    photos: [
+      {
+        _key: "photo-1",
+        ...imageRef(
+          BAR_STOOLS_IMAGE,
+          "Stools along the concrete bar top, coolers stocked for carryout behind.",
+        ),
+      },
+    ],
+    listHeading: FEATURE_COPY.toGo.listHeading,
+    listItems: [],
+  };
+}
+
+/** Today's sections plus the seeded To Go block directly after On Tap. */
+export function withToGoSeed(sections: Section[]): Section[] {
+  const i = sections.findIndex((s) => s._type === "onTapBlock");
+  const at = i < 0 ? sections.length : i + 1;
+  return [...sections.slice(0, at), toGoSeedSection(), ...sections.slice(at)];
 }
 
 /* ---------- Anchors and nav ---------- */

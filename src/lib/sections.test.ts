@@ -14,7 +14,9 @@ import {
   sectionArrayPath,
   sectionsFromSettings,
   slugify,
+  toGoSeedSection,
   visibleSections,
+  withToGoSeed,
   type Section,
   type SectionType,
 } from "./sections.ts";
@@ -478,4 +480,23 @@ test("every block on a page resolves to the same array, at a distinct path", () 
   assert.equal([...arrays][0], "sections[]");
   assert.equal(new Set(paths).size, paths.length, "two blocks share a path");
   assert.ok(paths.length > 1, "a single block is never draggable");
+});
+
+/* ---------- To Go seed ---------- */
+
+test("withToGoSeed places a hidden To Go block right after On Tap", () => {
+  const sections = withToGoSeed(sectionsFromSettings(FALLBACK_SETTINGS));
+  const tapIndex = sections.findIndex((s) => s._type === "onTapBlock");
+  const seed = sections[tapIndex + 1];
+  assert.equal(seed._type, "featureBlock");
+  assert.equal(seed.hiddenOnSite, true);
+  assert.equal(seed.menuLabel, "To Go");
+  assert.equal(sections.length, 9);
+});
+
+test("the To Go seed has one placeholder photo and an empty list", () => {
+  const seed = toGoSeedSection();
+  assert.equal(seed.photos?.length, 1);
+  assert.ok(seed.photos?.[0]?.alt);
+  assert.deepEqual(seed.listItems, []);
 });

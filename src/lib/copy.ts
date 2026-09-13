@@ -24,7 +24,6 @@ export const DEFAULT_COPY = {
   tapCountFootnote: "*give or take. The live list knows best.",
   tapPerks: [
     "Growlers filled to go",
-    "Build-your-own six-packs from the coolers",
     "Pour sizes from a 4\u00a0oz taster on up",
   ],
 
@@ -40,4 +39,21 @@ export const DEFAULT_COPY = {
   footerVisitLine: "Making a trip of it?",
   footerLegal:
     "Made in Waynesville, NC · 21+ to drink · please enjoy responsibly",
+} as const;
+
+/**
+ * Copy for section blocks, kept out of DEFAULT_COPY: that object is spread into
+ * FALLBACK_SETTINGS, which is annotated SiteSettings, and TypeScript does not
+ * excess-property-check keys arriving through a spread — so anything added to
+ * DEFAULT_COPY that is not a Site Settings field rides in silently and forever
+ * uncheckable.
+ */
+export const FEATURE_COPY = {
+  onTapSecondaryLinkLabel: "See what’s new to go",
+  toGo: {
+    eyebrow: "To go",
+    heading: "New in the coolers",
+    body: "Cans, bottles, and cases to carry out, restocked every week with whatever’s new from Asheville and beyond. Build your own six-pack from anything in the coolers, or grab a case for the cabin.\n\nHunting something specific? Ask at the bar. If we can get it, we will.",
+    listHeading: "Just in",
+  },
 } as const;

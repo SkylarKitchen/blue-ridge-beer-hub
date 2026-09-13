@@ -12,14 +12,16 @@
  * unless --force is passed.
  *
  * The document it writes is `sectionsFromSettings(settings)` — the very same
- * function the site renders from today. That is deliberate: the migrated
- * page is byte-for-byte the page the adapter already produces, so the
- * migration cannot change what visitors see. It also means the GROQ
- * projection below is load-bearing. Any field the adapter reads and the
- * projection omits arrives `undefined`, and the adapter's fallback is
- * written to Content Lake in its place. That is how an owner-uploaded hero
- * photo would have been replaced by the pinned gallery shot — a loss no
- * commit can revert. Add a field to the adapter, add it here.
+ * function the site renders from today. Also seeds the To Go block, hidden,
+ * after On Tap. That is deliberate: apart from that hidden seed, which
+ * renders nothing until the owners un-hide it, the migrated page is
+ * byte-for-byte the page the adapter already produces, so the migration
+ * cannot change what visitors see. It also means the GROQ projection below
+ * is load-bearing. Any field the adapter reads and the projection omits
+ * arrives `undefined`, and the adapter's fallback is written to Content Lake
+ * in its place. That is how an owner-uploaded hero photo would have been
+ * replaced by the pinned gallery shot — a loss no commit can revert. Add a
+ * field to the adapter, add it here.
  *
  * On the nulls in the output: GROQ returns `null` for a field the source
  * document does not have, and those nulls are written through rather than
@@ -50,7 +52,7 @@
 import { createClient } from "@sanity/client";
 
 import { HOME_PAGE_ID, HOME_PAGE_TYPE } from "../src/lib/edit-scope.ts";
-import { sectionsFromSettings } from "../src/lib/sections.ts";
+import { sectionsFromSettings, withToGoSeed } from "../src/lib/sections.ts";
 import type { SiteSettings } from "../src/lib/types";
 
 /** The two Gallery Photo documents the Hero and About blocks now own. */
@@ -123,7 +125,7 @@ const SETTINGS_PROJECTION = `*[_type == "siteSettings"][0]{
 const settings = await client.fetch<SiteSettings | null>(SETTINGS_PROJECTION);
 if (!settings) throw new Error("No published Site Settings document");
 
-const sections = sectionsFromSettings(settings);
+const sections = withToGoSeed(sectionsFromSettings(settings));
 const doc = { _id: HOME_PAGE_ID, _type: HOME_PAGE_TYPE, sections };
 
 // Both ids, per ruling P4: a leftover experiment draft shadows the migrated
@@ -156,7 +158,8 @@ console.log(`  hero photo:  ${photoSource(settings.heroImage?.asset)}`);
 console.log(`  about photo: ${photoSource(settings.aboutImage?.asset)}`);
 
 const offerings = sections.find((s) => s._type === "offeringsBlock");
-const cards = offerings?._type === "offeringsBlock" ? offerings.cards : undefined;
+const cards =
+  offerings?._type === "offeringsBlock" ? offerings.cards : undefined;
 console.log(
   `  offerings:   ${cards?.length ?? 0} card(s), keys ${
     cards?.map((c) => c._key).join(", ") || "(none)"
