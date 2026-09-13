@@ -39,7 +39,9 @@ form beside it. Here’s what’s what.
    opens here.
 3. **Tabs and Home Page.** The words on the page live under **Home Page**, one
    entry per section. Your name, hours, and links live under **Site Settings**,
-   split into tabs.
+   split into tabs that run in the same order the sections appear on the page,
+   so you’re never scrolling through everything at once. Inside a tab, related
+   fields sit together under a small heading like *Where you are*.
 4. **Publish.** Nothing goes live until you press this. It stays grey until
    you’ve changed something.
 5. **Structure.** The list view. Events, Weekly Events, and Gallery Photos
@@ -106,8 +108,9 @@ The next morning you get an email listing what it found.
   section). The robot is a convenience, not a requirement.
 
 > **Note:** Who receives the email is a list under Site Settings → Name &
-> Contact → *Who gets the “new events found” email*. If nobody is on it, the
-> robot has no one to write to. [See where that is.](#the-announcement-banner)
+> Contact → **Email alerts** → *Who gets the “new events found” email*. That
+> section starts folded up — click it to open. If nobody is on it, the robot
+> has no one to write to. [See where that is.](#the-announcement-banner)
 
 ### Adding events by hand (about 15 minutes)
 
@@ -174,15 +177,18 @@ The colored strip across the very top of the site. Good for “closed today”,
 
 1. Open **Site Settings** — it’s what the editor opens on — and click the
    **Name & Contact** tab.
-2. Scroll to **Announcement banner**, near the bottom, and type the message.
-   Publish.
+2. **Announcement banner** is the first thing on that tab. Type the message
+   and press Publish.
 3. **Clear it when the news is over.** Delete the text and publish again. A
    stale banner is worse than no banner.
 
-![The Name & Contact tab, scrolled to the bottom: the banner text, and the list of who gets the flyer email.](public/guide/studio-announcement.webp)
+![The top of the Name & Contact tab: the banner text sits first, above the rest of the details.](public/guide/studio-announcement.webp)
 
-The field right below it, **Who gets the “new events found” email**, is the
-list of addresses the robot writes to. Click **Add item** to add one.
+Further down that tab is a folded-up section called **Email alerts**. Click it
+to open.
+Inside is **Who gets the “new events found” email**, the list of addresses the
+robot writes to. Click **Add item** to add one. It stays folded because you
+set it once and then forget it.
 
 ## Hours, phone, and links
 
@@ -192,7 +198,7 @@ All of these live under **Site Settings**.
 
 ![The Hours tab lists every day of the week. Click one to open it.](public/guide/studio-hours.webp)
 
-![One day. Type times like 12:00 PM — the “open now” label on the site reads them, so keep that format. Flip Closed this day for days you’re shut.](public/guide/studio-hours-day.webp)
+![One day. Type times like 12:00 PM — the “open now” label on the site reads them, so keep that format. Flip Closed for days you’re shut.](public/guide/studio-hours-day.webp)
 
 **The Name & Contact tab** has the phone number, the email address, and the
 Untappd, Instagram, and Facebook links.
@@ -201,7 +207,8 @@ Untappd, Instagram, and Facebook links.
 
 The writing for each section of the site — the tap count, the intro paragraphs,
 the offer cards, the trust badges — lives under **Home Page**, one entry per
-section. Everything there can also be changed by clicking it on the page.
+section, in the order those sections appear on the page. Everything there can
+also be changed by clicking it on the page.
 
 ## Photos
 
