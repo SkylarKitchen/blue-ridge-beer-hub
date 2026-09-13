@@ -88,6 +88,19 @@ if [ "$neg" -eq 0 ]; then
 else
   echo "  positive control ok (can see $neg line(s) $MAIN added since $(git rev-parse --short "$BASE"))"
 fi
+
+# Third control, on the subtraction below rather than on the diff above. The
+# false PASS this script caught in itself was a control guarding the wrong
+# computation, so each computation that can be wrong gets its own. Feed the
+# exact shape prettier produces — one line, two indents — through the same
+# norm+comm path the real gate uses, and assert it nets to nothing.
+ctl_rm="$(printf '      foo(bar),\n' | norm | sort -u)"
+ctl_add="$(printf '        foo(bar),\n' | norm | sort -u)"
+if [ -n "$(comm -23 <(printf '%s\n' "$ctl_rm") <(printf '%s\n' "$ctl_add"))" ]; then
+  echo "  FAIL: a re-indented line still reports as removed. Reflow would read as a revert."
+  exit 2
+fi
+echo "  reindent control ok (same text at a new indent nets to zero)"
 echo
 
 # ---------------------------------------------------------------------------
@@ -137,6 +150,18 @@ if git merge-base --is-ancestor "$MAIN" HEAD; then
     exit 2
   fi
   removed="$(git diff "$MAIN"..HEAD | $GREP '^-' | $GREP -v '^---' | sed 's/^-//' | norm | sort -u)"
+  # A line the branch ALSO adds back was not removed — it moved, reflowed, or
+  # was re-indented. This is not an edge case: adding one element to a
+  # prettier-wrapped array or call pushes every sibling a level deeper, so
+  # each sibling appears as a -/+ pair. Peer f2 hit exactly that on Task 11
+  # (a fifth element in a Promise.all re-indented the other four), and the
+  # finding is indistinguishable by eye from a real revert.
+  #
+  # Set-based on purpose: if main added a line twice and the branch keeps one
+  # copy, this says "present". That is the right answer for this gate, which
+  # asks whether main's work survives, not how many times.
+  readded="$(git diff "$MAIN"..HEAD | $GREP '^+' | $GREP -v '^+++' | sed 's/^+//' | norm | sort -u)"
+  removed="$(comm -23 <(printf '%s\n' "$removed") <(printf '%s\n' "$readded"))"
   risk="$(comm -12 <(added_by_main "$HORIZON") <(printf '%s\n' "$removed"))"
   if [ -z "$risk" ]; then
     echo "  PASS: this branch removes nothing $MAIN recently added."
