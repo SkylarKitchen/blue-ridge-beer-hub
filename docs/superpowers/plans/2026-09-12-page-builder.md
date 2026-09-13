@@ -21,6 +21,39 @@
 - Verify each task with: `npm test`, `npx tsc --noEmit`, `npm run lint`.
 - Never run a dev server as a background task. Use `~/.claude/scripts/ghostty-tab.sh 'npm run dev'` after checking `lsof -nP -iTCP:3000 -sTCP:LISTEN`.
 
+
+## The base moved: merge, don't paste
+
+This plan's task bodies contain **verbatim whole-file replacements**, and they were authored against
+`9c07a8b` (18:26). PRs #3 and #4 merged into `origin/main` at 19:08 and changed 23 files under
+`src/`, including files these tasks rewrite. The branch has since been rebased onto `9de0d44`, so
+the ancestry is fixed — **the plan is not**.
+
+**A verbatim whole-file block is a delete of everything not in it.** When the base moves under the
+plan, that deletion is invisible from both directions: the branch never had main's line, so nothing
+shows as *removed*, and a 3-way merge replaying a whole-file rewrite onto main's version can apply
+**cleanly, with no conflict marker and nothing to review**.
+
+This is not hypothetical, and it is not an executor's mistake. Tasks 7, 8 and 10 pasted their blocks
+verbatim and main's `sizes` attributes and `sr-only` a11y fix survived **only because git's 3-way
+merge happened to keep them**. The paste was lucky, not safe. Luck is not a merge strategy.
+
+**The rule:** where a task rewrites a file that `origin/main` also changed, main's lines are stated
+in the block as **content required to be present in the result** — not as a note beside it, and not
+as conflict-resolution guidance, because there may be no conflict to resolve.
+
+**Why the existing gate cannot catch this.** `npx tsc --noEmit && npm run lint && npm test` is
+exactly the gate that would certify every one of these losses as clean: nothing in the suite asserts
+that a `sizes` attribute, an ISR export, or a skip-link target exists. These are not broken things,
+they are *absent* things, and every check in this repo is a change detector. Affected tasks therefore
+carry a **Gate B** step, and its literal output goes in the task record.
+
+**One carve-out, stated so nobody "fixes" it.** Gate B line-matches, so it will keep reporting
+`Hero.tsx` and `AboutSection.tsx` after the rebase. Those lines were **relocated, not lost** — the
+photo now arrives via `block.image` through the adapter. A line-presence check can see that a line
+left; it cannot see that its responsibility moved somewhere better. Every other file's Gate B result
+should be empty; those two should not.
+
 ---
 
 ### Task 1: Branch and spec
@@ -742,6 +775,9 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 
 ### Task 5: Hero becomes a block component
 
+> **Base moved — merge, don't paste (Task 5).** `origin/main` shipped the owner-uploadable top-of-page photo (`settings.heroImage`). Hero stays purely block-driven; the override moves to `sectionsFromSettings` in `src/lib/sections.ts`, the only place whose precedence is right in both legacy and Home Page modes. That one-line adapter change is **Task 13's**, and `migrate:sections --apply` must not run before it lands. See "The base moved" above. Verify with Gate B, not with `npm test`.
+
+
 **Files:**
 
 - Modify: `src/components/Hero.tsx` (whole file)
@@ -1066,6 +1102,9 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 
 ### Task 7: Offerings and Gallery block components
 
+> **Base moved — merge, don't paste (Task 7).** `origin/main` shipped `sizes="(min-width: 1152px) 360px, (min-width: 768px) 33vw, 50vw"` on the gallery image. `OfferingsSection.tsx` is untouched by main and needs no merge. See "The base moved" above. Verify with Gate B, not with `npm test`.
+
+
 **Files:**
 
 - Modify: `src/components/OfferingsSection.tsx`, `src/components/GallerySection.tsx`
@@ -1151,6 +1190,9 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 
 ### Task 8: About block component
 
+> **Base moved — merge, don't paste (Task 8).** `origin/main` shipped the owner-uploadable About photo and `sizes="(min-width: 768px) 300px, 224px"`. The photo's precedence belongs in the adapter (`sectionsFromSettings`), not in this component — see Task 13. Keep `sizes`. See "The base moved" above. Verify with Gate B, not with `npm test`.
+
+
 **Files:**
 
 - Modify: `src/components/AboutSection.tsx`
@@ -1227,6 +1269,9 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 ---
 
 ### Task 10: Header takes a derived nav
+
+> **Base moved — merge, don't paste (Task 10).** `origin/main` shipped an a11y fix here: the business-name span is `sr-only … sm:not-sr-only` rather than `hidden`, so the logo link keeps an accessible name on phones. It survived the rebase only because git's 3-way merge happened to keep it — the verbatim paste was lucky, not safe. See "The base moved" above. Verify with Gate B, not with `npm test`.
+
 
 **Files:**
 
@@ -1412,6 +1457,7 @@ import { Header } from "@/components/Header";
 import { HoursFooter } from "@/components/HoursFooter";
 import { RevealObserver } from "@/components/RevealObserver";
 import { Sections } from "@/components/Sections";
+import { upcomingEvents } from "@/lib/events";
 import {
   FALLBACK_EVENTS,
   FALLBACK_SETTINGS,
@@ -1442,11 +1488,22 @@ import {
   WEEKLY_EVENTS_QUERY,
 } from "@/sanity/queries";
 
+/**
+ * Sanity Live re-renders this page when content changes, but nothing else
+ * would — and the "upcoming events" floor is computed at render time. Without
+ * time-based revalidation a quiet week leaves last Saturday's show on the
+ * page. Hourly ISR keeps the floor within an hour of midnight; the other
+ * queries still come from the tag-based data cache, so this costs one extra
+ * events query per hour at most.
+ */
+export const revalidate = 3600;
+
 interface HomePageDoc {
   sections?: Section[];
 }
 
 export default async function HomePage() {
+  const from = startOfTodayIso();
   let settings: SiteSettings = {};
   let events: HubEvent[] = [];
   let weeklyEvents: WeeklyEvent[] = [];
@@ -1457,10 +1514,7 @@ export default async function HomePage() {
     const [settingsRes, eventsRes, weeklyRes, galleryRes, homeRes] =
       await Promise.all([
         sanityFetch({ query: SITE_SETTINGS_QUERY }),
-        sanityFetch({
-          query: EVENTS_QUERY,
-          params: { from: startOfTodayIso() },
-        }),
+        sanityFetch({ query: EVENTS_QUERY, params: { from } }),
         sanityFetch({ query: WEEKLY_EVENTS_QUERY }),
         sanityFetch({ query: GALLERY_QUERY }),
         sanityFetch({ query: HOME_PAGE_QUERY }),
@@ -1478,7 +1532,7 @@ export default async function HomePage() {
   // Sanity unreachable or dataset not seeded yet → serve the baked-in copy.
   if (!settings.name) {
     settings = FALLBACK_SETTINGS;
-    events = FALLBACK_EVENTS;
+    events = upcomingEvents(FALLBACK_EVENTS, from);
     weeklyEvents = FALLBACK_WEEKLY;
     home = null;
   }
@@ -1499,12 +1553,18 @@ export default async function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLd }}
       />
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-full focus:bg-navy focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-cream"
+      >
+        Skip to content
+      </a>
       <AnnouncementBanner text={settings.announcement} />
       <Header
         name={settings.name ?? "Blue Ridge Beer Hub"}
         nav={navFromSections(placed.map((p) => p.section))}
       />
-      <main>
+      <main id="main">
         <Sections
           placed={placed}
           ctx={{ settings, events, weeklyEvents, gallery }}
@@ -1540,6 +1600,47 @@ migration runs.
 
 Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 ```
+
+- [ ] **Step 6: Gate B — prove main's lines are still present**
+
+Do **not** run `.superpowers/sdd/2026-09-12-page-builder/checks/drift-check.sh`. That prototype is
+superseded and has the exact defect this step exists to prevent: it hardcodes `MERGE_BASE=9c07a8b`
+(meaningless now the branch is rebased) and has no positive control, so it can **report clean while
+blind**. Use the promoted version:
+
+```bash
+npm run drift-check          # once skylar/drift-check (89188ee) has merged
+```
+
+Until that branch merges it is not on this branch — run it from there:
+
+```bash
+git show skylar/drift-check:scripts/drift-check.sh > /tmp/drift-check.sh
+chmod +x /tmp/drift-check.sh && /tmp/drift-check.sh
+```
+
+Paste the **literal output** into the task record. An empty result only counts as evidence when the
+command that produced it is shown beside it — "clean" and "couldn't look" render identically. The
+promoted script self-tests first and prints its controls; if you don't see a control line, the run
+proved nothing.
+
+Expected at `7590bd6` — exactly four lines, all the known Hero/About **relocation**, none of them losses:
+
+```
+== origin/main is an ancestor: lines origin/main added recently that this branch removes ==
+   horizon: 1a9ce96 (364 line(s) origin/main added since)
+  4 line(s) need a named ruling:
+      | // Default when Site Settings has no "About photo": a pinned gallery-shoot
+      | // Default when Site Settings has no "Top-of-page photo": a pinned
+      | const photo = settings.aboutImage?.asset ? settings.aboutImage : null;
+      | const photo = settings.heroImage?.asset ? settings.heroImage : null;
+```
+
+Those four are ruled: the photo now arrives via `block.image` through the adapter, and restoring the
+precedence is **Task 13's** one-line change in `sectionsFromSettings`. Do **not** "fix" `Hero.tsx` or
+`AboutSection.tsx` to clear the gate — re-coupling them to `settings` undoes the refactor this PR
+exists to perform. **A fifth line appearing is a real finding.**
+
 
 ---
 
