@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "node --test \"src/**/*.test.ts\""
+    "test": "node --test \"src/**/*.test.ts\"",
+    "migrate:sections": "node --env-file=.env.local scripts/migrate-to-sections.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.123.0",
