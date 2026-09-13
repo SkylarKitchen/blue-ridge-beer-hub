@@ -14,14 +14,15 @@ npm run dev
 
 ## How content works
 
-The homepage runs four GROQ queries (site settings, dated events, weekly
-events, gallery). If Sanity is unreachable or empty, `src/lib/fallback.ts`
-serves a baked-in copy of everything so the page always renders. Content
-editing happens in the Studio at `/studio` — see [UPDATING.md](UPDATING.md)
-for the monthly routine (it's written for the shop owners, not developers).
-The live site serves that same file at `/guide`, so the owners get one link
-rather than a file. The page (`src/app/guide/page.tsx`) renders the markdown
-with a few extras — screenshots become captioned figures, `**Tip:**` /
+The homepage runs five GROQ queries (site settings, dated events, weekly
+events, gallery, home page). If Sanity is unreachable or empty,
+`src/lib/fallback.ts` serves a baked-in copy of everything so the page
+always renders. Content editing happens in the Studio at `/studio` — see
+[UPDATING.md](UPDATING.md) for the monthly routine (it's written for the shop
+owners, not developers). The live site serves that same file at `/guide`, so
+the owners get one link rather than a file. The page
+(`src/app/guide/page.tsx`) renders the markdown with a few extras —
+screenshots become captioned figures, `**Tip:**` /
 `**Heads up:**` / `**Note:**` blockquotes become callouts, a list of links
 becomes task cards, and `##` headings feed an "On this page" sidebar — while
 the file stays readable on GitHub as-is. The screenshots live in
@@ -53,6 +54,14 @@ parses or compares Sanity strings must `stegaClean` first (see
 - **Tap list is Untappd's job** — the site links out rather than maintaining one.
 - `seed/seed.ndjson` holds the original September 2026 import
   (`npx sanity dataset import seed/seed.ndjson production`).
+
+The homepage is composed from `homePage.sections[]`, an array of typed block
+objects (`src/sanity/schemaTypes/blocks/`). `src/lib/sections.ts` holds the
+block types, anchor and header-menu derivation, and the legacy adapter that
+synthesizes the same blocks from the flat Site Settings fields when no Home
+Page document exists yet. `scripts/migrate-to-sections.ts` writes that
+document once (dry run by default). After it has run, the adapter, the legacy
+fields, and the pinned-photo exclusion in `GALLERY_QUERY` can be removed.
 
 ### Editing on the page
 

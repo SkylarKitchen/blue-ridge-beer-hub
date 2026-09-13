@@ -19,6 +19,7 @@ Three things to know before anything else:
 ### What do you want to do?
 
 - [Change the words on the page](#change-the-words-on-the-page)
+- [Add, move, or hide a section of the page](#the-sections-of-the-page)
 - [Post the month’s events](#post-the-months-events)
 - [Put up or take down the banner](#the-announcement-banner)
 - [Change hours, phone, or links](#hours-phone-and-links)
@@ -36,8 +37,9 @@ form beside it. Here’s what’s what.
    it to change it.
 2. **The form.** The same content as fields. Whatever you click on the left
    opens here.
-3. **Tabs.** Site Settings is split into tabs — Name & Contact, Hours, Top of
-   Page, and so on — so you’re never scrolling through everything at once.
+3. **Tabs and Home Page.** The words on the page live under **Home Page**, one
+   entry per section. Your name, hours, and links live under **Site Settings**,
+   split into tabs.
 4. **Publish.** Nothing goes live until you press this. It stays grey until
    you’ve changed something.
 5. **Structure.** The list view. Events, Weekly Events, and Gallery Photos
@@ -139,6 +141,32 @@ one without deleting it.
 
 ![A weekly event is a day of the week and a time written the way you’d say it.](public/guide/studio-weekly.webp)
 
+## The sections of the page
+
+The homepage is a stack of sections — the big headline, events, on tap, the
+photos, and so on. You can reorder them, hide one for a while, or add a new
+one, all from **Structure → Home Page**.
+
+- **Reorder:** drag a section by the handle on its left.
+- **Hide for now:** open a section and tick **Hide for now**. It stays in the
+  list but comes off the site. Untick to bring it back.
+- **Add:** press **Add item** at the bottom of the list and pick a kind of
+  section. The new one lands at the end; drag it where you want it.
+- **Remove:** the three dots on a section → **Remove**. If you might want it
+  back, hide it instead.
+
+Each section’s words are inside it — open a section to see them. Clicking the
+words on the page still works and opens the same place.
+
+> **Tip:** The menu across the top of the site follows the page. Hide a
+> section and its menu entry goes too. **Menu label** inside a section renames
+> its entry.
+
+Publish when it looks right. From Structure there’s no page beside the form,
+so publish and then check the site. In the visual editor — click any words on
+the page to open Home Page beside it — the page updates as you drag the list,
+so you can try an order and discard it if you don’t like it.
+
 ## The announcement banner
 
 The colored strip across the very top of the site. Good for “closed today”,
@@ -171,10 +199,9 @@ Untappd, Instagram, and Facebook links.
 
 ![Phone, email and links, all on the Name & Contact tab.](public/guide/studio-contact-links.webp)
 
-The other tabs — Top of Page, On Tap, About, What We Offer, Photos, Footer —
-hold the writing for each section of the site: the tap count, the intro
-paragraphs, the offer cards, the trust badges. Everything there can also be
-changed by clicking it on the page.
+The writing for each section of the site — the tap count, the intro paragraphs,
+the offer cards, the trust badges — lives under **Home Page**, one entry per
+section. Everything there can also be changed by clicking it on the page.
 
 ## Photos
 
@@ -199,9 +226,9 @@ To remove a photo, open it, click the three dots next to Publish, and choose
 **Delete**.
 
 The two big photos outside the gallery — the wide one at the very top and the
-one beside the About text — live in **Site Settings → Top of Page** and
-**Site Settings → About**. Upload a replacement there (and describe it) to swap
-either one; clear the field to go back to the originals.
+one beside the About text — live in **Home Page → Top of page → Wide photo**
+and **Home Page → About → Photo**. Upload a replacement there (and describe it)
+to swap either one; clear the field to go back to the originals.
 
 ## When something looks wrong
 
