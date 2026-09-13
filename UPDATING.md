@@ -150,6 +150,11 @@ The homepage is a stack of sections — the big headline, events, on tap, the
 photos, and so on. You can reorder them, hide one for a while, or add a new
 one, all from **Structure → Home Page**.
 
+> **Not yet.** This part switches on with the next update. Until then **Home
+> Page** is empty — if you open it and there’s nothing there, nothing is
+> broken. Don’t add a section yet: it would take the rest of the page off the
+> site until we switch over.
+
 - **Reorder:** drag a section by the handle on its left.
 - **Hide for now:** open a section and tick **Hide for now**. It stays in the
   list but comes off the site. Untick to bring it back.
