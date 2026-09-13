@@ -66,6 +66,26 @@ export interface DividerBlock extends SectionBase {
   _type: "dividerBlock";
 }
 
+export interface FeaturePhoto extends SanityImageRef {
+  _key?: string;
+}
+
+export interface FeatureBlock extends SectionBase {
+  _type: "featureBlock";
+  eyebrow?: string;
+  heading?: string;
+  /** Plain text; blank lines separate paragraphs and are kept as line breaks. */
+  body?: string;
+  photos?: FeaturePhoto[];
+  photoSide?: "left" | "right";
+  listHeading?: string;
+  listItems?: string[];
+  /** ISO date (YYYY-MM-DD) the owners set when they refresh the list. */
+  listAsOf?: string;
+  ctaLabel?: string;
+  ctaUrl?: string;
+}
+
 export type Section =
   | HeroBlock
   | EventsBlock
@@ -73,7 +93,8 @@ export type Section =
   | OfferingsBlock
   | GalleryBlock
   | AboutBlock
-  | DividerBlock;
+  | DividerBlock
+  | FeatureBlock;
 
 export type SectionType = Section["_type"];
 
@@ -141,6 +162,7 @@ export const LEGACY_FIELDS: Record<SectionType, Record<string, string>> = {
     credentials: "credentials",
   },
   dividerBlock: {},
+  featureBlock: {},
 };
 
 /**
@@ -276,7 +298,11 @@ export function slugify(text: string): string {
  * caller filtered first.
  */
 export function assignAnchors(sections: Section[]): Map<string, string | null> {
-  const used = new Map<string, number>();
+  // HoursFooter renders <footer id="hours"> and navFromSections appends
+  // "#hours" unconditionally, so reserve it here: a Feature block whose
+  // Menu label slugifies to "hours" would otherwise emit a second
+  // id="hours" above the footer and send the Hours link to the wrong place.
+  const used = new Map<string, number>([["hours", 1]]);
   const out = new Map<string, string | null>();
   for (const section of sections) {
     if (section.hiddenOnSite) {

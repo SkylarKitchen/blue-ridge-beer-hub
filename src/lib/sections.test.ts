@@ -154,6 +154,8 @@ const SPEC_LEGACY_FIELDS: Record<SectionType, Record<string, string>> = {
     credentials: "credentials",
   },
   dividerBlock: {},
+  // PR 2's Feature block is new: nothing in Site Settings maps to it.
+  featureBlock: {},
 };
 
 function omit<T extends Record<string, unknown>>(obj: T, ...keys: string[]) {
@@ -260,7 +262,10 @@ test("every migrated offering card carries _type, or the Studio refuses it", () 
   const sections = sectionsFromSettings(FALLBACK_SETTINGS);
   const offerings = sections.find((s) => s._type === "offeringsBlock");
   assert.ok(offerings && offerings._type === "offeringsBlock");
-  assert.ok(offerings.cards?.length, "fixture has no cards, so nothing is exercised");
+  assert.ok(
+    offerings.cards?.length,
+    "fixture has no cards, so nothing is exercised",
+  );
   for (const card of offerings.cards ?? []) {
     assert.equal(card._type, "offering", `card ${card._key} has no _type`);
   }
@@ -325,6 +330,30 @@ test("assignAnchors never emits an empty anchor for a punctuation-only label", (
   assert.equal(anchors.get("f1"), "section-f1");
   assert.equal(anchors.get("f2"), "section-f2");
   assert.equal(anchors.get("f3"), "live-music");
+});
+
+test("a Feature block labeled 'Hours' never takes the footer's #hours anchor", () => {
+  // HoursFooter renders <footer id="hours"> after <main>, and navFromSections
+  // appends "#hours" unconditionally. A Feature block's anchor comes from its
+  // menu label, so an owner who types "Hours" there would otherwise emit a
+  // second id="hours" ABOVE the footer: the browser resolves #hours to the
+  // first one in document order, the Hours link scrolls to the Feature
+  // section, and the footer becomes unreachable by anchor. The gate is the
+  // anchor value itself — href uniqueness alone could pass for the wrong
+  // reason while the duplicate id came back.
+  const sections: Section[] = [
+    ...sectionsFromSettings(FALLBACK_SETTINGS),
+    { _key: "f-hours", _type: "featureBlock", menuLabel: "Hours" },
+  ];
+  const anchors = assignAnchors(sections);
+  assert.equal(anchors.get("f-hours"), "hours-2");
+
+  const hrefs = navFromSections(sections).map((i) => i.href);
+  assert.equal(
+    new Set(hrefs).size,
+    hrefs.length,
+    "two nav items share an href",
+  );
 });
 
 /*
@@ -394,7 +423,6 @@ test("an image field present but with no asset falls back to the pinned one", ()
   assert.equal(about.image?.asset?._ref, PINNED_ABOUT_IMAGE);
 });
 
-
 /*
  * Drag-to-reorder (Task 14) rests on one thing this repo controls: the shape
  * of the path in `data-sanity`. @sanity/visual-editing 6.1.2 never reports an
@@ -425,7 +453,10 @@ const arrayPathOf = (path: string) => {
 };
 
 test("a section path is an array path, which is what makes a block draggable", () => {
-  assert.equal(sectionArrayPath("legacy-hero"), 'sections[_key=="legacy-hero"]');
+  assert.equal(
+    sectionArrayPath("legacy-hero"),
+    'sections[_key=="legacy-hero"]',
+  );
   assert.ok(
     isSanityArrayPath(sectionArrayPath("legacy-hero")),
     "the overlay would refuse to drag this element",
