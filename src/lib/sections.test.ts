@@ -4,13 +4,17 @@ import { test } from "node:test";
 import { FALLBACK_SETTINGS } from "./fallback.ts";
 import {
   assignAnchors,
+  LEGACY_FIELDS,
   navFromSections,
   PINNED_ABOUT_IMAGE,
   PINNED_HERO_IMAGE,
   placeHome,
   placeLegacy,
   sectionsFromSettings,
+  slugify,
+  visibleSections,
   type Section,
+  type SectionType,
 } from "./sections.ts";
 
 const ORDER = [
@@ -107,4 +111,190 @@ test("assignAnchors de-duplicates repeated block types, dividers get none", () =
   assert.equal(anchors.get(events._key), "events");
   assert.equal(anchors.get("again"), "events-2");
   assert.equal(anchors.get("legacy-divider-1"), null);
+});
+
+/* ---------- Legacy adapter completeness ---------- */
+
+/**
+ * The spec's "Legacy field map" (docs/superpowers/specs/2026-09-12-page-
+ * builder-design.md), written out by hand so `LEGACY_FIELDS` is checked
+ * against an independent source rather than against itself. The migration
+ * writes `sectionsFromSettings` output to the production dataset and a later
+ * PR unsets the legacy fields, so a mapping dropped from the adapter would
+ * be permanent loss of the owners' copy — and invisible in a dry-run diff.
+ *
+ * The spec's two `image` rows are pinned assets, not Site Settings fields;
+ * they are absent here and checked by shape below.
+ */
+const SPEC_LEGACY_FIELDS: Record<SectionType, Record<string, string>> = {
+  heroBlock: {
+    heading: "heroHeading",
+    subheading: "heroSubheading",
+    primaryCta: "heroPrimaryCta",
+    secondaryCta: "heroSecondaryCta",
+  },
+  eventsBlock: { heading: "eventsHeading", weeklyHeading: "weeklyHeading" },
+  onTapBlock: {
+    heading: "onTapHeading",
+    blurb: "onTapBlurb",
+    secondary: "onTapSecondary",
+    cta: "onTapCta",
+    tapCount: "tapCount",
+    tapCountLabel: "tapCountLabel",
+    tapCountFootnote: "tapCountFootnote",
+    perks: "tapPerks",
+  },
+  offeringsBlock: { heading: "offeringsHeading", cards: "offerings" },
+  galleryBlock: { heading: "galleryHeading" },
+  aboutBlock: {
+    heading: "aboutHeading",
+    body: "aboutBody",
+    credentials: "credentials",
+  },
+  dividerBlock: {},
+};
+
+function omit<T extends Record<string, unknown>>(obj: T, key: string) {
+  return Object.fromEntries(Object.entries(obj).filter(([k]) => k !== key));
+}
+
+test("LEGACY_FIELDS matches the spec's legacy field map", () => {
+  const copyFields = Object.fromEntries(
+    Object.entries(LEGACY_FIELDS).map(([type, map]) => [
+      type,
+      omit(map, "image"),
+    ]),
+  );
+  assert.deepEqual(copyFields, SPEC_LEGACY_FIELDS);
+
+  // Known divergence from the spec, deferred to the migration ticket: the
+  // code maps hero.image to a `heroImage` Site Settings field the spec does
+  // not list (the spec pins both images to assets). Pinned here so a change
+  // is a visible decision rather than a silent one.
+  const imageFields = Object.fromEntries(
+    Object.entries(LEGACY_FIELDS)
+      .filter(([, map]) => "image" in map)
+      .map(([type, map]) => [type, map.image]),
+  );
+  assert.deepEqual(imageFields, { heroBlock: "heroImage" });
+});
+
+test("sectionsFromSettings copies every mapped legacy field, end to end", () => {
+  const settings = FALLBACK_SETTINGS as Record<string, unknown>;
+  const sections = sectionsFromSettings(FALLBACK_SETTINGS);
+  let checked = 0;
+
+  for (const section of sections) {
+    const block = section as unknown as Record<string, unknown>;
+    for (const [blockField, legacyField] of Object.entries(
+      SPEC_LEGACY_FIELDS[section._type],
+    )) {
+      const expected = settings[legacyField];
+      // An absent fixture value would make the comparison pass vacuously.
+      assert.notEqual(
+        expected,
+        undefined,
+        `FALLBACK_SETTINGS.${legacyField} is unset, so ${section._type}.${blockField} is not exercised`,
+      );
+      if (blockField === "cards") {
+        // Fallback offerings carry no _key; the adapter synthesizes one.
+        const cards = block.cards as Record<string, unknown>[];
+        assert.deepEqual(
+          cards.map((card) => omit(card, "_key")),
+          expected,
+          "offeringsBlock.cards ≠ settings.offerings",
+        );
+        const keys = cards.map((card) => card._key);
+        assert.ok(keys.every((k) => typeof k === "string" && k.length > 0));
+        assert.equal(new Set(keys).size, keys.length);
+      } else {
+        assert.deepEqual(
+          block[blockField],
+          expected,
+          `${section._type}.${blockField} ≠ settings.${legacyField}`,
+        );
+      }
+      checked += 1;
+    }
+  }
+
+  // Every mapping in the table was visited exactly once.
+  const total = Object.values(SPEC_LEGACY_FIELDS).reduce(
+    (n, map) => n + Object.keys(map).length,
+    0,
+  );
+  assert.equal(checked, total);
+});
+
+test("sectionsFromSettings keeps an offering's existing _key", () => {
+  // Stega paths and the migration both address cards by key; renaming one
+  // would orphan the owners' on-page edits.
+  const sections = sectionsFromSettings({
+    ...FALLBACK_SETTINGS,
+    offerings: [{ _key: "a1b2", title: "On tap", description: "Sixteen." }],
+  });
+  const offerings = sections.find((s) => s._type === "offeringsBlock");
+  assert.ok(offerings && offerings._type === "offeringsBlock");
+  assert.equal(offerings.cards?.[0]?._key, "a1b2");
+});
+
+test("pinned images carry the full reference shape the migration writes", () => {
+  const sections = sectionsFromSettings(FALLBACK_SETTINGS);
+  const hero = sections.find((s) => s._type === "heroBlock");
+  assert.ok(hero && hero._type === "heroBlock");
+  assert.deepEqual(hero.image, {
+    _type: "image",
+    asset: { _type: "reference", _ref: PINNED_HERO_IMAGE },
+    alt: "Numbered tap handles branded with the Blue Ridge Beer Hub hop logo",
+  });
+
+  const about = sections.find((s) => s._type === "aboutBlock");
+  assert.ok(about && about._type === "aboutBlock");
+  assert.deepEqual(about.image, {
+    _type: "image",
+    asset: { _type: "reference", _ref: PINNED_ABOUT_IMAGE },
+    alt: "Jason and Charlotte outside the Hub under the orange OPEN flag",
+  });
+});
+
+/* ---------- Anchor hardening ---------- */
+
+test("assignAnchors gives hidden sections no anchor and leaves them uncounted", () => {
+  const sections = sectionsFromSettings(FALLBACK_SETTINGS);
+  const events = sections.find((s) => s._type === "eventsBlock");
+  assert.ok(events);
+  const hidden: Section = {
+    ...events,
+    _key: "hidden-events",
+    hiddenOnSite: true,
+  };
+  const all = [hidden, ...sections];
+
+  const anchors = assignAnchors(all);
+  assert.equal(anchors.get("hidden-events"), null);
+  assert.equal(anchors.get(events._key), "events");
+
+  // Page and nav agree by construction: passing the pre-filtered list gives
+  // every visible section the same anchor.
+  const fromVisible = assignAnchors(visibleSections(all));
+  for (const section of sections) {
+    assert.equal(anchors.get(section._key), fromVisible.get(section._key));
+  }
+});
+
+test("assignAnchors never emits an empty anchor for a punctuation-only label", () => {
+  assert.equal(slugify("!!! ???"), "");
+
+  // A type with no DEFAULT_ANCHOR entry (PR 2's featureBlock) derives its
+  // anchor from the menu label.
+  const feature = (key: string, menuLabel: string) =>
+    ({ _key: key, _type: "featureBlock", menuLabel }) as unknown as Section;
+  const anchors = assignAnchors([
+    feature("f1", "!!!"),
+    feature("f2", "???"),
+    feature("f3", "Live Music"),
+  ]);
+  assert.equal(anchors.get("f1"), "section-f1");
+  assert.equal(anchors.get("f2"), "section-f2");
+  assert.equal(anchors.get("f3"), "live-music");
 });

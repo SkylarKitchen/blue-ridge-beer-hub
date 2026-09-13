@@ -238,19 +238,24 @@ export function slugify(text: string): string {
 }
 
 /**
- * One `id` per section, unique across the page. Dividers get null. A
- * repeated type gets `-2`, `-3`… Hidden sections are skipped by callers;
- * this function only cares about uniqueness among what it's given.
+ * One `id` per section, unique across the page. Dividers and hidden
+ * sections get null, and hidden ones don't count toward `-2`, `-3`… — so
+ * the page and the header menu land on the same anchors whether or not a
+ * caller filtered first.
  */
 export function assignAnchors(sections: Section[]): Map<string, string | null> {
   const used = new Map<string, number>();
   const out = new Map<string, string | null>();
   for (const section of sections) {
+    if (section.hiddenOnSite) {
+      out.set(section._key, null);
+      continue;
+    }
     let base = DEFAULT_ANCHOR[section._type];
     if (base === undefined) {
-      base = section.menuLabel?.trim()
-        ? slugify(section.menuLabel)
-        : `section-${section._key}`;
+      // A label of nothing but punctuation slugifies to "", which would be
+      // an empty id on the page and a "#-2" link in the menu.
+      base = slugify(section.menuLabel ?? "") || `section-${section._key}`;
     }
     if (base === null) {
       out.set(section._key, null);
