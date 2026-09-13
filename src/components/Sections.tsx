@@ -1,11 +1,8 @@
 import { createDataAttribute } from "next-sanity";
 
 import { HOME_PAGE_ID, HOME_PAGE_TYPE } from "@/lib/edit-scope";
-import {
-  assignAnchors,
-  sectionArrayPath,
-  type Placed,
-} from "@/lib/sections";
+import { nextFeatureAnchor } from "@/lib/feature";
+import { assignAnchors, sectionArrayPath, type Placed } from "@/lib/sections";
 import type {
   GalleryImage,
   HubEvent,
@@ -15,6 +12,7 @@ import type {
 
 import { AboutSection } from "./AboutSection";
 import { EventsSection } from "./EventsSection";
+import { FeatureSection } from "./FeatureSection";
 import { GallerySection } from "./GallerySection";
 import { Hero } from "./Hero";
 import { OfferingsSection } from "./OfferingsSection";
@@ -69,7 +67,8 @@ export function Sections({
   ctx: SectionContext;
 }) {
   const shown = placed.filter((p) => !p.section.hiddenOnSite);
-  const anchors = assignAnchors(shown.map((p) => p.section));
+  const list = shown.map((p) => p.section);
+  const anchors = assignAnchors(list);
   const eventsKey = shown.find((p) => p.section._type === "eventsBlock")
     ?.section._key;
   const eventsHref = eventsKey ? `#${anchors.get(eventsKey)}` : undefined;
@@ -107,7 +106,7 @@ export function Sections({
                 settings={ctx.settings}
                 id={id}
                 eventsHref={eventsHref}
-              />
+              />,
             );
           case "dividerBlock":
             return wrap(<Ridgeline key={section._key} />);
@@ -122,7 +121,7 @@ export function Sections({
                 weeklyEvents={ctx.weeklyEvents}
                 instagramUrl={ctx.settings.instagramUrl}
                 location={location}
-              />
+              />,
             );
           case "onTapBlock":
             return wrap(
@@ -132,7 +131,17 @@ export function Sections({
                 scope={scope}
                 id={id}
                 untappdUrl={ctx.settings.untappdUrl}
-              />
+                secondaryHref={nextFeatureAnchor(list, section._key, anchors)}
+              />,
+            );
+          case "featureBlock":
+            return wrap(
+              <FeatureSection
+                key={section._key}
+                block={section}
+                scope={scope}
+                id={id}
+              />,
             );
           case "offeringsBlock":
             return wrap(
@@ -141,7 +150,7 @@ export function Sections({
                 block={section}
                 scope={scope}
                 id={id}
-              />
+              />,
             );
           case "galleryBlock":
             return wrap(
@@ -151,7 +160,7 @@ export function Sections({
                 scope={scope}
                 id={id}
                 images={ctx.gallery}
-              />
+              />,
             );
           case "aboutBlock":
             return wrap(
@@ -160,7 +169,7 @@ export function Sections({
                 block={section}
                 scope={scope}
                 id={id}
-              />
+              />,
             );
           default:
             return null;

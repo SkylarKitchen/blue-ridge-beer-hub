@@ -45,3 +45,32 @@ test("nextFeatureAnchor finds the first Feature block after a section", () => {
   assert.equal(nextFeatureAnchor(page, "about", anchors), "#section-f2");
   assert.equal(nextFeatureAnchor(page, "f2", anchors), undefined);
 });
+
+test("nextFeatureAnchor returns undefined for an unknown key", () => {
+  assert.equal(nextFeatureAnchor(page, "nope", assignAnchors(page)), undefined);
+});
+
+test("nextFeatureAnchor skips a hidden Feature block", () => {
+  // Sections drops hidden blocks before calling it, but the helper must not
+  // rely on that: a hidden block has no anchor, so a link to it would be dead.
+  const withHidden: Section[] = [
+    { _key: "tap", _type: "onTapBlock" },
+    {
+      _key: "h",
+      _type: "featureBlock",
+      menuLabel: "Hidden",
+      hiddenOnSite: true,
+    },
+    { _key: "f", _type: "featureBlock", menuLabel: "To Go" },
+  ];
+  const anchors = assignAnchors(withHidden);
+  assert.equal(nextFeatureAnchor(withHidden, "tap", anchors), "#to-go");
+  assert.equal(
+    nextFeatureAnchor(
+      withHidden.slice(0, 2),
+      "tap",
+      assignAnchors(withHidden.slice(0, 2)),
+    ),
+    undefined,
+  );
+});

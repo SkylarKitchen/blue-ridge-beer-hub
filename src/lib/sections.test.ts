@@ -500,3 +500,28 @@ test("the To Go seed has one placeholder photo and an empty list", () => {
   assert.ok(seed.photos?.[0]?.alt);
   assert.deepEqual(seed.listItems, []);
 });
+
+test("a Feature block is in the menu only when it has a label", () => {
+  const withLabel: Section[] = [
+    { _key: "tap", _type: "onTapBlock" },
+    { _key: "f", _type: "featureBlock", menuLabel: "To Go" },
+  ];
+  assert.deepEqual(navFromSections(withLabel), [
+    { href: "#tap", label: "On Tap" },
+    { href: "#to-go", label: "To Go" },
+    { href: "#hours", label: "Hours" },
+  ]);
+  const noLabel: Section[] = [{ _key: "f", _type: "featureBlock" }];
+  assert.deepEqual(navFromSections(noLabel), [
+    { href: "#hours", label: "Hours" },
+  ]);
+  assert.equal(assignAnchors(noLabel).get("f"), "section-f");
+});
+
+test("the To Go seed ships without a button", () => {
+  // The owners add the call-to-action themselves; a seeded label with no URL
+  // (or the reverse) would render nothing yet look configured in the Studio.
+  const seed = toGoSeedSection();
+  assert.equal(seed.ctaLabel, undefined);
+  assert.equal(seed.ctaUrl, undefined);
+});

@@ -496,7 +496,7 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 import Image from "next/image";
 import type { CSSProperties } from "react";
 
-import { DEFAULT_COPY } from "@/lib/copy";
+import { FEATURE_COPY } from "@/lib/copy";
 import type { EditScope } from "@/lib/edit-scope";
 import { editAttribute } from "@/lib/editable";
 import { featureLayout, formatAsOf } from "@/lib/feature";
@@ -612,7 +612,7 @@ export function FeatureSection({
             ) : null}
             <h2 className="mt-2 font-display text-5xl uppercase text-navy sm:text-6xl">
               <Editable
-                value={block.heading ?? DEFAULT_COPY.toGo.heading}
+                value={block.heading ?? FEATURE_COPY.toGo.heading}
                 scope={scope}
                 field="heading"
                 label="Feature heading"
@@ -636,7 +636,7 @@ export function FeatureSection({
               >
                 <h3 className="font-display text-xl text-navy-deep">
                   <Editable
-                    value={block.listHeading ?? DEFAULT_COPY.toGo.listHeading}
+                    value={block.listHeading ?? FEATURE_COPY.toGo.listHeading}
                     scope={scope}
                     field="listHeading"
                     label="List heading"
@@ -692,6 +692,8 @@ export function FeatureSection({
   );
 }
 ```
+
+> Ruling R22 (Task 5): the three-photo layout ships as spec Q15's **strip** — one row of three equal crops (`grid-cols-3`), one column on mobile. The 2×2 tall-plus-two grid above stays reachable only through an optional component prop `trio?: "strip" | "grid"` (default `"strip"`), never a schema field; `/dev/blocks` renders both.
 
 `ctaUrl` carries stega in previews; wrap it with `stegaClean` from `next-sanity` before `startsWith` and before `href` (see `HoursFooter.tsx` for the same pattern).
 
@@ -838,7 +840,7 @@ In the `onTapBlock` case add `secondaryHref={nextFeatureAnchor(list, section._ke
       >
         <Editable
           value={
-            block.secondaryLinkLabel ?? DEFAULT_COPY.onTapSecondaryLinkLabel
+            block.secondaryLinkLabel ?? FEATURE_COPY.onTapSecondaryLinkLabel
           }
           scope={scope}
           field="secondaryLinkLabel"
@@ -958,4 +960,4 @@ Hand Skylar the link. After both PRs merge and deploy: run `npm run migrate:sect
 ## Self-review notes
 
 - Spec: Q1 (list hides when empty, Task 5), Q4 (Task 4 perk removal + Task 6 link), Q15 (Task 2 layout by count, Task 3 photoSide), Q19 (Task 3 fields, Task 2 date, Task 5 rendering), Q23 (Task 4 seed, hidden, after On Tap), Q26 (Task 8). Q10: link optional (Task 3).
-- Names: `FeatureBlock`, `FeaturePhoto`, `featureLayout`, `formatAsOf`, `nextFeatureAnchor`, `toGoSeedSection`, `withToGoSeed`, `BAR_STOOLS_IMAGE`, `DEFAULT_COPY.toGo`, `DEFAULT_COPY.onTapSecondaryLinkLabel`, `FeatureSection({ block, scope, id })`, `OnTapSection.secondaryHref`, schema fields `eyebrow, heading, body, photos, photoSide, listHeading, listItems, listAsOf, ctaLabel, ctaUrl, secondaryLinkLabel`.
+- Names: `FeatureBlock`, `FeaturePhoto`, `featureLayout`, `formatAsOf`, `nextFeatureAnchor`, `toGoSeedSection`, `withToGoSeed`, `BAR_STOOLS_IMAGE`, `DEFAULT_COPY.toGo`, `FEATURE_COPY.onTapSecondaryLinkLabel`, `FeatureSection({ block, scope, id })`, `OnTapSection.secondaryHref`, schema fields `eyebrow, heading, body, photos, photoSide, listHeading, listItems, listAsOf, ctaLabel, ctaUrl, secondaryLinkLabel`.

@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 
-import { DEFAULT_COPY } from "@/lib/copy";
+import { DEFAULT_COPY, FEATURE_COPY } from "@/lib/copy";
 import type { EditScope } from "@/lib/edit-scope";
 import { editAttribute } from "@/lib/editable";
 import type { OnTapBlock } from "@/lib/sections";
@@ -12,11 +12,14 @@ export function OnTapSection({
   block,
   scope,
   untappdUrl,
+  secondaryHref,
   id = "tap",
 }: {
   block: OnTapBlock;
   scope: EditScope;
   untappdUrl?: string;
+  /** Anchor of the next visible Feature block on the page, if any. */
+  secondaryHref?: string;
   id?: string;
 }) {
   const perks = block.perks?.length ? block.perks : DEFAULT_COPY.tapPerks;
@@ -53,6 +56,25 @@ export function OnTapSection({
               label="On Tap second line"
               multiline
             />
+            {secondaryHref ? (
+              <>
+                {" "}
+                <a
+                  href={secondaryHref}
+                  className="font-semibold text-navy underline decoration-amber/60 underline-offset-4 hover:text-navy-deep"
+                >
+                  <Editable
+                    value={
+                      block.secondaryLinkLabel ??
+                      FEATURE_COPY.onTapSecondaryLinkLabel
+                    }
+                    scope={scope}
+                    field="secondaryLinkLabel"
+                    label="Link after the second line"
+                  />
+                </a>
+              </>
+            ) : null}
           </p>
           {untappdUrl ? (
             <a

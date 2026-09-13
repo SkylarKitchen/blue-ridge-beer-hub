@@ -27,6 +27,14 @@ export const onTapBlock = defineType({
       rows: 2,
     }),
     defineField({
+      name: "secondaryLinkLabel",
+      title: "Link after the second line",
+      type: "string",
+      initialValue: "See what’s new to go",
+      description:
+        "Shows only when a Feature section comes later on the page, and jumps to it.",
+    }),
+    defineField({
       name: "cta",
       title: "Tap list button label",
       type: "string",
