@@ -30,6 +30,22 @@
  * component read goes through `??` or `?.`, which treat them identically,
  * and GROQ's `defined()` is false for both. The only `=== null` against a
  * block is on DEFAULT_ANCHOR, a local constant table, not migrated data.
+ *
+ * Rolling back an --apply. This is the only step in the rollout that writes
+ * to a PUBLISHED document, so a mistake is visible to visitors before anyone
+ * notices — but it is not unrecoverable, and it is worth knowing which half
+ * is which before you need to:
+ *
+ *   1. Delete the `homePage` document. The page falls straight back to the
+ *      legacy adapter path, which is what it renders from today.
+ *   2. The two deleted Gallery Photo documents are entry documents only.
+ *      Hero and About reference their ASSETS directly — verified against the
+ *      live dataset: galleryImage-tap-handles points at PINNED_HERO_IMAGE and
+ *      galleryImage-owners-open-flag at PINNED_ABOUT_IMAGE, character for
+ *      character. Deleting a document does not delete the asset it points at,
+ *      so both photos keep rendering; only their duplicate appearance in the
+ *      gallery grid goes away, which is the point of the step. Recreating the
+ *      two entries by hand is two documents pointing at those asset ids.
  */
 import { createClient } from "@sanity/client";
 
