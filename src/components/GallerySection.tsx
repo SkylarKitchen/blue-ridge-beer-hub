@@ -2,28 +2,35 @@ import Image from "next/image";
 import type { CSSProperties } from "react";
 
 import { DEFAULT_COPY } from "@/lib/copy";
+import type { EditScope } from "@/lib/edit-scope";
+import type { GalleryBlock } from "@/lib/sections";
 import type { GalleryImage } from "@/lib/types";
 import { urlFor } from "@/sanity/image";
 
 import { Editable } from "./Editable";
 
 export function GallerySection({
+  block,
+  scope,
   images,
-  heading,
+  id,
 }: {
+  block: GalleryBlock;
+  scope: EditScope;
   images: GalleryImage[];
-  heading?: string;
+  id?: string;
 }) {
   if (images.length === 0) return null;
   return (
-    <section className="mx-auto max-w-6xl px-5 sm:px-10 pb-20">
+    <section id={id} className="mx-auto max-w-6xl px-5 sm:px-10 pb-20">
       <h2
         data-reveal
         className="font-display text-5xl uppercase text-navy sm:text-6xl"
       >
         <Editable
-          value={heading ?? DEFAULT_COPY.galleryHeading}
-          path="galleryHeading"
+          value={block.heading ?? DEFAULT_COPY.galleryHeading}
+          scope={scope}
+          field="heading"
           label="Photo section heading"
         />
       </h2>

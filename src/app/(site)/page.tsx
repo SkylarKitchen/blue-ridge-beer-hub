@@ -76,6 +76,10 @@ export default async function HomePage() {
   const placed = placeLegacy(settings);
   const heroPlaced = placed.find((p) => p.section._type === "heroBlock");
   const onTapPlaced = placed.find((p) => p.section._type === "onTapBlock");
+  const offeringsPlaced = placed.find(
+    (p) => p.section._type === "offeringsBlock",
+  );
+  const galleryPlaced = placed.find((p) => p.section._type === "galleryBlock");
 
   const jsonLd = JSON.stringify(
     localBusinessJsonLd(settings, SITE_URL),
@@ -126,11 +130,20 @@ export default async function HomePage() {
             untappdUrl={settings.untappdUrl}
           />
         ) : null}
-        <OfferingsSection
-          offerings={settings.offerings ?? []}
-          heading={settings.offeringsHeading}
-        />
-        <GallerySection images={gallery} heading={settings.galleryHeading} />
+        {offeringsPlaced &&
+        offeringsPlaced.section._type === "offeringsBlock" ? (
+          <OfferingsSection
+            block={offeringsPlaced.section}
+            scope={offeringsPlaced.scope}
+          />
+        ) : null}
+        {galleryPlaced && galleryPlaced.section._type === "galleryBlock" ? (
+          <GallerySection
+            block={galleryPlaced.section}
+            scope={galleryPlaced.scope}
+            images={gallery}
+          />
+        ) : null}
         <AboutSection settings={settings} />
         <Ridgeline />
         <HoursFooter settings={settings} />
