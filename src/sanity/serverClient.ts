@@ -1,4 +1,5 @@
 import { client } from "./client";
+import { writeToken } from "./serverEnv";
 
 /**
  * Mutation-capable client for the flyer pipeline. `raw` perspective so
@@ -6,7 +7,7 @@ import { client } from "./client";
  * never import from client components.
  */
 export const writeClient = client.withConfig({
-  token: process.env.SANITY_API_WRITE_TOKEN,
+  token: writeToken,
   useCdn: false,
   perspective: "raw",
 });
