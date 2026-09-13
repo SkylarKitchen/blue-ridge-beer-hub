@@ -17,7 +17,7 @@ import {
 import { upcomingEvents } from "@/lib/events";
 import { startOfTodayIso } from "@/lib/format";
 import { localBusinessJsonLd } from "@/lib/jsonld";
-import { placeLegacy } from "@/lib/sections";
+import { navFromSections, placeLegacy } from "@/lib/sections";
 import { SITE_URL } from "@/lib/site";
 import type {
   GalleryImage,
@@ -100,7 +100,10 @@ export default async function HomePage() {
         Skip to content
       </a>
       <AnnouncementBanner text={settings.announcement} />
-      <Header name={settings.name ?? "Blue Ridge Beer Hub"} />
+      <Header
+        name={settings.name ?? "Blue Ridge Beer Hub"}
+        nav={navFromSections(placed.map((p) => p.section))}
+      />
       <main id="main">
         {heroPlaced && heroPlaced.section._type === "heroBlock" ? (
           <Hero

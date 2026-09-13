@@ -1,15 +1,10 @@
 import Image from "next/image";
 
+import type { NavItem } from "@/lib/sections";
+
 import { Editable } from "./Editable";
 
-const NAV = [
-  { href: "#tap", label: "On Tap" },
-  { href: "#events", label: "Events" },
-  { href: "#about", label: "About" },
-  { href: "#hours", label: "Hours" },
-];
-
-export function Header({ name }: { name: string }) {
+export function Header({ name, nav }: { name: string; nav: NavItem[] }) {
   return (
     <header className="sticky top-0 z-40 border-b border-navy/10 bg-cream/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 sm:px-10 py-3">
@@ -31,7 +26,7 @@ export function Header({ name }: { name: string }) {
           aria-label="Sections"
           className="flex flex-wrap items-center justify-end gap-1 sm:gap-2"
         >
-          {NAV.map((item) => (
+          {nav.map((item) => (
             <a
               key={item.href}
               href={item.href}
