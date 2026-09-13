@@ -75,6 +75,7 @@ export default async function HomePage() {
 
   const placed = placeLegacy(settings);
   const heroPlaced = placed.find((p) => p.section._type === "heroBlock");
+  const onTapPlaced = placed.find((p) => p.section._type === "onTapBlock");
 
   const jsonLd = JSON.stringify(
     localBusinessJsonLd(settings, SITE_URL),
@@ -118,7 +119,13 @@ export default async function HomePage() {
             .filter(Boolean)
             .join(", ")}
         />
-        <OnTapSection settings={settings} />
+        {onTapPlaced && onTapPlaced.section._type === "onTapBlock" ? (
+          <OnTapSection
+            block={onTapPlaced.section}
+            scope={onTapPlaced.scope}
+            untappdUrl={settings.untappdUrl}
+          />
+        ) : null}
         <OfferingsSection
           offerings={settings.offerings ?? []}
           heading={settings.offeringsHeading}

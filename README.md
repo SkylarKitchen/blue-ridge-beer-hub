@@ -77,7 +77,7 @@ page. Two consequences worth knowing:
   caret), which is why `EditableField` registers its document for optimistic
   updates by hand rather than relying on the overlay's own scan.
 - Values that aren't strings carry no stega at all. The tap count uses a
-  `data-sanity` attribute (`siteSettingsField`) so the overlay can still open
+  `data-sanity` attribute (`editAttribute`) so the overlay can still open
   it in the Studio pane.
 
 About paragraphs are Portable Text; `simpleBlockText` only makes a block

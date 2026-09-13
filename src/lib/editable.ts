@@ -4,20 +4,9 @@ import { decodeSanityNodeData } from "@sanity/visual-editing-csm";
 import { vercelStegaDecode } from "@vercel/stega";
 import { createDataAttribute } from "next-sanity";
 
-import { SITE_SETTINGS_ID, type EditScope } from "./edit-scope.ts";
+import type { EditScope } from "./edit-scope.ts";
 
 export { SITE_SETTINGS_ID } from "./edit-scope.ts";
-
-/**
- * `data-sanity` builder for Site Settings fields that aren't strings — a
- * number like the tap count carries no stega, so without this the overlay
- * has nothing to attach to and the field is unreachable from the page.
- * Click-to-edit opens it in the Studio pane; `Editable` handles the rest.
- */
-export const siteSettingsField = createDataAttribute({
-  id: SITE_SETTINGS_ID,
-  type: "siteSettings",
-});
 
 /**
  * `data-sanity` for values that carry no stega (numbers, booleans) inside a

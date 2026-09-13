@@ -1,19 +1,28 @@
 import type { CSSProperties } from "react";
 
 import { DEFAULT_COPY } from "@/lib/copy";
-import { siteSettingsField } from "@/lib/editable";
-import type { SiteSettings } from "@/lib/types";
+import type { EditScope } from "@/lib/edit-scope";
+import { editAttribute } from "@/lib/editable";
+import type { OnTapBlock } from "@/lib/sections";
 
 import { ArrowUpRight } from "./ArrowUpRight";
 import { Editable } from "./Editable";
 
-export function OnTapSection({ settings }: { settings: SiteSettings }) {
-  const perks = settings.tapPerks?.length
-    ? settings.tapPerks
-    : DEFAULT_COPY.tapPerks;
+export function OnTapSection({
+  block,
+  scope,
+  untappdUrl,
+  id = "tap",
+}: {
+  block: OnTapBlock;
+  scope: EditScope;
+  untappdUrl?: string;
+  id?: string;
+}) {
+  const perks = block.perks?.length ? block.perks : DEFAULT_COPY.tapPerks;
 
   return (
-    <section id="tap" className="mx-auto max-w-6xl px-5 sm:px-10 py-20">
+    <section id={id} className="mx-auto max-w-6xl px-5 sm:px-10 py-20">
       <div
         data-reveal-group
         className="grid items-center gap-10 md:grid-cols-2"
@@ -21,37 +30,41 @@ export function OnTapSection({ settings }: { settings: SiteSettings }) {
         <div>
           <h2 className="font-display text-5xl uppercase text-navy sm:text-6xl">
             <Editable
-              value={settings.onTapHeading ?? DEFAULT_COPY.onTapHeading}
-              path="onTapHeading"
+              value={block.heading ?? DEFAULT_COPY.onTapHeading}
+              scope={scope}
+              field="heading"
               label="On Tap heading"
             />
           </h2>
           <p className="mt-5 max-w-lg text-lg leading-relaxed text-ink/80">
             <Editable
-              value={settings.onTapBlurb ?? DEFAULT_COPY.onTapBlurb}
-              path="onTapBlurb"
+              value={block.blurb ?? DEFAULT_COPY.onTapBlurb}
+              scope={scope}
+              field="blurb"
               label="On Tap paragraph"
               multiline
             />
           </p>
           <p className="mt-3 max-w-lg text-sm text-ink/60">
             <Editable
-              value={settings.onTapSecondary ?? DEFAULT_COPY.onTapSecondary}
-              path="onTapSecondary"
+              value={block.secondary ?? DEFAULT_COPY.onTapSecondary}
+              scope={scope}
+              field="secondary"
               label="On Tap second line"
               multiline
             />
           </p>
-          {settings.untappdUrl ? (
+          {untappdUrl ? (
             <a
-              href={settings.untappdUrl}
+              href={untappdUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-7 inline-flex items-center gap-2 rounded-full bg-amber px-6 py-3 font-display text-base tracking-wide text-cream transition-colors hover:bg-amber-bright hover:text-navy-deep"
             >
               <Editable
-                value={settings.onTapCta ?? DEFAULT_COPY.onTapCta}
-                path="onTapCta"
+                value={block.cta ?? DEFAULT_COPY.onTapCta}
+                scope={scope}
+                field="cta"
                 label="Tap list button label"
               />
               <ArrowUpRight />
@@ -65,22 +78,24 @@ export function OnTapSection({ settings }: { settings: SiteSettings }) {
           {/* A number carries no stega, so the overlay needs a pointer of
               its own to make the tap count clickable. */}
           <div
-            data-sanity={siteSettingsField("tapCount")}
+            data-sanity={editAttribute(scope, "tapCount")}
             className="font-display text-[7rem] leading-none text-amber-bright"
           >
-            {settings.tapCount ?? 16}
+            {block.tapCount ?? 16}
           </div>
           <div className="mt-1 font-display text-xl">
             <Editable
-              value={settings.tapCountLabel ?? DEFAULT_COPY.tapCountLabel}
-              path="tapCountLabel"
+              value={block.tapCountLabel ?? DEFAULT_COPY.tapCountLabel}
+              scope={scope}
+              field="tapCountLabel"
               label="Label under the tap count"
             />
           </div>
           <p className="mt-3 text-sm text-cream/70">
             <Editable
-              value={settings.tapCountFootnote ?? DEFAULT_COPY.tapCountFootnote}
-              path="tapCountFootnote"
+              value={block.tapCountFootnote ?? DEFAULT_COPY.tapCountFootnote}
+              scope={scope}
+              field="tapCountFootnote"
               label="Tap count footnote"
             />
           </p>
@@ -90,7 +105,8 @@ export function OnTapSection({ settings }: { settings: SiteSettings }) {
                 <li key={i}>
                   <Editable
                     value={perk}
-                    path={`tapPerks[${i}]`}
+                    scope={scope}
+                    field={`perks[${i}]`}
                     label={`Tap card line ${i + 1}`}
                   />
                 </li>
