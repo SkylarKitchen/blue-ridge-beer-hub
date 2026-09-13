@@ -18,7 +18,16 @@ const source = readFileSync(
   "utf8",
 );
 
-const match = source.match(/const SINGLETONS = new Set\(\[([^\]]*)\]\);/);
+// Anchored to the start of a line, so a commented-out copy of an older
+// declaration cannot shadow the live one. That is this guard's only SILENT
+// failure: `String.match` without /g returns the first hit, so a stale
+// `// const SINGLETONS = new Set([...])` sitting above a reshaped live set
+// would be parsed instead, and a name dropped from the real set would still
+// read as present. Every other way to break this regex — single quotes,
+// `new Set<string>(`, a ReadonlySet annotation, `] as const)`, a spread base,
+// or indenting the declaration — produces a false RED on the test below,
+// which is the safe direction: it fails loudly and names the regex.
+const match = source.match(/^const SINGLETONS = new Set\(\[([^\]]*)\]\);/m);
 const singletons = match
   ? match[1]
       .split(",")
