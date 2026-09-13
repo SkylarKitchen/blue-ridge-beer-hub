@@ -84,6 +84,7 @@ const figures = {
     cursor: [1000, 600],
   },
   "studio-weekly": { src: "weekly-event.png", crop: [322, 54, 1046, 640] },
+  "studio-photos": { src: "home-photos.png", crop: [540, 150, 664, 656] },
   "studio-contact-links": {
     src: "contact-links.png",
     crop: [540, 160, 640, 677],

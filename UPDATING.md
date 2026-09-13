@@ -246,6 +246,8 @@ photos are the list under it, in the order they show on the site — top to
 bottom here is left to right, row by row, there. The section only appears on
 the site once it has at least one photo.
 
+![The Photos section opened: its heading, then the photos in the order they show on the site.](public/guide/studio-photos.webp)
+
 To add a photo:
 
 1. Press **Add item** at the bottom of the list, then drop a picture onto the
