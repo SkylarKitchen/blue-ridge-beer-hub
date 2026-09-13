@@ -7,10 +7,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
-    "test": "node --test \"src/**/*.test.ts\"",
     "migrate:sections": "node --env-file=.env.local scripts/migrate-to-sections.ts",
-    "main-invariants": "bash scripts/main-invariants.sh"
+    "main-invariants": "bash scripts/main-invariants.sh",
+    "lint": "eslint",
+    "drift-check": "bash scripts/drift-check.sh",
+    "test": "node --test \"src/**/*.test.ts\""
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.123.0",
