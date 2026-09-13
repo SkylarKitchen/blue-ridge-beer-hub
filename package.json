@@ -17,7 +17,8 @@
     "typecheck": "tsc --noEmit",
     "test": "node --test \"src/**/*.test.ts\"",
     "unset:nulls": "node --env-file=.env.local scripts/unset-nulls.ts",
-    "complete:home": "node --env-file=.env.local scripts/complete-home-page.ts"
+    "complete:home": "node --env-file=.env.local scripts/complete-home-page.ts",
+    "typegen": "sanity schema extract --enforce-required-fields && sanity typegen generate"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.123.0",

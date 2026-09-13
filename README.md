@@ -66,6 +66,11 @@ history (`scripts/migrate-to-sections.ts` at `a6f14c3`); `npm run
 unset:legacy` (dry run by default) clears the leftover fields on the live
 document, and `npm run unset:nulls` removes the `null` values that migration
 left on the Home Page blocks.
+
+`npm run typegen` extracts the Studio schema to `schema.json` and generates
+`sanity.types.ts`, which types every `sanityFetch` result by its query text.
+Both files are committed; re-run it after any schema or query change.
+`src/sanity/typegen.test.ts` fails when either has drifted.
 `featureBlock` is the reusable words-plus-photos section; layout follows the
 photo count (`src/lib/feature.ts`). `/dev/blocks` renders every layout in
 development.
