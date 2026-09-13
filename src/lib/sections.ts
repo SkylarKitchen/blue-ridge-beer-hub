@@ -181,8 +181,12 @@ export function sectionsFromSettings(settings: SiteSettings): Section[] {
       _key: "legacy-offerings",
       _type: "offeringsBlock",
       heading: settings.offeringsHeading,
+      // `_type` is written rather than spread through: the offline fallback
+      // cards have never carried one, and a projection that forgets to ask
+      // for it would silently strip it from the migrated document.
       cards: settings.offerings?.map((card, i) => ({
         ...card,
+        _type: "offering" as const,
         _key: card._key ?? `card-${i}`,
       })),
     },

@@ -155,8 +155,10 @@ const SPEC_LEGACY_FIELDS: Record<SectionType, Record<string, string>> = {
   dividerBlock: {},
 };
 
-function omit<T extends Record<string, unknown>>(obj: T, key: string) {
-  return Object.fromEntries(Object.entries(obj).filter(([k]) => k !== key));
+function omit<T extends Record<string, unknown>>(obj: T, ...keys: string[]) {
+  return Object.fromEntries(
+    Object.entries(obj).filter(([k]) => !keys.includes(k)),
+  );
 }
 
 test("LEGACY_FIELDS matches the spec's legacy field map", () => {
@@ -204,10 +206,12 @@ test("sectionsFromSettings copies every mapped legacy field, end to end", () => 
         `FALLBACK_SETTINGS.${legacyField} is unset, so ${section._type}.${blockField} is not exercised`,
       );
       if (blockField === "cards") {
-        // Fallback offerings carry no _key; the adapter synthesizes one.
+        // Fallback offerings carry neither _key nor _type; the adapter
+        // synthesizes both. Excluded here so this stays a copy-fidelity
+        // check — each has its own assertion below.
         const cards = block.cards as Record<string, unknown>[];
         assert.deepEqual(
-          cards.map((card) => omit(card, "_key")),
+          cards.map((card) => omit(card, "_key", "_type")),
           expected,
           "offeringsBlock.cards ≠ settings.offerings",
         );
@@ -243,6 +247,22 @@ test("sectionsFromSettings keeps an offering's existing _key", () => {
   const offerings = sections.find((s) => s._type === "offeringsBlock");
   assert.ok(offerings && offerings._type === "offeringsBlock");
   assert.equal(offerings.cards?.[0]?._key, "a1b2");
+});
+
+test("every migrated offering card carries _type, or the Studio refuses it", () => {
+  // Sanity resolves an array member's schema by its `_type`. A member with
+  // none resolves to "object", and the Studio renders "Item of type object
+  // not valid for this list" in place of the card form — so after --apply
+  // the owners could no longer edit the three offer cards. The live
+  // documents already carry it; the adapter must not drop it on the way out,
+  // and must supply it for the offline fallback, which never had one.
+  const sections = sectionsFromSettings(FALLBACK_SETTINGS);
+  const offerings = sections.find((s) => s._type === "offeringsBlock");
+  assert.ok(offerings && offerings._type === "offeringsBlock");
+  assert.ok(offerings.cards?.length, "fixture has no cards, so nothing is exercised");
+  for (const card of offerings.cards ?? []) {
+    assert.equal(card._type, "offering", `card ${card._key} has no _type`);
+  }
 });
 
 test("pinned images carry the full reference shape the migration writes", () => {
