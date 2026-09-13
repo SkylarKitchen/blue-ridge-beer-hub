@@ -58,5 +58,21 @@
   "flyer-email.webp": {
     "width": 1344,
     "height": 1160
+  },
+  "studio-sections.webp": {
+    "width": 1296,
+    "height": 1280
+  },
+  "studio-section-open.webp": {
+    "width": 1328,
+    "height": 1312
+  },
+  "studio-to-go.webp": {
+    "width": 1328,
+    "height": 1312
+  },
+  "studio-section-add.webp": {
+    "width": 1296,
+    "height": 920
   }
 }

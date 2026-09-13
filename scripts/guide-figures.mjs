@@ -10,7 +10,7 @@
  * below is in CSS px of that viewport and the script scales by 2. Re-capture
  * at the same size after a Studio change and the callouts line up again.
  */
-import { mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
 import sharp from "sharp";
@@ -90,6 +90,16 @@ const figures = {
   },
   "studio-hours": { src: "hours.png", crop: [540, 216, 640, 580] },
   "studio-hours-day": { src: "hours-day.png", crop: [536, 164, 664, 630] },
+  "studio-sections": {
+    src: "home-sections.png",
+    crop: [548, 150, 648, 640],
+    // The capture's pointer left a "Field actions" tooltip over the list header.
+    mask: [[1070, 160, 112, 38]],
+    maskColor: "#13141a",
+  },
+  "studio-section-add": { src: "home-section-add.png", crop: [548, 150, 648, 460] },
+  "studio-section-open": { src: "home-section-open.png", crop: [540, 150, 664, 656] },
+  "studio-to-go": { src: "home-to-go.png", crop: [540, 150, 664, 656] },
   "flyer-email": { src: "email.png", crop: [356, 26, 672, 580] },
 };
 
@@ -115,9 +125,15 @@ function svgOverlay(width, height, callouts, masks) {
   return Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">${parts.join("")}</svg>`);
 }
 
-const manifest = {};
+// A run only rebuilds the figures whose raw capture is in SHOTS; the rest keep
+// their existing .webp and manifest entry, so one figure can be re-shot alone.
+const manifest = existsSync(MANIFEST) ? JSON.parse(readFileSync(MANIFEST, "utf8")) : {};
 for (const [name, spec] of Object.entries(figures)) {
   const src = path.join(SHOTS, spec.src);
+  if (!existsSync(src)) {
+    if (!manifest[`${name}.webp`]) console.warn(`skip ${name}: no ${spec.src} in ${SHOTS} and no existing figure`);
+    continue;
+  }
   let img = sharp(src);
   const meta = await img.metadata();
   const masks = (spec.mask ?? []).map((rect) => ({ rect, color: spec.maskColor ?? "#ffffff" }));

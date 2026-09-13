@@ -48,20 +48,24 @@ parses or compares Sanity strings must `stegaClean` first (see
   drains gracefully instead of showing stale dates. Sanity Live only re-renders
   on content changes, so the page also sets `revalidate = 3600`; without it a
   quiet week would keep last Saturday's show on the page.
-- **Two photos are pinned by asset ID** (hero tap handles, owners in About) as
-  defaults; owners can override either from Site Settings → Top of Page /
-  About without touching code.
+- **Two photos ship as defaults** (hero tap handles, owners in About); the
+  Hero and About blocks on Home Page carry the owners’ replacement without
+  touching code.
 - **Tap list is Untappd's job** — the site links out rather than maintaining one.
 - `seed/seed.ndjson` holds the original September 2026 import
   (`npx sanity dataset import seed/seed.ndjson production`).
 
 The homepage is composed from `homePage.sections[]`, an array of typed block
 objects (`src/sanity/schemaTypes/blocks/`). `src/lib/sections.ts` holds the
-block types, anchor and header-menu derivation, and the legacy adapter that
-synthesizes the same blocks from the flat Site Settings fields when no Home
-Page document exists yet. `scripts/migrate-to-sections.ts` writes that
-document once (dry run by default). After it has run, the adapter, the legacy
-fields, and the pinned-photo exclusion in `GALLERY_QUERY` can be removed.
+block types and the anchor and header-menu derivation; `src/lib/fallback.ts`
+holds `FALLBACK_SECTIONS`, the page the site renders when Sanity is
+unreachable or the Home Page document is missing. Site Settings holds only
+the fixed chrome (name, contact, hours, links, announcement, footer). The
+2026-09-13 migration that moved the copy out of Site Settings is in git
+history (`scripts/migrate-to-sections.ts` at `a6f14c3`); `npm run
+unset:legacy` (dry run by default) clears the leftover fields on the live
+document, and `npm run unset:nulls` removes the `null` values that migration
+left on the Home Page blocks.
 `featureBlock` is the reusable words-plus-photos section; layout follows the
 photo count (`src/lib/feature.ts`). `/dev/blocks` renders every layout in
 development.

@@ -29,8 +29,9 @@ Three things to know before anything else:
 
 ## A tour of the editor
 
-When you open `/studio` you land on a picture of the website with the editing
-form beside it. Here’s what’s what.
+When you open `/studio` you land on a picture of the website with the
+**Home Page** form beside it — one entry per section, top to bottom. Here’s
+what’s what.
 
 ![The editor: the live site on the left, the form for whatever you clicked on the right.](public/guide/studio-overview.webp)
 
@@ -38,11 +39,11 @@ form beside it. Here’s what’s what.
    it to change it.
 2. **The form.** The same content as fields. Whatever you click on the left
    opens here.
-3. **Tabs and Home Page.** The words on the page live under **Home Page**, one
-   entry per section. Your name, hours, and links live under **Site Settings**,
-   split into tabs that run in the same order the sections appear on the page,
-   so you’re never scrolling through everything at once. Inside a tab, related
-   fields sit together under a small heading like *Where you are*.
+3. **Home Page and Site Settings.** The words and photos on the page live
+   under **Home Page**, one entry per section, in the order they appear. Your
+   name, hours, links, and the footer live under **Site Settings**, in three
+   tabs: *Name & Contact*, *Hours*, and *Footer*. Inside a tab, related fields
+   sit together under a small heading like *Where you are*.
 4. **Publish.** Nothing goes live until you press this. It stays grey until
    you’ve changed something.
 5. **Structure.** The list view. Events, Weekly Events, and Gallery Photos
@@ -151,10 +152,7 @@ The homepage is a stack of sections — the big headline, events, on tap, the
 photos, and so on. You can reorder them, hide one for a while, or add a new
 one, all from **Structure → Home Page**.
 
-> **Not yet.** This part switches on with the next update. Until then **Home
-> Page** is empty — if you open it and there’s nothing there, nothing is
-> broken. Don’t add a section yet: it would take the rest of the page off the
-> site until we switch over.
+![Home Page: every section of the site, top to bottom.](public/guide/studio-sections.webp)
 
 - **Reorder:** drag a section by the handle on its left.
 - **Hide for now:** open a section and tick **Hide for now**. It stays in the
@@ -164,8 +162,12 @@ one, all from **Structure → Home Page**.
 - **Remove:** the three dots on a section → **Remove**. If you might want it
   back, hide it instead.
 
+![Add item lists the kinds of section you can put on the page.](public/guide/studio-section-add.webp)
+
 Each section’s words are inside it — open a section to see them. Clicking the
 words on the page still works and opens the same place.
+
+![One section opened: its words up top, its photo and the Hide for now switch further down.](public/guide/studio-section-open.webp)
 
 > **Tip:** The menu across the top of the site follows the page. Hide a
 > section and its menu entry goes too. **Menu label** inside a section renames
@@ -181,8 +183,7 @@ so you can try an order and discard it if you don’t like it.
 There’s a **To Go** section for the coolers — cans, bottles, cases, build-your-own
 packs. It starts hidden so you can add photos first.
 
-> **Not yet.** Like the rest of Home Page, this switches on with the next
-> update. Until then there is nothing to open here.
+![The To Go section opened: its photos, then the Just in list.](public/guide/studio-to-go.webp)
 
 1. **Structure → Home Page**, open **New in the coolers**.
 2. **Photos:** drop in one to three. One photo shows big; two or three make a
@@ -203,8 +204,8 @@ When the coolers change, fix the list, bump the date, publish. Thirty seconds.
 The colored strip across the very top of the site. Good for “closed today”,
 “anniversary party Friday”, “new flyer is up”.
 
-1. Open **Site Settings** — it’s what the editor opens on — and click the
-   **Name & Contact** tab.
+1. Open **Site Settings** (**Structure → Site Settings**, or click your name
+   in the header) and click the **Name & Contact** tab.
 2. **Announcement banner** is the first thing on that tab. Type the message
    and press Publish.
 3. **Clear it when the news is over.** Delete the text and publish again. A
@@ -261,9 +262,9 @@ To remove a photo, open it, click the three dots next to Publish, and choose
 **Delete**.
 
 The two big photos outside the gallery — the wide one at the very top and the
-one beside the About text — live in **Site Settings → Top of Page** and
-**Site Settings → About**. Upload a replacement there (and describe it) to swap
-either one; clear the field to go back to the originals.
+one beside the About text — live in **Home Page → Top of page → Wide photo**
+and **Home Page → About → Photo**. Upload a replacement there (and describe it)
+to swap either one; clear the field to go back to the originals.
 
 ## When something looks wrong
 
