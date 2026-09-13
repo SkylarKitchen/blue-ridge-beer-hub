@@ -127,6 +127,7 @@ export const FALLBACK_SECTIONS: Section[] = [
           "image-8b2cd76ae0eed25559aaf5fab35db626b7046d62-1080x1080-png",
           "Working the grill in a Blue Ridge Beer Hub tee, numbered mug club stein in hand.",
         ),
+        caption: "Grill duty, mug club stein in hand",
       },
       {
         _key: "AWGxcl2dD5LlZ1gmDOrRbk",
@@ -142,6 +143,7 @@ export const FALLBACK_SECTIONS: Section[] = [
           "image-2d200aed48dc13897a2bafe2d0798e0932061b07-2560x1707-jpg",
           "Close-up of the chrome faucets running down the tap wall.",
         ),
+        caption: "The faucets, up close",
       },
       {
         _key: "l4U0qMpnuVLxOUx8hDbSh0",
@@ -149,6 +151,7 @@ export const FALLBACK_SECTIONS: Section[] = [
           "image-c34b784ae33cbdc35c96a628a75786e4b60b5540-1080x1080-png",
           "A condensation-beaded stein of lager tilted mid-pour at the cookout.",
         ),
+        caption: "Mid-pour at the cookout",
       },
       {
         _key: "tap-wall",
@@ -156,6 +159,7 @@ export const FALLBACK_SECTIONS: Section[] = [
           "image-6ba883c9fb431cda4cf2103db37c5cf6c5ed06f9-2560x1707-jpg",
           "A row of numbered Blue Ridge Beer Hub tap handles down the stainless bar back.",
         ),
+        caption: "Numbered tap handles along the bar",
       },
       {
         _key: "mug-club-steins",
@@ -163,6 +167,7 @@ export const FALLBACK_SECTIONS: Section[] = [
           "image-a09b4a6f75fb6f02cad7c48fda59a4847b6db7fc-2560x1707-jpg",
           "Mug club steins racked behind the bar, each etched with its member’s name and number.",
         ),
+        caption: "Mug club steins, etched and racked",
       },
       {
         _key: "merch-wall",
@@ -170,6 +175,7 @@ export const FALLBACK_SECTIONS: Section[] = [
           "image-7e72bf6a74520deeba163b9523cc5f1814e341a5-2560x2560-jpg",
           "Hoodies, tees, and Beer Hub glassware on the reclaimed-wood merch wall.",
         ),
+        caption: "Hoodies and tees on the merch wall",
       },
       {
         _key: "bar-stools",
@@ -177,6 +183,7 @@ export const FALLBACK_SECTIONS: Section[] = [
           "image-54c73c104a932d177981f0a0f0412ab9f0039148-2560x1707-jpg",
           "Stools along the concrete bar top, coolers stocked for carryout behind.",
         ),
+        caption: "Bar stools and the carryout coolers",
       },
       {
         _key: "pint-glasses",
@@ -184,6 +191,7 @@ export const FALLBACK_SECTIONS: Section[] = [
           "image-dea620af39051dceeebd2837239382cd3e620a36-2560x2560-jpg",
           "Two etched Blue Ridge Beer Hub pint glasses on a wooden shelf.",
         ),
+        caption: "Etched pint glasses on the shelf",
       },
     ],
   },

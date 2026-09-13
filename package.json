@@ -19,7 +19,8 @@
     "unset:nulls": "node --env-file=.env.local scripts/unset-nulls.ts",
     "complete:home": "node --env-file=.env.local scripts/complete-home-page.ts",
     "typegen": "sanity schema extract --enforce-required-fields && sanity typegen generate",
-    "backup": "node --env-file=.env.local scripts/backup.ts"
+    "backup": "node --env-file=.env.local scripts/backup.ts",
+    "captions": "node --env-file=.env.local scripts/set-gallery-captions.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.123.0",
