@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "drift-check": "bash scripts/drift-check.sh",
     "test": "node --test \"src/**/*.test.ts\""
   },
   "dependencies": {
