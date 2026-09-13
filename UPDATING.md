@@ -233,9 +233,9 @@ To remove a photo, open it, click the three dots next to Publish, and choose
 **Delete**.
 
 The two big photos outside the gallery — the wide one at the very top and the
-one beside the About text — live in **Home Page → Top of page → Wide photo**
-and **Home Page → About → Photo**. Upload a replacement there (and describe it)
-to swap either one; clear the field to go back to the originals.
+one beside the About text — live in **Site Settings → Top of Page** and
+**Site Settings → About**. Upload a replacement there (and describe it) to swap
+either one; clear the field to go back to the originals.
 
 ## When something looks wrong
 
