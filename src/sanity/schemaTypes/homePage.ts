@@ -27,17 +27,15 @@ export const homePage = defineType({
       ],
       validation: (rule) => [
         rule.min(1).error("The page needs at least one section."),
+        // Events reads one shared list, so two copies show the same thing.
+        // (Photos used to as well; its photos now live on the section.)
         rule
           .custom((sections?: Sec[]) => {
-            const counts = new Map<string, number>();
-            for (const s of sections ?? []) {
-              if (s._type === "eventsBlock" || s._type === "galleryBlock") {
-                counts.set(s._type, (counts.get(s._type) ?? 0) + 1);
-              }
-            }
-            const dup = [...counts].find(([, n]) => n > 1)?.[0];
-            return dup
-              ? `${dup === "eventsBlock" ? "Events" : "Photos"} is on the page twice — both copies show the same list.`
+            const events = (sections ?? []).filter(
+              (s) => s._type === "eventsBlock",
+            ).length;
+            return events > 1
+              ? "Events is on the page twice — both copies show the same list."
               : true;
           })
           .warning(),

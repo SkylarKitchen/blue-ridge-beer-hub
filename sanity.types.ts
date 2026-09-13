@@ -139,6 +139,16 @@ export type AboutBlock = {
 export type GalleryBlock = {
   _type: "galleryBlock";
   heading?: string;
+  photos?: Array<{
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    caption?: string;
+    _type: "image";
+    _key: string;
+  }>;
   hiddenOnSite?: boolean;
   menuLabel?: string;
 };
@@ -205,24 +215,6 @@ export type PipelineState = {
   _rev: string;
   cursor?: string;
   processedPostIds?: Array<string>;
-};
-
-export type GalleryImage = {
-  _id: string;
-  _type: "galleryImage";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  image: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
-  alt: string;
-  caption?: string;
-  order?: number;
 };
 
 export type WeeklyEvent = {
@@ -422,7 +414,6 @@ export type AllSanitySchemaTypes =
   | EventsBlock
   | HeroBlock
   | PipelineState
-  | GalleryImage
   | WeeklyEvent
   | Event
   | SiteSettings
@@ -506,22 +497,6 @@ export type WEEKLY_EVENTS_QUERY_RESULT = Array<{
 }>;
 
 // Source: src/sanity/queries.ts
-// Variable: GALLERY_QUERY
-// Query: *[_type == "galleryImage"] | order(order asc, _createdAt asc){    _id, image, alt, caption  }
-export type GALLERY_QUERY_RESULT = Array<{
-  _id: string;
-  image: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
-  alt: string;
-  caption: string | null;
-}>;
-
-// Source: src/sanity/queries.ts
 // Variable: HOME_PAGE_QUERY
 // Query: *[_type == "homePage"][0]{ sections[]{ ... } }
 export type HOME_PAGE_QUERY_RESULT = {
@@ -602,6 +577,16 @@ export type HOME_PAGE_QUERY_RESULT = {
         _key: string;
         _type: "galleryBlock";
         heading?: string;
+        photos?: Array<{
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt: string;
+          caption?: string;
+          _type: "image";
+          _key: string;
+        }>;
         hiddenOnSite?: boolean;
         menuLabel?: string;
       }
@@ -661,7 +646,6 @@ declare module "@sanity/client" {
     '*[_type == "siteSettings"][0]{\n    name, tagline, addressLine1, addressLine2, phone, email,\n    untappdUrl, instagramUrl, facebookUrl, announcement,\n    hours[]{_key, day, opens, closes, closed},\n    footerHeading, footerHoursLabel, footerFindUsLabel, footerFollowLabel,\n    footerDirectionsCta, footerVisitLine, footerLegal\n  }': SITE_SETTINGS_QUERY_RESULT;
     '*[_type == "event" && start >= $from] | order(start asc){\n    _id, title, start, endTime, category, description, link\n  }': EVENTS_QUERY_RESULT;
     '*[_type == "weeklyEvent" && active != false]{\n    _id, title, dayOfWeek, time, category, description\n  }': WEEKLY_EVENTS_QUERY_RESULT;
-    '*[_type == "galleryImage"] | order(order asc, _createdAt asc){\n    _id, image, alt, caption\n  }': GALLERY_QUERY_RESULT;
     '*[_type == "homePage"][0]{ sections[]{ ... } }': HOME_PAGE_QUERY_RESULT;
   }
 }

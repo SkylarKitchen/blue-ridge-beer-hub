@@ -50,9 +50,15 @@ export interface OfferingsBlock extends SectionBase {
   cards?: Offering[];
 }
 
+export interface GalleryPhoto extends SanityImageRef {
+  _key?: string;
+  caption?: string;
+}
+
 export interface GalleryBlock extends SectionBase {
   _type: "galleryBlock";
   heading?: string;
+  photos?: GalleryPhoto[];
 }
 
 export interface AboutBlock extends SectionBase {

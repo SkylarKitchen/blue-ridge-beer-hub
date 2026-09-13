@@ -14,16 +14,10 @@ import { startOfTodayIso } from "@/lib/format";
 import { localBusinessJsonLd } from "@/lib/jsonld";
 import { navFromSections, placeHome, type Section } from "@/lib/sections";
 import { SITE_URL } from "@/lib/site";
-import type {
-  GalleryImage,
-  HubEvent,
-  SiteSettings,
-  WeeklyEvent,
-} from "@/lib/types";
+import type { HubEvent, SiteSettings, WeeklyEvent } from "@/lib/types";
 import { sanityFetch } from "@/sanity/live";
 import {
   EVENTS_QUERY,
-  GALLERY_QUERY,
   HOME_PAGE_QUERY,
   SITE_SETTINGS_QUERY,
   WEEKLY_EVENTS_QUERY,
@@ -48,22 +42,18 @@ export default async function HomePage() {
   let settings: SiteSettings = {};
   let events: HubEvent[] = [];
   let weeklyEvents: WeeklyEvent[] = [];
-  let gallery: GalleryImage[] = [];
   let home: HomePageDoc | null = null;
 
   try {
-    const [settingsRes, eventsRes, weeklyRes, galleryRes, homeRes] =
-      await Promise.all([
-        sanityFetch({ query: SITE_SETTINGS_QUERY }),
-        sanityFetch({ query: EVENTS_QUERY, params: { from } }),
-        sanityFetch({ query: WEEKLY_EVENTS_QUERY }),
-        sanityFetch({ query: GALLERY_QUERY }),
-        sanityFetch({ query: HOME_PAGE_QUERY }),
-      ]);
+    const [settingsRes, eventsRes, weeklyRes, homeRes] = await Promise.all([
+      sanityFetch({ query: SITE_SETTINGS_QUERY }),
+      sanityFetch({ query: EVENTS_QUERY, params: { from } }),
+      sanityFetch({ query: WEEKLY_EVENTS_QUERY }),
+      sanityFetch({ query: HOME_PAGE_QUERY }),
+    ]);
     settings = (settingsRes.data ?? {}) as SiteSettings;
     events = (eventsRes.data ?? []) as HubEvent[];
     weeklyEvents = (weeklyRes.data ?? []) as WeeklyEvent[];
-    gallery = (galleryRes.data ?? []) as GalleryImage[];
     home = (homeRes.data ?? null) as HomePageDoc | null;
   } catch (error) {
     // If Sanity is unreachable the site still renders full fallback content.
@@ -109,10 +99,7 @@ export default async function HomePage() {
         nav={navFromSections(placed.map((p) => p.section))}
       />
       <main id="main">
-        <Sections
-          placed={placed}
-          ctx={{ settings, events, weeklyEvents, gallery }}
-        />
+        <Sections placed={placed} ctx={{ settings, events, weeklyEvents }} />
         <HoursFooter settings={settings} />
       </main>
       <RevealObserver />

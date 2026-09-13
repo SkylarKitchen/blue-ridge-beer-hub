@@ -67,6 +67,22 @@ test("fallback photos carry the full reference shape the Studio writes", () => {
   }
 });
 
+test("the fallback gallery holds the photo list the section renders from", () => {
+  // The photos moved off their own documents onto the Photos section on
+  // 2026-09-13; with an empty list GallerySection renders nothing, so the
+  // offline page would silently lose its gallery.
+  const gallery = FALLBACK_SECTIONS.find((s) => s._type === "galleryBlock");
+  assert.ok(gallery && gallery._type === "galleryBlock");
+  assert.ok((gallery.photos?.length ?? 0) >= 9, "fixture has too few photos");
+  const keys = gallery.photos!.map((p) => p._key);
+  assert.equal(new Set(keys).size, keys.length, "photo _keys must be unique");
+  for (const photo of gallery.photos!) {
+    assert.equal(photo._type, "image");
+    assert.match(photo.asset?._ref ?? "", /^image-[0-9a-f]+-\d+x\d+-[a-z]+$/);
+    assert.ok(photo.alt, "a gallery photo needs alt text");
+  }
+});
+
 test("every fallback offering card carries _type and a unique _key", () => {
   // Sanity resolves an array member's schema by its `_type`; a member with
   // none renders as "Item of type object not valid for this list".

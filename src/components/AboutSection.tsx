@@ -10,8 +10,8 @@ import { urlFor } from "@/sanity/image";
 
 import { Editable } from "./Editable";
 
-// Default when the about block has no photo: a pinned gallery-shoot
-// asset that GALLERY_QUERY excludes so it doesn't double up.
+// Default when the about block has no photo: a pinned asset from the
+// gallery shoot that isn't in the Photos section's list.
 const OWNERS_IMAGE =
   "image-fc66f7f4d741bb78af4b98b31f4514f36047adc9-2048x2560-jpg";
 const OWNERS_ALT =

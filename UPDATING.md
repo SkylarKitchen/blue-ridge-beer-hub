@@ -42,12 +42,12 @@ what’s what.
 3. **Home Page and Site Settings.** The words and photos on the page live
    under **Home Page**, one entry per section, in the order they appear. Your
    name, hours, links, and the footer live under **Site Settings**, in three
-   tabs: *Name & Contact*, *Hours*, and *Footer*. Inside a tab, related fields
-   sit together under a small heading like *Where you are*.
+   tabs: _Name & Contact_, _Hours_, and _Footer_. Inside a tab, related fields
+   sit together under a small heading like _Where you are_.
 4. **Publish.** Nothing goes live until you press this. It stays grey until
    you’ve changed something.
-5. **Structure.** The list view. Events, Weekly Events, and Gallery Photos
-   live here.
+5. **Structure.** The list view. Home Page, Site Settings, Events and Weekly
+   Events live here.
 6. **The Edit switch.** When it’s on, clicking words on the page lets you type
    them. Switch it off to click around the site normally.
 
@@ -110,7 +110,7 @@ The next morning you get an email listing what it found.
   section). The robot is a convenience, not a requirement.
 
 > **Note:** Who receives the email is a list under Site Settings → Name &
-> Contact → **Email alerts** → *Who gets the “new events found” email*. That
+> Contact → **Email alerts** → _Who gets the “new events found” email_. That
 > section starts folded up — click it to open. If nobody is on it, the robot
 > has no one to write to. [See where that is.](#the-announcement-banner)
 
@@ -241,25 +241,24 @@ also be changed by clicking it on the page.
 
 ## Photos
 
-**Structure → Gallery Photos.** Each photo is one entry in the list. The
-gallery section only appears on the site once at least one photo exists.
-
-![Gallery Photos. Each entry is one photo; the plus button adds a new one.](public/guide/studio-gallery-list.webp)
+**Structure → Home Page**, open **Photos**. The heading is at the top and the
+photos are the list under it, in the order they show on the site — top to
+bottom here is left to right, row by row, there. The section only appears on
+the site once it has at least one photo.
 
 To add a photo:
 
-1. Click **+**, then drop a picture onto the **Photo** box, or click the box
-   to choose a file.
+1. Press **Add item** at the bottom of the list, then drop a picture onto the
+   box, or click the box to choose a file.
 2. Write one line in **Describe this photo**. It’s read aloud to blind
    visitors and shown to search engines, so say what’s in the picture.
-3. **Position** sets the order — lower numbers first. Leave gaps (10, 20,
-   30) so it’s easy to slot one in later.
-4. Publish.
+3. **Caption** is optional and shows under the photo on the site.
+4. Drag the photo by the handle on its left to where you want it.
+5. Publish.
 
-![A photo entry: the picture, a one-line description, an optional caption, and its position in the gallery.](public/guide/studio-photo-form.webp)
-
-To remove a photo, open it, click the three dots next to Publish, and choose
-**Delete**.
+To remove a photo, click the three dots on its row and choose **Remove**.
+Clicking a photo on the page opens the Photos section, and a caption can also
+be typed straight on the page.
 
 The two big photos outside the gallery — the wide one at the very top and the
 one beside the About text — live in **Home Page → Top of page → Wide photo**

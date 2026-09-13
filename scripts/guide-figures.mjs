@@ -59,7 +59,10 @@ const figures = {
   "studio-publish-menu": {
     src: "doc-menu.png",
     crop: [880, 560, 504, 293],
-    callouts: [{ n: 1, box: [1240, 804, 100, 46], badge: [1222, 827] }, { n: 2, box: [1166, 720, 206, 40], badge: [1148, 740] }],
+    callouts: [
+      { n: 1, box: [1240, 804, 100, 46], badge: [1222, 827] },
+      { n: 2, box: [1166, 720, 206, 40], badge: [1148, 740] },
+    ],
   },
   "studio-structure-events": {
     src: "events-list.png",
@@ -70,23 +73,29 @@ const figures = {
       { n: 3, box: [628, 58, 36, 36], badge: [608, 76] },
     ],
   },
-  "studio-event-new": { src: "event-form-new.png", crop: [642, 54, 742, 799], cursor: [1000, 600] },
-  "studio-event-filled": { src: "event-form.png", crop: [642, 54, 742, 799], cursor: [1000, 600] },
-  "studio-weekly": { src: "weekly-event.png", crop: [322, 54, 1046, 640] },
-  "studio-gallery-list": {
-    src: "gallery-list.png",
-    crop: [16, 54, 684, 740],
-    callouts: [
-      { n: 1, box: [24, 214, 304, 38], badge: [342, 233] },
-      { n: 2, box: [628, 58, 36, 36], badge: [608, 76] },
-    ],
+  "studio-event-new": {
+    src: "event-form-new.png",
+    crop: [642, 54, 742, 799],
+    cursor: [1000, 600],
   },
-  "studio-photo-form": { src: "photo-form.png", crop: [642, 54, 742, 799], cursor: [1000, 820] },
-  "studio-contact-links": { src: "contact-links.png", crop: [540, 160, 640, 677], cursor: [1000, 830] },
+  "studio-event-filled": {
+    src: "event-form.png",
+    crop: [642, 54, 742, 799],
+    cursor: [1000, 600],
+  },
+  "studio-weekly": { src: "weekly-event.png", crop: [322, 54, 1046, 640] },
+  "studio-contact-links": {
+    src: "contact-links.png",
+    crop: [540, 160, 640, 677],
+    cursor: [1000, 830],
+  },
   "studio-announcement": {
     src: "announcement.png",
     crop: [500, 440, 700, 360],
-    callouts: [{ n: 1, box: [552, 470, 620, 130], badge: [524, 490] }, { n: 2, box: [552, 632, 620, 160], badge: [524, 652] }],
+    callouts: [
+      { n: 1, box: [552, 470, 620, 130], badge: [524, 490] },
+      { n: 2, box: [552, 632, 620, 160], badge: [524, 652] },
+    ],
   },
   "studio-hours": { src: "hours.png", crop: [540, 216, 640, 580] },
   "studio-hours-day": { src: "hours-day.png", crop: [536, 164, 664, 630] },
@@ -97,16 +106,27 @@ const figures = {
     mask: [[1070, 160, 112, 38]],
     maskColor: "#13141a",
   },
-  "studio-section-add": { src: "home-section-add.png", crop: [548, 150, 648, 460] },
-  "studio-section-open": { src: "home-section-open.png", crop: [540, 150, 664, 656] },
+  "studio-section-add": {
+    src: "home-section-add.png",
+    crop: [548, 150, 648, 460],
+  },
+  "studio-section-open": {
+    src: "home-section-open.png",
+    crop: [540, 150, 664, 656],
+  },
   "studio-to-go": { src: "home-to-go.png", crop: [540, 150, 664, 656] },
   "flyer-email": { src: "email.png", crop: [356, 26, 672, 580] },
 };
 
 function svgOverlay(width, height, callouts, masks) {
   const parts = [];
-  for (const { rect: [x, y, w, h], color } of masks ?? []) {
-    parts.push(`<rect x="${x * S}" y="${y * S}" width="${w * S}" height="${h * S}" fill="${color}"/>`);
+  for (const {
+    rect: [x, y, w, h],
+    color,
+  } of masks ?? []) {
+    parts.push(
+      `<rect x="${x * S}" y="${y * S}" width="${w * S}" height="${h * S}" fill="${color}"/>`,
+    );
   }
   for (const c of callouts ?? []) {
     const [x, y, w, h] = c.box.map((v) => v * S);
@@ -122,42 +142,71 @@ function svgOverlay(width, height, callouts, masks) {
       `<text x="${bx}" y="${by + 1}" text-anchor="middle" dominant-baseline="central" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="700" font-size="32" fill="${CREAM}">${c.n}</text>`,
     );
   }
-  return Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">${parts.join("")}</svg>`);
+  return Buffer.from(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">${parts.join("")}</svg>`,
+  );
 }
 
 // A run only rebuilds the figures whose raw capture is in SHOTS; the rest keep
 // their existing .webp and manifest entry, so one figure can be re-shot alone.
-const manifest = existsSync(MANIFEST) ? JSON.parse(readFileSync(MANIFEST, "utf8")) : {};
+const manifest = existsSync(MANIFEST)
+  ? JSON.parse(readFileSync(MANIFEST, "utf8"))
+  : {};
 for (const [name, spec] of Object.entries(figures)) {
   const src = path.join(SHOTS, spec.src);
   if (!existsSync(src)) {
-    if (!manifest[`${name}.webp`]) console.warn(`skip ${name}: no ${spec.src} in ${SHOTS} and no existing figure`);
+    if (!manifest[`${name}.webp`])
+      console.warn(
+        `skip ${name}: no ${spec.src} in ${SHOTS} and no existing figure`,
+      );
     continue;
   }
   let img = sharp(src);
   const meta = await img.metadata();
-  const masks = (spec.mask ?? []).map((rect) => ({ rect, color: spec.maskColor ?? "#ffffff" }));
+  const masks = (spec.mask ?? []).map((rect) => ({
+    rect,
+    color: spec.maskColor ?? "#ffffff",
+  }));
   if (spec.cursor) {
     // The browser extension paints a glowing pointer into the page; cover it with the
     // colour sampled just left of it (these all sit on flat form backgrounds).
     const [cx, cy] = spec.cursor;
-    const px = await sharp(src).extract({ left: (cx - 40) * S, top: cy * S, width: 1, height: 1 }).raw().toBuffer();
+    const px = await sharp(src)
+      .extract({ left: (cx - 40) * S, top: cy * S, width: 1, height: 1 })
+      .raw()
+      .toBuffer();
     const color = `rgb(${px[0]},${px[1]},${px[2]})`;
     masks.push({ rect: [cx - 22, cy - 22, 62, 66], color });
   }
   if (spec.callouts?.length || masks.length) {
-    img = img.composite([{ input: svgOverlay(meta.width, meta.height, spec.callouts, masks), top: 0, left: 0 }]);
+    img = img.composite([
+      {
+        input: svgOverlay(meta.width, meta.height, spec.callouts, masks),
+        top: 0,
+        left: 0,
+      },
+    ]);
   }
   if (spec.crop) {
     const [x, y, w, h] = spec.crop.map((v) => v * S);
     // composite must be flattened before extract, so round-trip through a buffer
     const buf = await img.toBuffer();
-    img = sharp(buf).extract({ left: x, top: y, width: Math.min(w, meta.width - x), height: Math.min(h, meta.height - y) });
+    img = sharp(buf).extract({
+      left: x,
+      top: y,
+      width: Math.min(w, meta.width - x),
+      height: Math.min(h, meta.height - y),
+    });
   }
   const out = path.join(OUT, `${name}.webp`);
   const info = await img.webp({ quality: 84 }).toFile(out);
   manifest[`${name}.webp`] = { width: info.width, height: info.height };
-  console.log(name, info.width, info.height, Math.round(info.size / 1024) + "KB");
+  console.log(
+    name,
+    info.width,
+    info.height,
+    Math.round(info.size / 1024) + "KB",
+  );
 }
 writeFileSync(MANIFEST, JSON.stringify(manifest, null, 2) + "\n");
 console.log("manifest ->", MANIFEST);

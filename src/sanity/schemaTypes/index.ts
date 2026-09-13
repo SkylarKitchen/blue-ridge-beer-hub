@@ -9,7 +9,6 @@ import { heroBlock } from "./blocks/heroBlock";
 import { offeringsBlock } from "./blocks/offeringsBlock";
 import { onTapBlock } from "./blocks/onTapBlock";
 import { event } from "./event";
-import { galleryImage } from "./galleryImage";
 import { homePage } from "./homePage";
 import { pipelineState } from "./pipelineState";
 import { siteSettings } from "./siteSettings";
@@ -19,7 +18,6 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   siteSettings,
   event,
   weeklyEvent,
-  galleryImage,
   pipelineState,
   heroBlock,
   eventsBlock,

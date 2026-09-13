@@ -3,12 +3,7 @@ import { createDataAttribute } from "next-sanity";
 import { HOME_PAGE_ID, HOME_PAGE_TYPE } from "@/lib/edit-scope";
 import { nextFeatureAnchor } from "@/lib/feature";
 import { assignAnchors, sectionArrayPath, type Placed } from "@/lib/sections";
-import type {
-  GalleryImage,
-  HubEvent,
-  SiteSettings,
-  WeeklyEvent,
-} from "@/lib/types";
+import type { HubEvent, SiteSettings, WeeklyEvent } from "@/lib/types";
 
 import { AboutSection } from "./AboutSection";
 import { EventsSection } from "./EventsSection";
@@ -55,7 +50,6 @@ export interface SectionContext {
   settings: SiteSettings;
   events: HubEvent[];
   weeklyEvents: WeeklyEvent[];
-  gallery: GalleryImage[];
 }
 
 export function Sections({
@@ -158,7 +152,6 @@ export function Sections({
                 block={section}
                 scope={scope}
                 id={id}
-                images={ctx.gallery}
               />,
             );
           case "aboutBlock":

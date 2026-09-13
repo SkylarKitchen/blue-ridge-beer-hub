@@ -3,22 +3,27 @@ import { notFound } from "next/navigation";
 import { FeatureSection, type TrioLayout } from "@/components/FeatureSection";
 import { RevealObserver } from "@/components/RevealObserver";
 import { blockScope } from "@/lib/edit-scope";
-import { toGoSeedSection, type FeatureBlock } from "@/lib/sections";
-import type { GalleryImage } from "@/lib/types";
+import {
+  toGoSeedSection,
+  type FeatureBlock,
+  type GalleryPhoto,
+  type Section,
+} from "@/lib/sections";
 import { sanityFetch } from "@/sanity/live";
-import { GALLERY_QUERY } from "@/sanity/queries";
+import { HOME_PAGE_QUERY } from "@/sanity/queries";
 
 /** Renders every Feature layout with real photos. Development only. */
 export default async function BlocksPreview() {
   if (process.env.NODE_ENV !== "development") notFound();
 
-  const { data } = await sanityFetch({ query: GALLERY_QUERY });
-  const gallery = (data ?? []) as GalleryImage[];
-  const photos = gallery.slice(0, 3).map((g, i) => ({
-    _key: `p${i}`,
-    ...g.image,
-    alt: g.alt,
-  }));
+  // Borrow the first three photos from the Home Page's Photos section.
+  const { data } = await sanityFetch({ query: HOME_PAGE_QUERY });
+  const sections = ((data as { sections?: Section[] } | null)?.sections ??
+    []) as Section[];
+  const gallery = sections.find((s) => s._type === "galleryBlock");
+  const photos = ((gallery?.photos ?? []) as GalleryPhoto[])
+    .slice(0, 3)
+    .map((photo, i) => ({ ...photo, _key: `p${i}` }));
   const seed = toGoSeedSection();
   // The seeded list is empty (owners fill it); the preview shows a sample.
   const sample: FeatureBlock = {

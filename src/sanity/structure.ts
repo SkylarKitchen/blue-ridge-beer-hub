@@ -2,7 +2,8 @@ import type { StructureResolver } from "sanity/structure";
 
 /**
  * Studio sidebar: Home Page and Site Settings pinned as singletons, then
- * the three owner-managed lists. Events default to soonest-first.
+ * the two owner-managed lists. Photos live on the Home Page's Photos
+ * section, not in a list of their own.
  */
 export const structure: StructureResolver = (S) =>
   S.list()
@@ -21,5 +22,4 @@ export const structure: StructureResolver = (S) =>
       S.divider(),
       S.documentTypeListItem("event").title("Events"),
       S.documentTypeListItem("weeklyEvent").title("Weekly Events"),
-      S.documentTypeListItem("galleryImage").title("Gallery Photos"),
     ]);

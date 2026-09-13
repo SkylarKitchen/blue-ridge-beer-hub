@@ -12,8 +12,8 @@ import { Editable } from "./Editable";
 import { MixedHeading } from "./MixedHeading";
 import { OpenStatus } from "./OpenStatus";
 
-// Default when the hero block has no "Top-of-page photo": a pinned
-// gallery-shoot asset that GALLERY_QUERY excludes so it doesn't double up.
+// Default when the hero block has no "Top-of-page photo": a pinned asset
+// from the gallery shoot that isn't in the Photos section's list.
 const TAP_HANDLES_IMAGE =
   "image-600687a3a1747959048b8eb3b14f917ad2e3073b-2560x1707-jpg";
 const TAP_HANDLES_ALT =

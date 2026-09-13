@@ -110,6 +110,82 @@ export const FALLBACK_SECTIONS: Section[] = [
     _key: "legacy-gallery",
     _type: "galleryBlock",
     heading: DEFAULT_COPY.galleryHeading,
+    // The gallery as it stood when the photos moved onto the section
+    // (2026-09-13), in the owners' Position order.
+    photos: [
+      {
+        _key: "l4U0qMpnuVLxOUx8hDbRdy",
+        ...imageRef(
+          "image-bb501650403decb707ac1427de3c3d2ab704906f-1080x1080-png",
+          "Friends filling the picnic tables on the patio during a cookout, Beer Hub tees all around.",
+        ),
+        caption: "Cookout on the back patio",
+      },
+      {
+        _key: "sajAnQTE1Pa02x95TyRewF",
+        ...imageRef(
+          "image-8b2cd76ae0eed25559aaf5fab35db626b7046d62-1080x1080-png",
+          "Working the grill in a Blue Ridge Beer Hub tee, numbered mug club stein in hand.",
+        ),
+      },
+      {
+        _key: "AWGxcl2dD5LlZ1gmDOrRbk",
+        ...imageRef(
+          "image-d1574db5fa0cc5c177a65cf77e8b4da776d35f68-1080x1080-png",
+          "A mug club stein of lager held up on the patio, engraved with its member’s name and number.",
+        ),
+        caption: "Mug club steins, numbered and named",
+      },
+      {
+        _key: "taps-closeup",
+        ...imageRef(
+          "image-2d200aed48dc13897a2bafe2d0798e0932061b07-2560x1707-jpg",
+          "Close-up of the chrome faucets running down the tap wall.",
+        ),
+      },
+      {
+        _key: "l4U0qMpnuVLxOUx8hDbSh0",
+        ...imageRef(
+          "image-c34b784ae33cbdc35c96a628a75786e4b60b5540-1080x1080-png",
+          "A condensation-beaded stein of lager tilted mid-pour at the cookout.",
+        ),
+      },
+      {
+        _key: "tap-wall",
+        ...imageRef(
+          "image-6ba883c9fb431cda4cf2103db37c5cf6c5ed06f9-2560x1707-jpg",
+          "A row of numbered Blue Ridge Beer Hub tap handles down the stainless bar back.",
+        ),
+      },
+      {
+        _key: "mug-club-steins",
+        ...imageRef(
+          "image-a09b4a6f75fb6f02cad7c48fda59a4847b6db7fc-2560x1707-jpg",
+          "Mug club steins racked behind the bar, each etched with its member’s name and number.",
+        ),
+      },
+      {
+        _key: "merch-wall",
+        ...imageRef(
+          "image-7e72bf6a74520deeba163b9523cc5f1814e341a5-2560x2560-jpg",
+          "Hoodies, tees, and Beer Hub glassware on the reclaimed-wood merch wall.",
+        ),
+      },
+      {
+        _key: "bar-stools",
+        ...imageRef(
+          "image-54c73c104a932d177981f0a0f0412ab9f0039148-2560x1707-jpg",
+          "Stools along the concrete bar top, coolers stocked for carryout behind.",
+        ),
+      },
+      {
+        _key: "pint-glasses",
+        ...imageRef(
+          "image-dea620af39051dceeebd2837239382cd3e620a36-2560x2560-jpg",
+          "Two etched Blue Ridge Beer Hub pint glasses on a wooden shelf.",
+        ),
+      },
+    ],
   },
   {
     _key: "legacy-about",

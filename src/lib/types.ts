@@ -65,10 +65,3 @@ export interface WeeklyEvent {
   category?: EventCategory;
   description?: string;
 }
-
-export interface GalleryImage {
-  _id: string;
-  image: SanityImageRef;
-  alt: string;
-  caption?: string;
-}

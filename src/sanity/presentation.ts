@@ -41,9 +41,5 @@ export const resolve: PresentationPluginOptions["resolve"] = {
         ],
       }),
     }),
-    galleryImage: defineLocations({
-      message: "Gallery photos appear in the homepage gallery.",
-      locations: [{ title: "Homepage", href: "/" }],
-    }),
   },
 };

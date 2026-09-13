@@ -14,8 +14,8 @@ npm run dev
 
 ## How content works
 
-The homepage runs five GROQ queries (site settings, dated events, weekly
-events, gallery, home page). If Sanity is unreachable or empty,
+The homepage runs four GROQ queries (site settings, dated events, weekly
+events, home page). If Sanity is unreachable or empty,
 `src/lib/fallback.ts` serves a baked-in copy of everything so the page
 always renders. Content editing happens in the Studio at `/studio` — see
 [UPDATING.md](UPDATING.md) for the monthly routine (it's written for the shop
@@ -64,8 +64,10 @@ the fixed chrome (name, contact, hours, links, announcement, footer). The
 2026-09-13 migration that moved the copy out of Site Settings is in git
 history (`scripts/migrate-to-sections.ts` at `a6f14c3`); `npm run
 unset:legacy` (dry run by default) clears the leftover fields on the live
-document, and `npm run unset:nulls` removes the `null` values that migration
-left on the Home Page blocks.
+document, `npm run unset:nulls` removes the `null` values that migration
+left on the Home Page blocks, and `npm run complete:home` writes the copy
+defaults into the blocks (so the form shows what the site shows) and moves
+the gallery photos onto the Photos section.
 
 `npm run typegen` extracts the Studio schema to `schema.json` and generates
 `sanity.types.ts`, which types every `sanityFetch` result by its query text.

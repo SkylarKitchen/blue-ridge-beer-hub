@@ -23,12 +23,6 @@ export const WEEKLY_EVENTS_QUERY = defineQuery(
   }`,
 );
 
-export const GALLERY_QUERY = defineQuery(
-  `*[_type == "galleryImage"] | order(order asc, _createdAt asc){
-    _id, image, alt, caption
-  }`,
-);
-
 /**
  * The block list that composes the homepage. `...` keeps every block field
  * flowing through without this projection changing per block type; the
