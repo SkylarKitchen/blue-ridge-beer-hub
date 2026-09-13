@@ -37,7 +37,9 @@ form beside it. Here’s what’s what.
 2. **The form.** The same content as fields. Whatever you click on the left
    opens here.
 3. **Tabs.** Site Settings is split into tabs — Name & Contact, Hours, Top of
-   Page, and so on — so you’re never scrolling through everything at once.
+   Page, and so on — running in the same order the sections appear on the
+   page, so you’re never scrolling through everything at once. Inside a tab,
+   related fields sit together under a small heading like *Where you are*.
 4. **Publish.** Nothing goes live until you press this. It stays grey until
    you’ve changed something.
 5. **Structure.** The list view. Events, Weekly Events, and Gallery Photos
@@ -104,8 +106,9 @@ The next morning you get an email listing what it found.
   section). The robot is a convenience, not a requirement.
 
 > **Note:** Who receives the email is a list under Site Settings → Name &
-> Contact → *Who gets the “new events found” email*. If nobody is on it, the
-> robot has no one to write to. [See where that is.](#the-announcement-banner)
+> Contact → **Email alerts** → *Who gets the “new events found” email*. That
+> section starts folded up — click it to open. If nobody is on it, the robot
+> has no one to write to. [See where that is.](#the-announcement-banner)
 
 ### Adding events by hand (about 15 minutes)
 
@@ -151,10 +154,12 @@ The colored strip across the very top of the site. Good for “closed today”,
 3. **Clear it when the news is over.** Delete the text and publish again. A
    stale banner is worse than no banner.
 
-![The Name & Contact tab, scrolled to the bottom: the banner text, and the list of who gets the flyer email.](public/guide/studio-announcement.webp)
+![The Name & Contact tab, scrolled to the bottom: the banner text, and the folded-up Email alerts section under it.](public/guide/studio-announcement.webp)
 
-The field right below it, **Who gets the “new events found” email**, is the
-list of addresses the robot writes to. Click **Add item** to add one.
+Below it is a folded-up section called **Email alerts**. Click it to open.
+Inside is **Who gets the “new events found” email**, the list of addresses the
+robot writes to. Click **Add item** to add one. It stays folded because you
+set it once and then forget it.
 
 ## Hours, phone, and links
 
@@ -171,10 +176,10 @@ Untappd, Instagram, and Facebook links.
 
 ![Phone, email and links, all on the Name & Contact tab.](public/guide/studio-contact-links.webp)
 
-The other tabs — Top of Page, On Tap, About, What We Offer, Photos, Footer —
-hold the writing for each section of the site: the tap count, the intro
-paragraphs, the offer cards, the trust badges. Everything there can also be
-changed by clicking it on the page.
+The other tabs — Top of Page, Events, On Tap, What We Offer, Photos, About,
+Footer — hold the writing for each section of the site, in the order those
+sections appear: the tap count, the intro paragraphs, the offer cards, the
+trust badges. Everything there can also be changed by clicking it on the page.
 
 ## Photos
 
