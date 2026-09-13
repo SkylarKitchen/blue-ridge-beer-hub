@@ -122,6 +122,7 @@ export const LEGACY_FIELDS: Record<SectionType, Record<string, string>> = {
   galleryBlock: { heading: "galleryHeading" },
   aboutBlock: {
     heading: "aboutHeading",
+    image: "aboutImage",
     body: "aboutBody",
     credentials: "credentials",
   },
@@ -142,10 +143,20 @@ export function sectionsFromSettings(settings: SiteSettings): Section[] {
       subheading: settings.heroSubheading,
       primaryCta: settings.heroPrimaryCta,
       secondaryCta: settings.heroSecondaryCta,
-      image: imageRef(
-        PINNED_HERO_IMAGE,
-        "Numbered tap handles branded with the Blue Ridge Beer Hub hop logo",
-      ),
+      // An owner upload wins; an empty field keeps the shipped shot, which
+      // is exactly what the Studio's help text promises them. The guard is
+      // on `.asset` rather than on the object: Sanity leaves a bare
+      // `{_type:"image"}` behind after a removed upload, and that would
+      // render as a broken image. No alt is synthesized here — the block
+      // carries the owner's own alt or none, and the components already
+      // treat an alt-less owner photo as decorative. Borrowing the pinned
+      // shot's alt would describe a different photograph.
+      image: settings.heroImage?.asset
+        ? settings.heroImage
+        : imageRef(
+            PINNED_HERO_IMAGE,
+            "Numbered tap handles branded with the Blue Ridge Beer Hub hop logo",
+          ),
     },
     { _key: "legacy-divider-1", _type: "dividerBlock" },
     {
@@ -186,10 +197,13 @@ export function sectionsFromSettings(settings: SiteSettings): Section[] {
       heading: settings.aboutHeading,
       body: settings.aboutBody,
       credentials: settings.credentials,
-      image: imageRef(
-        PINNED_ABOUT_IMAGE,
-        "Jason and Charlotte outside the Hub under the orange OPEN flag",
-      ),
+      // Same rule as the hero photo above.
+      image: settings.aboutImage?.asset
+        ? settings.aboutImage
+        : imageRef(
+            PINNED_ABOUT_IMAGE,
+            "Jason and Charlotte outside the Hub under the orange OPEN flag",
+          ),
     },
     { _key: "legacy-divider-2", _type: "dividerBlock" },
   ];

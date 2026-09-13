@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 
 import { FALLBACK_SETTINGS } from "./fallback.ts";
+import type { SanityImageRef, SiteSettings } from "./types";
 import {
   assignAnchors,
   LEGACY_FIELDS,
@@ -167,16 +168,22 @@ test("LEGACY_FIELDS matches the spec's legacy field map", () => {
   );
   assert.deepEqual(copyFields, SPEC_LEGACY_FIELDS);
 
-  // Known divergence from the spec, deferred to the migration ticket: the
-  // code maps hero.image to a `heroImage` Site Settings field the spec does
-  // not list (the spec pins both images to assets). Pinned here so a change
-  // is a visible decision rather than a silent one.
+  // The spec pins both photos to fixed assets and so lists no image field.
+  // PR #4 overtook it: `heroImage` and `aboutImage` are owner-editable Site
+  // Settings fields, and an upload is meant to replace the shipped shot. The
+  // map therefore carries BOTH, deliberately beyond the spec — this was the
+  // open question the migration ticket (#13) was left to settle, and this is
+  // the settlement. An edit to either photo needs a legacy write target, or
+  // the edit scope cannot round-trip it back to Site Settings.
   const imageFields = Object.fromEntries(
     Object.entries(LEGACY_FIELDS)
       .filter(([, map]) => "image" in map)
       .map(([type, map]) => [type, map.image]),
   );
-  assert.deepEqual(imageFields, { heroBlock: "heroImage" });
+  assert.deepEqual(imageFields, {
+    heroBlock: "heroImage",
+    aboutBlock: "aboutImage",
+  });
 });
 
 test("sectionsFromSettings copies every mapped legacy field, end to end", () => {
@@ -297,4 +304,71 @@ test("assignAnchors never emits an empty anchor for a punctuation-only label", (
   assert.equal(anchors.get("f1"), "section-f1");
   assert.equal(anchors.get("f2"), "section-f2");
   assert.equal(anchors.get("f3"), "live-music");
+});
+
+/*
+ * The owner-photo path. `heroImage` and `aboutImage` became owner-editable
+ * Site Settings fields in PR #4, whose own help text states the intent: an
+ * upload "replaces" the shipped shot, and an empty field keeps it. This
+ * branch was authored before that PR existed, so the adapter pins both
+ * assets unconditionally — it never reads the settings fields. The page then
+ * renders faithfully from a block that already discarded the upload, and the
+ * migration writes that same discard into the published document.
+ *
+ * Reported by fleet peers f2 and bc on issue #13. Reproduced here before
+ * being fixed, so the fix is provably the thing that turns these green.
+ */
+
+const ownerPhoto = (ref: string, alt: string): SanityImageRef => ({
+  _type: "image",
+  asset: { _type: "reference", _ref: ref },
+  alt,
+});
+
+function heroAndAbout(settings: SiteSettings) {
+  const sections = sectionsFromSettings(settings);
+  const hero = sections.find((s) => s._type === "heroBlock");
+  const about = sections.find((s) => s._type === "aboutBlock");
+  assert.ok(hero?._type === "heroBlock" && about?._type === "aboutBlock");
+  return { hero, about };
+}
+
+test("an owner-uploaded photo wins over the pinned asset", () => {
+  const { hero, about } = heroAndAbout({
+    ...FALLBACK_SETTINGS,
+    heroImage: ownerPhoto("image-owner-hero", "The new taproom frontage"),
+    aboutImage: ownerPhoto("image-owner-about", "Jason behind the bar"),
+  });
+
+  assert.equal(hero.image?.asset?._ref, "image-owner-hero");
+  assert.equal(hero.image?.alt, "The new taproom frontage");
+  assert.equal(about.image?.asset?._ref, "image-owner-about");
+  assert.equal(about.image?.alt, "Jason behind the bar");
+});
+
+test("an empty photo field keeps the pinned asset", () => {
+  // The negative control for the test above: it passes before and after the
+  // fix, so a green there cannot come from the adapter simply dropping the
+  // defaults. PR #4's help text promises exactly this — "leave empty to keep
+  // the tap-handles shot".
+  const { hero, about } = heroAndAbout(FALLBACK_SETTINGS);
+
+  assert.equal(hero.image?.asset?._ref, PINNED_HERO_IMAGE);
+  assert.equal(about.image?.asset?._ref, PINNED_ABOUT_IMAGE);
+  assert.ok(hero.image?.alt, "the pinned hero keeps its alt text");
+  assert.ok(about.image?.alt, "the pinned about photo keeps its alt text");
+});
+
+test("an image field present but with no asset falls back to the pinned one", () => {
+  // Sanity leaves a bare `{_type:"image"}` behind when an owner uploads a
+  // photo and then removes it. Truthiness on the object alone would render a
+  // broken image; the guard has to be on `.asset`.
+  const { hero, about } = heroAndAbout({
+    ...FALLBACK_SETTINGS,
+    heroImage: { _type: "image" },
+    aboutImage: { _type: "image" },
+  });
+
+  assert.equal(hero.image?.asset?._ref, PINNED_HERO_IMAGE);
+  assert.equal(about.image?.asset?._ref, PINNED_ABOUT_IMAGE);
 });
