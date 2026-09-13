@@ -16,7 +16,8 @@
     "drift-check": "bash scripts/drift-check.sh",
     "typecheck": "tsc --noEmit",
     "test": "node --test \"src/**/*.test.ts\"",
-    "unset:nulls": "node --env-file=.env.local scripts/unset-nulls.ts"
+    "unset:nulls": "node --env-file=.env.local scripts/unset-nulls.ts",
+    "complete:home": "node --env-file=.env.local scripts/complete-home-page.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.123.0",
