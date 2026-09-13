@@ -32,11 +32,26 @@
 
 name: CI
 
+# Both triggers, deliberately. They are not redundant: `pull_request` runs
+# against the PR's MERGE ref (the branch merged into its base), `push` runs
+# against the branch head. Different commits, different questions.
+#
+# `push` covers every branch because `pull_request` silently cannot run when a
+# PR is conflicting: GitHub builds no merge commit (`merge_commit_sha: null`),
+# so there is no ref to run on and no workflow is even registered. That is how
+# this file sat completely inert on PR #28 while reporting nothing at all --
+# not a red X, a correct-looking void indistinguishable from "no CI here".
+# See issue #30. A gate must keep reporting exactly when a branch is in trouble.
 on:
   push:
-    branches: [main]
+    branches: ['**']
   pull_request:
 
+# Grouped by github.ref, which differs between refs/heads/* and
+# refs/pull/N/merge, so a push run and a pull_request run for the same branch
+# do NOT cancel each other. That is intended -- collapsing them would keep
+# whichever started second and silently discard the other commit's result.
+# Re-pushing the same branch still cancels its own superseded run.
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
