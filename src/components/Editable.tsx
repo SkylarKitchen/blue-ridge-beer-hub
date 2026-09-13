@@ -27,7 +27,7 @@ export type EditableProps = EditableFieldProps & {
  * was.
  *
  *   <h2>
- *     <Editable value={settings.aboutHeading} label="About heading" />
+ *     <Editable value={block.heading} label="About heading" />
  *   </h2>
  *
  * Pass `children` when the read-only rendering isn't just the string — the
