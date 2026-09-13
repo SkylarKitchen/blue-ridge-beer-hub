@@ -80,6 +80,9 @@ export default async function HomePage() {
 
   // Sanity unreachable, or the Home Page document missing → the baked-in
   // section list, which is the migrated page as it stood on 2026-09-13.
+  // The fallback keeps Home Page edit scope: with the document gone, an
+  // on-page edit would createIfNotExists a draft holding a _type-less
+  // section, so restore the document by API rather than from the overlay.
   const placed = placeHome(
     home?.sections?.length ? home.sections : FALLBACK_SECTIONS,
   );

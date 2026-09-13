@@ -15,7 +15,8 @@
     "lint": "eslint",
     "drift-check": "bash scripts/drift-check.sh",
     "typecheck": "tsc --noEmit",
-    "test": "node --test \"src/**/*.test.ts\""
+    "test": "node --test \"src/**/*.test.ts\"",
+    "unset:nulls": "node --env-file=.env.local scripts/unset-nulls.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.123.0",
