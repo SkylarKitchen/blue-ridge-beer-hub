@@ -5,6 +5,12 @@ import { test } from "node:test";
 import { featureLayout, formatAsOf, nextFeatureAnchor } from "./feature.ts";
 import { assignAnchors, type Section } from "./sections.ts";
 
+// Pin the zone: on a New-York-zoned machine the timeZone: TZ option in
+// formatAsOf is a no-op, so without this the year-boundary assertion below
+// passes whether or not that option is there. This repo has no CI, so this
+// Mac is the only host that runs the suite.
+process.env.TZ = "UTC";
+
 test("featureLayout picks a layout from the photo count", () => {
   assert.equal(featureLayout(0), "none");
   assert.equal(featureLayout(1), "one");
