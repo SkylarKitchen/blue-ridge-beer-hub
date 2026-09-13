@@ -81,6 +81,7 @@ export default async function HomePage() {
   );
   const galleryPlaced = placed.find((p) => p.section._type === "galleryBlock");
   const aboutPlaced = placed.find((p) => p.section._type === "aboutBlock");
+  const eventsPlaced = placed.find((p) => p.section._type === "eventsBlock");
 
   const jsonLd = JSON.stringify(
     localBusinessJsonLd(settings, SITE_URL),
@@ -110,20 +111,22 @@ export default async function HomePage() {
           />
         ) : null}
         <Ridgeline />
-        <EventsSection
-          events={events}
-          weeklyEvents={weeklyEvents}
-          heading={settings.eventsHeading}
-          weeklyHeading={settings.weeklyHeading}
-          instagramUrl={settings.instagramUrl}
-          location={[
-            settings.name ?? "Blue Ridge Beer Hub",
-            settings.addressLine1,
-            settings.addressLine2,
-          ]
-            .filter(Boolean)
-            .join(", ")}
-        />
+        {eventsPlaced && eventsPlaced.section._type === "eventsBlock" ? (
+          <EventsSection
+            block={eventsPlaced.section}
+            scope={eventsPlaced.scope}
+            events={events}
+            weeklyEvents={weeklyEvents}
+            instagramUrl={settings.instagramUrl}
+            location={[
+              settings.name ?? "Blue Ridge Beer Hub",
+              settings.addressLine1,
+              settings.addressLine2,
+            ]
+              .filter(Boolean)
+              .join(", ")}
+          />
+        ) : null}
         {onTapPlaced && onTapPlaced.section._type === "onTapBlock" ? (
           <OnTapSection
             block={onTapPlaced.section}
