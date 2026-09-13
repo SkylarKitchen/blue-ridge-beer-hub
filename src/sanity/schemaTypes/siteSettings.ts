@@ -11,10 +11,20 @@ import { defineField, defineType } from "sanity";
  *   page, so scrolling the site and scanning the tabs feel like the same
  *   trip. "Name & Contact" is marked `default` — without one, Studio opens on
  *   its synthetic "All fields" tab, which is every field in one column.
- * - `fieldsets` are the titled blocks inside a tab. Short fields that belong
- *   together sit two-up (`columns: 2`), which roughly halves how far the
- *   owners scroll. Anything with a long description, or an array, image or
- *   rich text, stays full width — those need the room.
+ * - `fieldsets` are the titled blocks inside a tab. Besides naming what a
+ *   run of fields is for, a fieldset's members sit on a 32px grid instead of
+ *   the form root's 52px stack, so grouping closes the gaps as well.
+ *
+ * Top-level fieldsets deliberately do NOT set `columns`. The renderer emits a
+ * fixed `repeat(n, minmax(0,1fr))` with no media or container query, and the
+ * width it divides is the document pane's, which we do not control: a fresh
+ * Presentation pane is ~378px, so two columns give ~153px cells where labels
+ * wrap unevenly and values like "Waynesville, NC 28786" clip. Measured on a
+ * widened pane it looks fine, which is the trap — don't re-add it on the
+ * strength of one comfortable layout.
+ *
+ * The exception is the nested `dayHours` object: every field there is short,
+ * symmetric and description-light, so two-up survives the narrow pane.
  */
 export const siteSettings = defineType({
   name: "siteSettings",
@@ -42,7 +52,6 @@ export const siteSettings = defineType({
       name: "address",
       title: "Where you are",
       group: "identity",
-      options: { columns: 2 },
     },
     {
       name: "contact",
@@ -50,7 +59,6 @@ export const siteSettings = defineType({
       group: "identity",
       description:
         "Both of these show in the footer. Type the phone number however you want it to read.",
-      options: { columns: 2 },
     },
     {
       name: "links",
@@ -68,14 +76,12 @@ export const siteSettings = defineType({
       name: "heroButtons",
       title: "The two buttons",
       group: "hero",
-      options: { columns: 2 },
     },
     {
       name: "eventsHeadings",
       title: "Headings",
       group: "events",
       description: "The two headings in the events section.",
-      options: { columns: 2 },
     },
     {
       name: "tapNumber",
@@ -83,7 +89,6 @@ export const siteSettings = defineType({
       group: "tap",
       description:
         "The big number in the “On tap” section and the two small lines under it. Change the number if you add or retire lines.",
-      options: { columns: 2 },
     },
     {
       name: "tapWriting",
@@ -95,7 +100,6 @@ export const siteSettings = defineType({
       title: "Column labels",
       group: "footer",
       description: "The three small headings above each footer column.",
-      options: { columns: 2 },
     },
     {
       name: "footerExtras",
@@ -103,7 +107,6 @@ export const siteSettings = defineType({
       group: "footer",
       description:
         "The directions button, and the line that introduces the “Visit Haywood County” link.",
-      options: { columns: 2 },
     },
   ],
   fields: [
@@ -244,7 +247,9 @@ export const siteSettings = defineType({
             }),
             defineField({
               name: "closed",
-              title: "Closed this day",
+              // Short on purpose: the toggle sits beside the Day select, and
+              // "Closed this day" wraps to three lines in a narrow pane.
+              title: "Closed",
               type: "boolean",
               initialValue: false,
             }),
