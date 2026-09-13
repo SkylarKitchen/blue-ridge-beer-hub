@@ -62,6 +62,9 @@ synthesizes the same blocks from the flat Site Settings fields when no Home
 Page document exists yet. `scripts/migrate-to-sections.ts` writes that
 document once (dry run by default). After it has run, the adapter, the legacy
 fields, and the pinned-photo exclusion in `GALLERY_QUERY` can be removed.
+`featureBlock` is the reusable words-plus-photos section; layout follows the
+photo count (`src/lib/feature.ts`). `/dev/blocks` renders every layout in
+development.
 
 ### Editing on the page
 

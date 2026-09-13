@@ -20,6 +20,7 @@ Three things to know before anything else:
 
 - [Change the words on the page](#change-the-words-on-the-page)
 - [Add, move, or hide a section of the page](#the-sections-of-the-page)
+- [Update what’s new to go](#whats-new-to-go)
 - [Post the month’s events](#post-the-months-events)
 - [Put up or take down the banner](#the-announcement-banner)
 - [Change hours, phone, or links](#hours-phone-and-links)
@@ -174,6 +175,28 @@ Publish when it looks right. From Structure there’s no page beside the form,
 so publish and then check the site. In the visual editor — click any words on
 the page to open Home Page beside it — the page updates as you drag the list,
 so you can try an order and discard it if you don’t like it.
+
+## What’s new to go
+
+There’s a **To Go** section for the coolers — cans, bottles, cases, build-your-own
+packs. It starts hidden so you can add photos first.
+
+> **Not yet.** Like the rest of Home Page, this switches on with the next
+> update. Until then there is nothing to open here.
+
+1. **Structure → Home Page**, open **New in the coolers**.
+2. **Photos:** drop in one to three. One photo shows big; two or three make a
+   little collage. Describe each one in a line.
+3. **Just in:** one line per item — “Burial 4-packs”, “Cases of Gaelic”. Empty
+   the list and it disappears; the section stays.
+4. **List updated on:** set today’s date when you change the list. It shows as
+   “Updated Sep 12” so people know it’s current.
+5. Untick **Hide for now**, then **Publish**.
+
+When the coolers change, fix the list, bump the date, publish. Thirty seconds.
+
+> **Tip:** Want another section like it — kegs for a party, a holiday gift
+> pack? **Add item** on Home Page → **Feature (words + photos)**. Same fields.
 
 ## The announcement banner
 
