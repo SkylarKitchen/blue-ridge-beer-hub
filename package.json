@@ -10,6 +10,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "unset:legacy": "node --env-file=.env.local scripts/unset-legacy-fields.ts",
     "main-invariants": "bash scripts/main-invariants.sh",
     "lint": "eslint",
     "drift-check": "bash scripts/drift-check.sh",
