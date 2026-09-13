@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "eslint",
     "test": "node --test \"src/**/*.test.ts\"",
-    "migrate:sections": "node --env-file=.env.local scripts/migrate-to-sections.ts"
+    "migrate:sections": "node --env-file=.env.local scripts/migrate-to-sections.ts",
+    "main-invariants": "bash scripts/main-invariants.sh"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.123.0",
