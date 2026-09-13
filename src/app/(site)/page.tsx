@@ -1,14 +1,8 @@
-import { AboutSection } from "@/components/AboutSection";
 import { AnnouncementBanner } from "@/components/AnnouncementBanner";
-import { EventsSection } from "@/components/EventsSection";
-import { GallerySection } from "@/components/GallerySection";
 import { Header } from "@/components/Header";
-import { Hero } from "@/components/Hero";
 import { HoursFooter } from "@/components/HoursFooter";
-import { OfferingsSection } from "@/components/OfferingsSection";
-import { OnTapSection } from "@/components/OnTapSection";
 import { RevealObserver } from "@/components/RevealObserver";
-import { Ridgeline } from "@/components/Ridgeline";
+import { Sections } from "@/components/Sections";
 import {
   FALLBACK_EVENTS,
   FALLBACK_SETTINGS,
@@ -17,7 +11,13 @@ import {
 import { upcomingEvents } from "@/lib/events";
 import { startOfTodayIso } from "@/lib/format";
 import { localBusinessJsonLd } from "@/lib/jsonld";
-import { navFromSections, placeLegacy } from "@/lib/sections";
+import {
+  navFromSections,
+  placeHome,
+  placeLegacy,
+  type Placed,
+  type Section,
+} from "@/lib/sections";
 import { SITE_URL } from "@/lib/site";
 import type {
   GalleryImage,
@@ -29,9 +29,14 @@ import { sanityFetch } from "@/sanity/live";
 import {
   EVENTS_QUERY,
   GALLERY_QUERY,
+  HOME_PAGE_QUERY,
   SITE_SETTINGS_QUERY,
   WEEKLY_EVENTS_QUERY,
 } from "@/sanity/queries";
+
+interface HomePageDoc {
+  sections?: Section[];
+}
 
 /**
  * Sanity Live re-renders this page when content changes, but nothing else
@@ -49,18 +54,22 @@ export default async function HomePage() {
   let events: HubEvent[] = [];
   let weeklyEvents: WeeklyEvent[] = [];
   let gallery: GalleryImage[] = [];
+  let home: HomePageDoc | null = null;
 
   try {
-    const [settingsRes, eventsRes, weeklyRes, galleryRes] = await Promise.all([
-      sanityFetch({ query: SITE_SETTINGS_QUERY }),
-      sanityFetch({ query: EVENTS_QUERY, params: { from } }),
-      sanityFetch({ query: WEEKLY_EVENTS_QUERY }),
-      sanityFetch({ query: GALLERY_QUERY }),
-    ]);
+    const [settingsRes, eventsRes, weeklyRes, galleryRes, homeRes] =
+      await Promise.all([
+        sanityFetch({ query: SITE_SETTINGS_QUERY }),
+        sanityFetch({ query: EVENTS_QUERY, params: { from } }),
+        sanityFetch({ query: WEEKLY_EVENTS_QUERY }),
+        sanityFetch({ query: GALLERY_QUERY }),
+        sanityFetch({ query: HOME_PAGE_QUERY }),
+      ]);
     settings = (settingsRes.data ?? {}) as SiteSettings;
     events = (eventsRes.data ?? []) as HubEvent[];
     weeklyEvents = (weeklyRes.data ?? []) as WeeklyEvent[];
     gallery = (galleryRes.data ?? []) as GalleryImage[];
+    home = (homeRes.data ?? null) as HomePageDoc | null;
   } catch (error) {
     // If Sanity is unreachable the site still renders full fallback content.
     console.error("Sanity fetch failed; rendering fallbacks", error);
@@ -71,17 +80,14 @@ export default async function HomePage() {
     settings = FALLBACK_SETTINGS;
     events = upcomingEvents(FALLBACK_EVENTS, from);
     weeklyEvents = FALLBACK_WEEKLY;
+    home = null;
   }
 
-  const placed = placeLegacy(settings);
-  const heroPlaced = placed.find((p) => p.section._type === "heroBlock");
-  const onTapPlaced = placed.find((p) => p.section._type === "onTapBlock");
-  const offeringsPlaced = placed.find(
-    (p) => p.section._type === "offeringsBlock",
-  );
-  const galleryPlaced = placed.find((p) => p.section._type === "galleryBlock");
-  const aboutPlaced = placed.find((p) => p.section._type === "aboutBlock");
-  const eventsPlaced = placed.find((p) => p.section._type === "eventsBlock");
+  // No Home Page document yet (pre-migration) → today's page, synthesized
+  // from the legacy Site Settings fields. See lib/sections.ts.
+  const placed: Placed[] = home?.sections?.length
+    ? placeHome(home.sections)
+    : placeLegacy(settings);
 
   const jsonLd = JSON.stringify(
     localBusinessJsonLd(settings, SITE_URL),
@@ -105,56 +111,10 @@ export default async function HomePage() {
         nav={navFromSections(placed.map((p) => p.section))}
       />
       <main id="main">
-        {heroPlaced && heroPlaced.section._type === "heroBlock" ? (
-          <Hero
-            block={heroPlaced.section}
-            scope={heroPlaced.scope}
-            settings={settings}
-            eventsHref="#events"
-          />
-        ) : null}
-        <Ridgeline />
-        {eventsPlaced && eventsPlaced.section._type === "eventsBlock" ? (
-          <EventsSection
-            block={eventsPlaced.section}
-            scope={eventsPlaced.scope}
-            events={events}
-            weeklyEvents={weeklyEvents}
-            instagramUrl={settings.instagramUrl}
-            location={[
-              settings.name ?? "Blue Ridge Beer Hub",
-              settings.addressLine1,
-              settings.addressLine2,
-            ]
-              .filter(Boolean)
-              .join(", ")}
-          />
-        ) : null}
-        {onTapPlaced && onTapPlaced.section._type === "onTapBlock" ? (
-          <OnTapSection
-            block={onTapPlaced.section}
-            scope={onTapPlaced.scope}
-            untappdUrl={settings.untappdUrl}
-          />
-        ) : null}
-        {offeringsPlaced &&
-        offeringsPlaced.section._type === "offeringsBlock" ? (
-          <OfferingsSection
-            block={offeringsPlaced.section}
-            scope={offeringsPlaced.scope}
-          />
-        ) : null}
-        {galleryPlaced && galleryPlaced.section._type === "galleryBlock" ? (
-          <GallerySection
-            block={galleryPlaced.section}
-            scope={galleryPlaced.scope}
-            images={gallery}
-          />
-        ) : null}
-        {aboutPlaced && aboutPlaced.section._type === "aboutBlock" ? (
-          <AboutSection block={aboutPlaced.section} scope={aboutPlaced.scope} />
-        ) : null}
-        <Ridgeline />
+        <Sections
+          placed={placed}
+          ctx={{ settings, events, weeklyEvents, gallery }}
+        />
         <HoursFooter settings={settings} />
       </main>
       <RevealObserver />

@@ -41,3 +41,12 @@ export const GALLERY_QUERY = defineQuery(
     _id, image, alt, caption
   }`,
 );
+
+/**
+ * The block list that composes the homepage. `...` keeps every block field
+ * flowing through without this projection changing per block type; the
+ * stega on each string still names its exact path.
+ */
+export const HOME_PAGE_QUERY = defineQuery(
+  `*[_type == "homePage"][0]{ sections[]{ ... } }`,
+);
