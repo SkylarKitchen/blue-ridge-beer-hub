@@ -1,5 +1,12 @@
 # Page Builder Implementation Plan (PR 1 of 2)
 
+> **The two-PR structure in this plan is SUPERSEDED.** Skylar, 2026-09-13 ~01:00Z, recorded on
+> [#14](https://github.com/SkylarKitchen/blue-ridge-beer-hub/issues/14): PR 2 commits onto
+> `skylar/page-builder` “like everything else” — **“one PR”**. Both plans land in
+> [#28](https://github.com/SkylarKitchen/blue-ridge-beer-hub/pull/28), which must not be merged until
+> [#19](https://github.com/SkylarKitchen/blue-ridge-beer-hub/issues/19). The name is kept because tickets
+> and the map refer to this plan as “PR 1”.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Turn the fixed homepage into a Home Page document of reorderable, hideable section blocks, with the page rendering pixel-identical to today until the owners change something.
@@ -2329,7 +2336,7 @@ gh pr create --title "Compose the homepage from reorderable section blocks" --bo
 
 ## Rollout
 1. Merge + deploy (no change).
-2. Merge PR 2 (To Go block).
+2. ~~Merge PR 2 (To Go block).~~ Superseded: To Go lands in this same PR.
 3. Run the migration once with an Editor token, review the dry run, then `--apply`.
 4. PR 3 removes the adapter, legacy fields, and gallery exclusion.
 

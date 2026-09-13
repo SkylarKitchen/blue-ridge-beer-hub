@@ -1,5 +1,12 @@
 # To Go Feature Block Implementation Plan (PR 2 of 2)
 
+> **The two-PR structure in this plan is SUPERSEDED.** Skylar, 2026-09-13 ~01:00Z, recorded on [#14](https://github.com/SkylarKitchen/blue-ridge-beer-hub/issues/14): PR 2 commits onto `skylar/page-builder` “like everything else” — **“one PR”**.
+> There is one PR, [#28](https://github.com/SkylarKitchen/blue-ridge-beer-hub/pull/28), open from
+> `skylar/page-builder` and carrying both plans; it must not be merged until
+> [#19](https://github.com/SkylarKitchen/blue-ridge-beer-hub/issues/19). The plan is kept under its original
+> name because tickets and the map refer to it as “PR 2”. Task 1 and Task 9 below are retired;
+> everything else stands.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Add a reusable Feature block (heading, words, 1–3 photos, optional "just in" list with date, optional link) and seed the first one, To Go, hidden, so the owners only have to add cooler photos and un-hide it.
@@ -12,7 +19,7 @@
 
 ## Global Constraints
 
-- Branch `skylar/to-go-section` stacked on `skylar/page-builder`. Commit only there.
+- Branch `skylar/page-builder`. Commit only there — every ticket in this plan lands on it and joins PR #28. (Was: a stacked `skylar/to-go-section`; superseded, see the banner above.)
 - Relative `.ts` imports inside `src/lib/*.ts`; no `@/` in files the migration script imports (`sections.ts`, `edit-scope.ts`, `copy.ts`, `feature.ts`).
 - Photos: 1 minimum, 3 maximum, alt required. No background/spacing knobs on the block.
 - List items are free text (max 8). Date is owner-set, shown as "Updated Sep 12", never auto-hidden.
@@ -22,13 +29,14 @@
 
 ---
 
-### Task 1: Branch
+### Task 1: Branch — RETIRED
 
-- [ ] **Step 1**
+Superseded by the one-PR ruling: there is no second branch to create. The work
+commits directly to `skylar/page-builder`, which already exists and already has
+PR #28 open against `main`.
 
 ```bash
-git checkout skylar/page-builder
-git checkout -b skylar/to-go-section
+git checkout skylar/page-builder   # nothing else to do
 ```
 
 ---
@@ -913,14 +921,22 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 
 ---
 
-### Task 9: PR
+### Task 9: PR — RETIRED
+
+Superseded by the one-PR ruling. This task would push `skylar/to-go-section` and open a
+SECOND pull request against `skylar/page-builder`; both are wrong now. PR #28 already
+carries this work, the guide and README go through
+[#18](https://github.com/SkylarKitchen/blue-ridge-beer-hub/issues/18), and merging is
+[#19](https://github.com/SkylarKitchen/blue-ridge-beer-hub/issues/19). The command block below is kept
+only because its PR body text is reusable for #28's description — do not run it.
 
 - [ ] **Step 1:** `npm test && npx tsc --noEmit && npm run lint && npm run build`
 - [ ] **Step 2:**
 
 ```bash
-git push -u origin skylar/to-go-section
-gh pr create --base skylar/page-builder --title "Add the To Go feature block" --body "$(cat <<'EOF'
+# RETIRED — do not run. Kept for the PR body text below.
+# git push -u origin skylar/to-go-section
+# gh pr create --base skylar/page-builder --title "Add the To Go feature block" --body "$(cat <<'EOF'
 ## What
 - `featureBlock`: eyebrow, heading, words, 1–3 photos (layout by count, photo side), optional “Just in” list with an owner-set date, optional link.
 - On Tap’s second line links to the next Feature block on the page; the six-packs perk line is gone from the defaults.
