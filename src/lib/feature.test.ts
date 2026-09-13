@@ -19,6 +19,11 @@ test("formatAsOf renders an owner-set date as a short label", () => {
   assert.equal(formatAsOf("2025-12-30", now), "Updated Dec 30, 2025");
   assert.equal(formatAsOf(undefined, now), null);
   assert.equal(formatAsOf("not a date", now), null);
+
+  // 03:00Z on Jan 1 is still Dec 31 in New York, so the year label must come
+  // from the NY year, not the UTC one.
+  const nyNewYearEve = new Date("2026-01-01T03:00:00Z");
+  assert.equal(formatAsOf("2025-12-30", nyNewYearEve), "Updated Dec 30");
 });
 
 const page: Section[] = [

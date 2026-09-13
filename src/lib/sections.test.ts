@@ -320,8 +320,11 @@ test("assignAnchors never emits an empty anchor for a punctuation-only label", (
 
   // A type with no DEFAULT_ANCHOR entry (PR 2's featureBlock) derives its
   // anchor from the menu label.
-  const feature = (key: string, menuLabel: string) =>
-    ({ _key: key, _type: "featureBlock", menuLabel }) as unknown as Section;
+  const feature = (key: string, menuLabel: string): Section => ({
+    _key: key,
+    _type: "featureBlock",
+    menuLabel,
+  });
   const anchors = assignAnchors([
     feature("f1", "!!!"),
     feature("f2", "???"),
