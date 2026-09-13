@@ -22,6 +22,7 @@ export const homePage = defineType({
         defineArrayMember({ type: "offeringsBlock" }),
         defineArrayMember({ type: "galleryBlock" }),
         defineArrayMember({ type: "aboutBlock" }),
+        defineArrayMember({ type: "featureBlock" }),
         defineArrayMember({ type: "dividerBlock" }),
       ],
       validation: (rule) => [
