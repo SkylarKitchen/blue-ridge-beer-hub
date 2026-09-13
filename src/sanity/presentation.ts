@@ -7,7 +7,7 @@ import {
 /**
  * Tells the Presentation tool how documents and front-end URLs relate.
  * This is a one-page site, so every document renders on "/" — but the
- * mappings still matter: `mainDocuments` lets the tool open Site Settings
+ * mappings still matter: `mainDocuments` lets the tool open the Home Page
  * for editing when the preview shows "/", and `locations` shows editors
  * where a document appears before they publish changes to it.
  */
@@ -15,7 +15,7 @@ export const resolve: PresentationPluginOptions["resolve"] = {
   mainDocuments: defineDocuments([
     {
       route: "/",
-      filter: `_type == "siteSettings"`,
+      filter: `_type == "homePage"`,
     },
   ]),
   locations: {
@@ -24,7 +24,7 @@ export const resolve: PresentationPluginOptions["resolve"] = {
       locations: [{ title: "Homepage", href: "/" }],
     }),
     siteSettings: defineLocations({
-      message: "Settings render across the whole homepage.",
+      message: "Your name, hours and links show across the whole homepage.",
       locations: [{ title: "Homepage", href: "/" }],
     }),
     event: defineLocations({
