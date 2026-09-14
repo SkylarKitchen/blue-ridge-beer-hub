@@ -174,7 +174,7 @@ export function FeatureSection({
   }[layout];
 
   return (
-    <section id={id} className="bg-butter">
+    <section id={id} className="bg-paper">
       <div className="mx-auto max-w-6xl px-5 sm:px-10 py-20">
         {/* Words stay first in the DOM so a phone reads the heading before
             the photos whichever side the owners picked. */}
