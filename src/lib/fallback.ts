@@ -21,7 +21,7 @@ export const FALLBACK_SETTINGS: SiteSettings = {
   addressLine1: "21 East St",
   addressLine2: "Waynesville, NC 28786",
   phone: "(828) 246-9320",
-  email: "blueridgebeerhub@gmail.com",
+  email: "blueridgebeerhubnc@gmail.com",
   untappdUrl: "https://untappd.com/v/blue-ridge-beer-hub/6732717",
   instagramUrl: "https://www.instagram.com/brbeerhub/",
   facebookUrl: "https://www.facebook.com/brbeerhub",
