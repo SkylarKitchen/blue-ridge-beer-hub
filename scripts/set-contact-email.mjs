@@ -17,6 +17,12 @@
  * the next Publish from the Studio would overwrite the field with the draft's
  * copy. Idempotent: a document already on the address is skipped. Pre-state
  * is written to SNAPSHOT_DIR (default: the OS temp dir) before anything changes.
+ *
+ * The live site caches this query in the Vercel data cache with no time limit
+ * (next-sanity's sanityFetch sets revalidate: false plus Sanity sync tags). A
+ * browser with the site open expires the tag on the live event; with nobody
+ * connected, the old address stays up until the tag is expired by hand. The
+ * script prints the exact `vercel cache invalidate` command for that.
  */
 import { mkdirSync, writeFileSync } from "node:fs";
 import os from "node:os";
@@ -39,6 +45,17 @@ function authToken() {
   const token = process.env.SANITY_API_WRITE_TOKEN || process.env.SANITY_AUTH_TOKEN;
   if (!token) throw new Error("Set SANITY_API_WRITE_TOKEN (in .env.local) or SANITY_AUTH_TOKEN.");
   return token;
+}
+
+const SITE_SETTINGS_QUERY = `*[_type == "siteSettings"][0]{email}`;
+
+async function printCacheHint(client) {
+  const { syncTags = [] } = await client.fetch(SITE_SETTINGS_QUERY, {}, { filterResponse: false });
+  if (syncTags.length === 0) return;
+  const tags = syncTags.map((t) => `sanity:${t}`).join(",");
+  console.log(`\nThe live site serves this field from the Vercel data cache until its tag expires.`);
+  console.log(`If nobody had the site open in a browser when this changed, expire it now:`);
+  console.log(`  vercel cache invalidate --tag ${tags} --yes`);
 }
 
 async function main() {
@@ -71,7 +88,10 @@ async function main() {
     plan.push({ id: doc._id, before });
     console.log(`${doc._id}: ${JSON.stringify(before)} -> ${JSON.stringify(EMAIL)}`);
   }
-  if (plan.length === 0) return console.log("nothing to do");
+  if (plan.length === 0) {
+    console.log("nothing to do");
+    return printCacheHint(client);
+  }
   if (!APPLY) return console.log(`dry run only — ${plan.length} doc(s) would change. Re-run with APPLY=1 to write.`);
 
   const tx = client.transaction();
@@ -85,6 +105,7 @@ async function main() {
     if (email !== EMAIL) throw new Error(`verify failed for ${id}: ${JSON.stringify(email)}`);
     console.log(`verified ${id}: email is ${email}`);
   }
+  await printCacheHint(client);
 }
 
 main().catch((err) => {
