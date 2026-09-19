@@ -25,6 +25,7 @@ Three things to know before anything else:
 - [Put up or take down the banner](#the-announcement-banner)
 - [Change hours, phone, or links](#hours-phone-and-links)
 - [Add or remove photos](#photos)
+- [See who’s visiting the site](#whos-visiting-the-site)
 - [Something looks wrong](#when-something-looks-wrong)
 
 ## A tour of the editor
@@ -266,6 +267,27 @@ The two big photos outside the gallery — the wide one at the very top and the
 one beside the About text — live in **Home Page → Top of page → Wide photo**
 and **Home Page → About → Photo**. Upload a replacement there (and describe it)
 to swap either one; clear the field to go back to the originals.
+
+## Who’s visiting the site
+
+The site counts its visitors: how many people come by, which parts of the
+page they look at, where they are, and how many tap the Untappd, directions,
+or phone links. Nothing personal is kept, no names or emails, just totals.
+
+Open the numbers here, no account needed:
+[brbeerhub.com visitor dashboard](https://us.posthog.com/shared/2th0_FGcEcAHXOK8OWNL72a40WzYCQ)
+
+Bookmark that link. The page shows visitors over time, the most-viewed parts
+of the site, where visitors are located, and how many found the site through
+Google. Counting started on September 19, 2026, so nothing shows before then.
+
+> **Tip:** The date picker at the top changes the window. “Last 30 days” is
+> the useful one for a monthly check; “Last 7 days” shows whether a flyer or
+> a post moved the needle that week.
+
+> **Note:** Looking at the live site yourself counts as a visit, so the
+> totals run a little higher than the number of customers. Editing in
+> `/studio` does not count.
 
 ## When something looks wrong
 
