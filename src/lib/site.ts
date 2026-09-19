@@ -5,3 +5,9 @@
  */
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.brbeerhub.com";
+
+/**
+ * PostHog project token. Public by design: it lets a browser send events
+ * and nothing else. Empty disables analytics. Dashboard: us.posthog.com.
+ */
+export const POSTHOG_KEY = "phc_AbhswtP5Cv2RHkUTQymHvj8nQ8UC5zMpLhHWqxyMDYmQ";
