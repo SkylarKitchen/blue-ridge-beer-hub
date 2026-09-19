@@ -1,4 +1,3 @@
-import { Analytics } from "@vercel/analytics/next";
 import { VisualEditing } from "next-sanity/visual-editing";
 import { draftMode } from "next/headers";
 
@@ -28,13 +27,8 @@ export default async function SiteLayout({
       ) : (
         /* Analytics, public visits only. Skipped in draft mode so an editor
            previewing in the Studio isn't counted, and scoped to this route
-           group so /studio and the owners' /guide stay out of the numbers.
-           PostHog is the system of record; Vercel Web Analytics runs
-           alongside until early October 2026 to compare counts, then goes. */
-        <>
-          <PostHogInit />
-          <Analytics />
-        </>
+           group so /studio and the owners' /guide stay out of the numbers. */
+        <PostHogInit />
       )}
     </>
   );
