@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Anton, Geist, Roboto_Condensed } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 
 import { SITE_URL } from "@/lib/site";
 
@@ -52,7 +53,10 @@ export default function RootLayout({
       lang="en"
       className={`${geist.variable} ${anton.variable} ${robotoCondensed.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
