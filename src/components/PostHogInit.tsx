@@ -34,6 +34,17 @@ export function PostHogInit() {
       person_profiles: "identified_only",
       disable_session_recording: true,
     });
+
+    // Owners (and Skylar) can keep their own device out of the numbers:
+    // opening /?nostats once stores an opt-out in this browser, which
+    // posthog-js keeps in localStorage and honours on every later visit;
+    // /?stats undoes it. Both are documented in the guide.
+    const params = new URLSearchParams(window.location.search);
+    if (params.has("nostats")) {
+      posthog.opt_out_capturing();
+    } else if (params.has("stats")) {
+      posthog.opt_in_capturing({ captureEventName: false });
+    }
   }, []);
 
   return null;

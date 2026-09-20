@@ -270,24 +270,25 @@ to swap either one; clear the field to go back to the originals.
 
 ## Who’s visiting the site
 
-The site counts its visitors: how many people come by, which parts of the
-page they look at, where they are, and how many tap the Untappd, directions,
-or phone links. Nothing personal is kept, no names or emails, just totals.
+The site counts its visitors: how many people come by, where they are, and
+how many found the site through Google. Nothing personal is kept, no names or
+emails, just totals.
 
 Open the numbers here, no account needed:
 [brbeerhub.com visitor dashboard](https://us.posthog.com/shared/2th0_FGcEcAHXOK8OWNL72a40WzYCQ)
 
-Bookmark that link. The page shows visitors over time, the most-viewed parts
-of the site, where visitors are located, and how many found the site through
-Google. Counting started on September 19, 2026, so nothing shows before then.
+Bookmark that link. Counting started on September 19, 2026, so nothing shows
+before then.
 
 > **Tip:** The date picker at the top changes the window. “Last 30 days” is
 > the useful one for a monthly check; “Last 7 days” shows whether a flyer or
 > a post moved the needle that week.
 
-> **Note:** Looking at the live site yourself counts as a visit, so the
-> totals run a little higher than the number of customers. Editing in
-> `/studio` does not count.
+> **Note:** Your own visits count too. To leave out a phone or computer you
+> use, open [brbeerhub.com/?nostats](https://www.brbeerhub.com/?nostats) on it
+> once; that device stops counting from then on, and
+> [brbeerhub.com/?stats](https://www.brbeerhub.com/?stats) undoes it. Editing
+> in `/studio` never counts.
 
 ## When something looks wrong
 
